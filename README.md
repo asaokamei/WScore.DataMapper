@@ -10,7 +10,7 @@ Cena is a patented (yeap...) technology for resource oriented data to transfer p
 
 You may risk patent infringement whenever using this package.
 
-NOTICE: no license is set, yet. 
+NOTICE: no license is set, yet.
 
 ORM
 ---
