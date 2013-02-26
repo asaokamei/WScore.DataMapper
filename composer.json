@@ -1,6 +1,6 @@
 {
-    "name": "wscore/dbaccess",
-    "description": "Database access and query builder.",
+    "name": "wscore/datamapper",
+    "description": "DataMapper.",
     "authors": [
         {
             "name": "Asao Kamei",
@@ -9,11 +9,14 @@
     ],
     "minimum-stability": "dev",
     "require": {
-
+        "wscore/dicontainer": "dev-master",
+        "wscore/html": "dev-master",
+        "wscore/dbaccess": "dev-master"
     },
     "autoload": {
         "psr-0": {
-            "WScore\\DbAccess": "src/"
+            "WScore\\DataMapper": "src/",
+            "WScore\\Selector": "src/"
         }
     }
 }
