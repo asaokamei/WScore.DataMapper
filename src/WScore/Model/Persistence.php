@@ -6,11 +6,8 @@ namespace WScore\DataMapper;
  * a Table Data Gateway pattern.
  *
  */
-class Model
+class Model_Persistence
 {
-    /** @var EntityManager                   manager for model/entity        */
-    protected $em;
-
     /** @var string                          name of database table          */
     protected $table;
 
@@ -90,17 +87,13 @@ class Model
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
     /**
-     * @param \WScore\DataMapper\EntityManager $em
+     * @Inject
      * @param \WScore\DbAccess\Query         $query
-     * @DimInjection   Get      EntityManager
-     * @DimInjection   Fresh    Query
      */
-    public function __construct( $em, $query )
+    public function __construct( $query )
     {
-        $this->em    = $em;
         $this->query = $query;
         $this->prepare();
-        $em->registerModel( $this );
     }
 
     /**
@@ -226,7 +219,7 @@ class Model
         if( is_null( $value ) ) {
             $query->column( $packed );
         } else {
-            $query->w( $column )->eq( $value )->column( $packed );
+            $query->$column->eq( $value )->column( $packed );
         }
         $record = $query->select();
         if( $packed ) {
@@ -279,7 +272,7 @@ class Model
     public function delete( $id )
     {
         return $this->query()->clearWhere()
-            ->id( $id )->limit(1)->makeDelete()->exec();
+            ->id( $id )->limit(1)->execType( 'Delete' )->exec();
     }
 
     /**
@@ -405,17 +398,6 @@ class Model
             return get_object_vars( $entity );
         }
         return $entity;
-    }
-
-    /**
-     * note: relation method body is moved to EntityManager.
-     *
-     * @param \WScore\DataMapper\Entity_Interface $source
-     * @param string $name
-     * @return Relation_Interface
-     */
-    public function relation( $source, $name ) {
-        return $this->em->relation( $source, $name );
     }
     // +----------------------------------------------------------------------+
 }
