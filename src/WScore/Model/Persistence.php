@@ -60,21 +60,6 @@ class Model_Persistence
     /** @var array                           protected properties            */
     protected $protected  = array();
 
-    /**
-     * for selector construction. to use with WScore\Html\Selector,
-     * $selectors = array(
-     *  name => [ 'Selector', style, option text, [
-     *      'items' => [ [ val1, str1 ], [ val2, str2 ], ... ],
-     *      'filter' => function(){}
-     *  ] ],
-     * )
-     *
-     * @var array                                  */
-    protected $selectors  = array();
-
-    /** @var array                           for validation of inputs        */
-    protected $validators = array();
-
     /** @var \WScore\DbAccess\Query                                                  */
     protected $query;
 
@@ -299,29 +284,7 @@ class Model_Persistence
     {
         return $this->insertId( $values );
     }
-    // +----------------------------------------------------------------------+
-    //  Managing information about selector, validator, and property list.
-    // +----------------------------------------------------------------------+
-    /**
-     * @param string $name
-     * @return null|array
-     */
-    public function getSelectInfo( $name ) {
-        return Model_Helper::arrGet( $this->selectors, $name );
-    }
-
-    /**
-     * @param string $name
-     * @return null|array
-     */
-    public function getValidateInfo( $name ) {
-        return Model_Helper::arrGet( $this->validators, $name );
-    }
-
-    public function getRelationInfo( $name=null ) {
-        if( $name ) return Model_Helper::arrGet( $this->relations, $name );
-        return $this->relations;
-    }
+    
     /**
      * @param null|string $name
      * @return array
@@ -375,16 +338,6 @@ class Model_Persistence
      */
     public function getTable() {
         return $this->table;
-    }
-
-    /**
-     * @param array $arr
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function arrGet( $arr, $key, $default=null ) {
-        return Model_Helper::arrGet( $arr, $key, $default );
     }
 
     /**
