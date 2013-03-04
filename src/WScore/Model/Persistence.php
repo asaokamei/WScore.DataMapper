@@ -42,7 +42,7 @@ class Model_Persistence
 
     /**
      * @Inject
-     * @var \WScore\DataMapper\Property
+     * @var \WScore\DataMapper\Model_Property
      */
     protected $property;
     
