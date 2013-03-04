@@ -6,7 +6,7 @@ namespace WScore\DataMapper;
  * a Table Data Gateway pattern.
  *
  */
-class Model_Persistence
+class Model_Presentation
 {
     /** @var string                          name of database table          */
     protected $table;
