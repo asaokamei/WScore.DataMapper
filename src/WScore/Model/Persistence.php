@@ -25,42 +25,13 @@ class Model_Persistence
      */
     protected $definition = array();
 
-    /** @var array                           property names as key => name   */
-    protected $properties = array();
-
-    /**
-     * extra information on property.
-     *    extraTypes = array(
-     *      type => column name,
-     *    );
-     * where types are:
-     *   - created_at: adds timestamps at insert.
-     *   - updated_at: adds timestamps at update.
-     *   - primaryKey: specifies primary key(s).
-     *
-     * @var array
-     */
-    protected $extraTypes = array();
-
-    /**
-     * store data types for each properties as in
-     * prepared statement's bindValue as key => type
-     *
-     * for special case,
-     *    !created_at => key
-     *    !updated_at => key
-     *
-     * @var array
-     */
-    protected $dataTypes  = array();
-
     /** @var array                           relations settings              */
     protected $relations  = array();
 
-    /** @var array                           protected properties            */
-    protected $protected  = array();
-
-    /** @var \WScore\DbAccess\Query                                                  */
+    /** 
+     * @Inject
+     * @var \WScore\DbAccess\Query  
+     */
     protected $query;
 
     /** @var \WScore\DataMapper\Entity_Interface    return class from Pdo            */
@@ -68,6 +39,13 @@ class Model_Persistence
 
     /** @var null|string    entity class name for quick methods (find/fetch). */
     protected $entityClass = null;
+
+    /**
+     * @Inject
+     * @var \WScore\DataMapper\Property
+     */
+    protected $property;
+    
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
@@ -86,11 +64,7 @@ class Model_Persistence
      */
     public function prepare()
     {
-        $return = Model_Helper::prepare( $this->definition, $this->relations, $this->id_name );
-        $this->properties = $return[ 'properties' ];
-        $this->dataTypes  = $return[ 'dataTypes' ];
-        $this->extraTypes = $return[ 'extraTypes' ];
-        $this->protected  = $return[ 'protected' ];
+        $this->property->prepare( $this->definition, $this->relations, $this->id_name );
     }
 
     /**
@@ -103,7 +77,7 @@ class Model_Persistence
     {
         if( empty( $values ) ) return $values;
         foreach( $values as $key => $val ) {
-            if( !array_key_exists( $key, $this->properties ) ) {
+            if( !$this->property->exists( $key ) ) {
                 unset( $values[ $key ] );
             }
         }
@@ -121,7 +95,7 @@ class Model_Persistence
     {
         if( empty( $values ) ) return $values;
         foreach( $values as $key => $val ) {
-            if( in_array( $key, $this->protected ) ) {
+            if( $this->property->isProtected( $key ) ) {
                 unset( $values[ $key ] );
             }
             elseif( !empty( $onlyTo ) && !in_array( $key, $onlyTo ) ) {
@@ -212,19 +186,25 @@ class Model_Persistence
         }
         return $record;
     }
+
     /**
-     * update data of primary key of $id.
-     * TODO: another method to update entity without $id argument?
+     * update data. update( $entity ) or update( $id, $values ). 
      *
-     * @param string $id
      * @param Entity_Interface|array   $values
+     * @param null                     $extra
      * @return Model
      */
-    public function update( $id, $values )
+    public function update( $values, $extra=null )
     {
+        if( $extra ) {
+            $id = $values;
+            $values = $extra;
+        } else {
+            $id = $values[ $this->id_name ];
+        }
         $values = $this->restrict( $values );
         unset( $values[ $this->id_name ] );
-        Model_Helper::updatedAt( $values, $this->extraTypes );
+        $this->property->updatedAt( $values );
         $data = $this->entityToArray( $values );
         $this->query()->id( $id )->update( $data );
         return $this;
@@ -239,8 +219,8 @@ class Model_Persistence
     public function insertValue( $values )
     {
         $values = $this->restrict( $values );
-        Model_Helper::updatedAt( $values, $this->extraTypes );
-        Model_Helper::createdAt( $values, $this->extraTypes );
+        $this->property->updatedAt( $values );
+        $this->property->createdAt( $values );
         $data = $this->entityToArray( $values );
         $this->query()->insert( $data );
         $id = Model_Helper::arrGet( $values, $this->id_name, true );
@@ -290,7 +270,7 @@ class Model_Persistence
      * @return array
      */
     public function getPropertyList( $name=null ) {
-        $list = $this->protect( $this->properties );
+        $list = $this->protect( $this->property->getProperty() );
         return $list;
     }
     // +----------------------------------------------------------------------+
@@ -303,7 +283,7 @@ class Model_Persistence
      * @return null
      */
     public function propertyName( $var_name ) {
-        return Model_Helper::arrGet( $this->properties, $var_name , null );
+        return $this->property->getLabel( $var_name );
     }
 
     /**
