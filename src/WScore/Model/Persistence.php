@@ -44,27 +44,18 @@ class Model_Persistence
      * @Inject
      * @var \WScore\DataMapper\Model_Property
      */
-    protected $property;
+    public $property;
     
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
     /**
      * @Inject
-     * @param \WScore\DbAccess\Query         $query
+     * @param \WScore\DataMapper\Model_Property         $property
      */
-    public function __construct( $query )
+    public function __construct( $property )
     {
-        $this->query = $query;
-        $this->prepare();
-    }
-
-    /**
-     * prepares restricted properties.
-     */
-    public function prepare()
-    {
-        $this->property->prepare( $this->definition, $this->relations, $this->id_name );
+        $this->property = $property;
     }
 
     /**
@@ -173,7 +164,7 @@ class Model_Persistence
     {
         $query = $this->query( $this->entityClass );
         $this->entityClass = null;
-        if( !$column         ) $column = $this->getIdName();
+        if( !$column         ) $column = $this->id_name;
         if( $packed === true ) $packed = $column;
         if( is_null( $value ) ) {
             $query->column( $packed );
@@ -190,7 +181,7 @@ class Model_Persistence
     /**
      * update data. update( $entity ) or update( $id, $values ). 
      *
-     * @param Entity_Interface|array   $values
+     * @param array   $values
      * @param null                     $extra
      * @return Model
      */
@@ -205,8 +196,7 @@ class Model_Persistence
         $values = $this->restrict( $values );
         unset( $values[ $this->id_name ] );
         $this->property->updatedAt( $values );
-        $data = $this->entityToArray( $values );
-        $this->query()->id( $id )->update( $data );
+        $this->query()->id( $id )->update( $values );
         return $this;
     }
 
@@ -221,8 +211,7 @@ class Model_Persistence
         $values = $this->restrict( $values );
         $this->property->updatedAt( $values );
         $this->property->createdAt( $values );
-        $data = $this->entityToArray( $values );
-        $this->query()->insert( $data );
+        $this->query()->insert( $values );
         $id = Model_Helper::arrGet( $values, $this->id_name, true );
         return $id;
     }
@@ -252,18 +241,6 @@ class Model_Persistence
         $values[ $this->id_name ] = $id;
         return $id;
     }
-
-    /**
-     * inserts a data. select insertId or insertValue to use.
-     * default is to insertId. override this method if necessary.
-     *
-     * @param Entity_Interface|array  $values
-     * @return string                 id of the inserted data
-     */
-    public function insert( $values )
-    {
-        return $this->insertId( $values );
-    }
     
     /**
      * @param null|string $name
@@ -272,65 +249,6 @@ class Model_Persistence
     public function getPropertyList( $name=null ) {
         $list = $this->protect( $this->property->getProperty() );
         return $list;
-    }
-    // +----------------------------------------------------------------------+
-    //  Managing Validation and Properties. 
-    // +----------------------------------------------------------------------+
-    /**
-     * returns name of property, if set.
-     *
-     * @param $var_name
-     * @return null
-     */
-    public function propertyName( $var_name ) {
-        return $this->property->getLabel( $var_name );
-    }
-
-    /**
-     * name of primary key.
-     *
-     * @return string
-     */
-    public function getIdName() {
-        return $this->id_name;
-    }
-
-    /**
-     * @param \WScore\DataMapper\Entity_Interface $entity
-     * @return null|string
-     */
-    public function getId( $entity ) {
-        $idName = $this->id_name;
-        $id = ( isset( $entity->$idName ) ) ? $entity->$idName: null;
-        return $id;
-    }
-
-    /**
-     * name of the model: i.e. class name.
-     * @return string
-     */
-    public function getModelName() {
-        return get_called_class();
-    }
-
-    /**
-     * @return string
-     */
-    public function getTable() {
-        return $this->table;
-    }
-
-    /**
-     * TODO: restrict to property here. also extract only the updated value.
-     *
-     * @param array|Entity_Interface $entity
-     * @return array
-     */
-    public function entityToArray( $entity ) {
-        if( is_object( $entity ) ) {
-            return get_object_vars( $entity );
-        }
-        return $entity;
     }
     // +----------------------------------------------------------------------+
 }
