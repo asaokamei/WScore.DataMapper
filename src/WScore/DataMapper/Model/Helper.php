@@ -99,18 +99,18 @@ class Model_Helper
     }
 
     /**
-     * @param array|object $record
-     * @param string       $select
+     * @param array  $data
+     * @param string $select
      * @return array
      */
-    public static function packToArray( $record, $select )
+    public static function packToArray( $data, $select )
     {
-        $result = array();
-        if( empty( $record ) ) return $result;
-        foreach( $record as $rec ) {
-            $result[] = self::arrGet( $rec, $select );
+        $packed = array();
+        if( empty( $data ) ) return $packed;
+        foreach( $data as $rec ) {
+            $packed[] = self::arrGet( $rec, $select );
         }
-        $result = array_values( $result );
-        return $result;
+        $packed = array_values( $packed );
+        return $packed;
     }
 }
