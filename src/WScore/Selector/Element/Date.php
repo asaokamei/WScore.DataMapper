@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Selector;
 
-class Selector_Date extends Selector
+class Element_Date extends Selector
 {
     /**
      * @param Form $form

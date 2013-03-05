@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Selector;
 
-class Selector_DateDay extends Selector
+class Element_DateMonth extends Selector
 {
     public function __construct( $form )
     {
@@ -13,16 +13,16 @@ class Selector_DateDay extends Selector
     {
         $this->name            = $name;
         $this->add_head_option = $this->arrGet( $option, 'add_head', '' );
-        for( $day = 1; $day <= 31; $day ++ ) {
+        for( $month = 1; $month <= 12; $month ++ ) {
             $this->item_data[] = array(
-                sprintf( '%2d', $day ),
-                sprintf( '%2d', $day )
+                sprintf( '%2d', $month ),
+                sprintf( '%2d', $month )
             );
         }
     }
     public function makeHtml( $value ) {
         $value = parent::makeHtml( $value );
-        if( $value ) $value .= '日';
+        if( $value ) $value .= '月';
         return $value;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Selector;
 
-class Selector_Text extends Selector
+class Element_Mail extends Selector
 {
     /**
      * @param Form $form
@@ -9,6 +9,6 @@ class Selector_Text extends Selector
     public function __construct( $form )
     {
         parent::__construct( $form );
-        $this->style = 'text';
+        $this->style = 'mail';
     }
 }

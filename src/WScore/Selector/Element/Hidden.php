@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Selector;
 
-class Selector_Password extends Selector
+class Element_Hidden extends Selector
 {
     /**
      * @param Form $form
@@ -9,6 +9,6 @@ class Selector_Password extends Selector
     public function __construct( $form )
     {
         parent::__construct( $form );
-        $this->style = 'password';
+        $this->style = 'hidden';
     }
 }

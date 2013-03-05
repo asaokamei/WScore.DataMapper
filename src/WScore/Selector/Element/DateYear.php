@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Selector;
 
-class Selector_DateYear extends Selector
+class Element_DateYear extends Selector
 {
     public function __construct( $form )
     {

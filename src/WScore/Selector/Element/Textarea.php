@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Selector;
 
-class Selector_Textarea extends Selector
+class Element_Textarea extends Selector
 {
     /**
      * @param Form $form

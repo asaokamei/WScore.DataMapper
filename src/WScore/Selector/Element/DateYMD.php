@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Selector;
 
-class Selector_DateYMD extends SelectDiv
+class Element_DateYMD extends SelectDiv
 {
     public function __construct( $form )
     {
