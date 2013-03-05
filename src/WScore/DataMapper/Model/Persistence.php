@@ -161,7 +161,7 @@ class Model_Persistence
         }
         $data = $this->property->restrict( $data );
         unset( $data[ $this->id_name ] );
-        $this->property->updatedAt( $data );
+        $data = $this->property->updatedAt( $data );
         $this->query()->id( $id )->update( $data );
         return $this;
     }
@@ -169,16 +169,16 @@ class Model_Persistence
     /**
      * insert data into database.
      *
-     * @param Entity_Interface|array   $values
+     * @param array   $data
      * @return string|bool             id of the inserted data or true if id not exist.
      */
-    public function insertValue( $values )
+    public function insertValue( $data )
     {
-        $values = $this->property->restrict( $values );
-        $this->property->updatedAt( $values );
-        $this->property->createdAt( $values );
-        $this->query()->insert( $values );
-        $id = Model_Helper::arrGet( $values, $this->id_name, true );
+        $data = $this->property->restrict(  $data );
+        $data = $this->property->updatedAt( $data );
+        $data = $this->property->createdAt( $data );
+        $this->query()->insert( $data );
+        $id = Model_Helper::arrGet( $data, $this->id_name, true );
         return $id;
     }
 
@@ -196,15 +196,15 @@ class Model_Persistence
     }
 
     /**
-     * @param Entity_Interface|array   $values
+     * @param Entity_Interface|array   $data
      * @return string                 id of the inserted data
      */
-    public function insertId( $values )
+    public function insertId( $data )
     {
-        unset( $values[ $this->id_name ] );
-        $this->insertValue( $values );
+        unset( $data[ $this->id_name ] );
+        $this->insertValue( $data );
         $id = $this->query->lastId();
-        $values[ $this->id_name ] = $id;
+        $data[ $this->id_name ] = $id;
         return $id;
     }
     // +----------------------------------------------------------------------+

@@ -115,17 +115,19 @@ class Model_Property
     }
 
     /**
-     * @param array $values
+     * @param array $data
+     * @return array
      */
-    public function updatedAt( & $values ) {
-        Model_Helper::updatedAt( $values, $this->extraTypes );
+    public function updatedAt( $data ) {
+        return Model_Helper::updatedAt( $data, $this->extraTypes );
     }
 
     /**
-     * @param $values
+     * @param $data
+     * @return array
      */
-    public function createdAt( & $values ) {
-        Model_Helper::createdAt( $values, $this->extraTypes );
+    public function createdAt( $data ) {
+        return Model_Helper::createdAt( $data, $this->extraTypes );
     }
 
     /**
@@ -157,39 +159,39 @@ class Model_Property
     /**
      * restrict keys in the property list.
      *
-     * @param array $values
+     * @param array $data
      * @return array
      */
-    public function restrict( $values )
+    public function restrict( $data )
     {
-        if( empty( $values ) ) return $values;
-        foreach( $values as $key => $val ) {
-            if( !$this->exists( $key ) ) {
-                unset( $values[ $key ] );
+        if( empty( $data ) ) return $data;
+        foreach( $data as $name => $val ) {
+            if( !$this->exists( $name ) ) {
+                unset( $data[ $name ] );
             }
         }
-        return $values;
+        return $data;
     }
 
     /**
      * protect data not to overwrite id or relation fields.
      *
-     * @param $values
+     * @param $data
      * @param array $onlyTo
      * @return mixed
      */
-    public function protect( $values, $onlyTo=array() )
+    public function protect( $data, $onlyTo=array() )
     {
-        if( empty( $values ) ) return $values;
-        foreach( $values as $key => $val ) {
-            if( $this->isProtected( $key ) ) {
-                unset( $values[ $key ] );
+        if( empty( $data ) ) return $data;
+        foreach( $data as $name => $val ) {
+            if( $this->isProtected( $name ) ) {
+                unset( $data[ $name ] );
             }
-            elseif( !empty( $onlyTo ) && !in_array( $key, $onlyTo ) ) {
-                unset( $values[ $key ] );
+            elseif( !empty( $onlyTo ) && !in_array( $name, $onlyTo ) ) {
+                unset( $data[ $name ] );
             }
         }
-        return $values;
+        return $data;
     }
 
     /**

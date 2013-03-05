@@ -7,27 +7,33 @@ namespace WScore\DataMapper;
 class Model_Helper
 {
     /**
-     * @param array|object $values
-     * @param array        $extra
+     * @param array $values
+     * @param array $extra
+     * @return array
      */
-    public static function updatedAt( & $values, $extra )
+    public static function updatedAt( $values, $extra )
     {
-        if( !isset( $extra[ 'updated_at' ] ) ) return;
-        foreach( $extra[ 'updated_at' ] as $column ) {
-            $values[ $column ] = date( 'Y-m-d H:i:s' );
+        if( isset( $extra[ 'updated_at' ] ) ) {
+            foreach( $extra[ 'updated_at' ] as $column ) {
+                $values[ $column ] = date( 'Y-m-d H:i:s' );
+            }
         }
+        return $values;
     }
 
     /**
-     * @param array|object $values
-     * @param array        $extra
+     * @param array $values
+     * @param array $extra
+     * @return array
      */
-    public static function createdAt( & $values, $extra )
+    public static function createdAt( $values, $extra )
     {
-        if( !isset( $extra[ 'created_at' ] ) ) return;
-        foreach( $extra[ 'created_at' ] as $column ) {
-            $values[ $column ] = date( 'Y-m-d H:i:s' );
+        if( isset( $extra[ 'created_at' ] ) ) {
+            foreach( $extra[ 'created_at' ] as $column ) {
+                $values[ $column ] = date( 'Y-m-d H:i:s' );
+            }
         }
+        return $values;
     }
 
     /**

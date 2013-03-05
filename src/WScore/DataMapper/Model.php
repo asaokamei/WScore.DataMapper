@@ -109,11 +109,11 @@ class Model
     /**
      * returns name of property, if set.
      *
-     * @param $var_name
+     * @param $name
      * @return null
      */
-    public function propertyName( $var_name ) {
-        return $this->property->getLabel( $var_name );
+    public function propertyName( $name ) {
+        return $this->property->getLabel( $name );
     }
 
     /**
@@ -126,12 +126,12 @@ class Model
     }
 
     /**
-     * @param \WScore\DataMapper\Entity_Interface $entity
+     * @param array $data
      * @return null|string
      */
-    public function getId( $entity ) {
+    public function getId( $data ) {
         $idName = $this->id_name;
-        $id = ( isset( $entity->$idName ) ) ? $entity->$idName: null;
+        $id = ( isset( $data[ $idName ] ) ) ? $data[ $idName ]: null;
         return $id;
     }
 
@@ -153,18 +153,5 @@ class Model
     public function getRelationInfo( $name=null ) {
         if( $name ) return Model_Helper::arrGet( $this->relations, $name );
         return $this->relations;
-    }
-
-    /**
-     * TODO: restrict to property here. also extract only the updated value.
-     *
-     * @param array|Entity_Interface $entity
-     * @return array
-     */
-    public function entityToArray( $entity ) {
-        if( is_object( $entity ) ) {
-            return get_object_vars( $entity );
-        }
-        return $entity;
     }
 }
