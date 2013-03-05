@@ -41,7 +41,6 @@ class Model_Persistence
     protected $entityClass = null;
 
     /**
-     * @Inject
      * @var \WScore\DataMapper\Model_Property
      */
     protected $property;

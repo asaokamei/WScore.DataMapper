@@ -60,6 +60,7 @@ class Model
         if( $id_name ) $this->id_name = $id_name;
         $this->prepare();
         $this->persistence->setProperty( $this->property );
+        $this->presentation->setProperty( $this->property );
     }
 
     /**
