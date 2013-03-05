@@ -44,16 +44,21 @@ class Model_Persistence
      * @Inject
      * @var \WScore\DataMapper\Model_Property
      */
-    public $property;
+    protected $property;
     
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
     /**
-     * @Inject
-     * @param \WScore\DataMapper\Model_Property         $property
      */
-    public function __construct( $property )
+    public function __construct()
+    {
+    }
+
+    /**
+     * @param \WScore\DataMapper\Model_Property $property
+     */
+    public function setProperty( $property )
     {
         $this->property = $property;
     }
@@ -69,27 +74,6 @@ class Model_Persistence
         if( empty( $values ) ) return $values;
         foreach( $values as $key => $val ) {
             if( !$this->property->exists( $key ) ) {
-                unset( $values[ $key ] );
-            }
-        }
-        return $values;
-    }
-
-    /**
-     * protect data not to overwrite id or relation fields.
-     *
-     * @param $values
-     * @param array $onlyTo
-     * @return mixed
-     */
-    public function protect( $values, $onlyTo=array() )
-    {
-        if( empty( $values ) ) return $values;
-        foreach( $values as $key => $val ) {
-            if( $this->property->isProtected( $key ) ) {
-                unset( $values[ $key ] );
-            }
-            elseif( !empty( $onlyTo ) && !in_array( $key, $onlyTo ) ) {
                 unset( $values[ $key ] );
             }
         }
@@ -240,15 +224,6 @@ class Model_Persistence
         $id = $this->query->lastId();
         $values[ $this->id_name ] = $id;
         return $id;
-    }
-    
-    /**
-     * @param null|string $name
-     * @return array
-     */
-    public function getPropertyList( $name=null ) {
-        $list = $this->protect( $this->property->getProperty() );
-        return $list;
     }
     // +----------------------------------------------------------------------+
 }

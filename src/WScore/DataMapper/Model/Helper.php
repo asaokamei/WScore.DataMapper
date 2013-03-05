@@ -36,7 +36,7 @@ class Model_Helper
      * @param $id_name
      * @return array
      */
-    public static function prepare( $define, $relations, $id_name )
+    public static function prepare( $define, $relations, $id_name=null )
     {
         // create properties and dataTypes from definition.
         $properties = array();

@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper;
 
-class Model_Model
+class Model
 {
     /**
      * name of database table
@@ -51,11 +51,15 @@ class Model_Model
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
     /**
+     * @param string $table
+     * @param string $id_name
      */
-    public function __construct()
+    public function __construct( $table=null, $id_name=null )
     {
+        if( $table   ) $this->table   = $table;
+        if( $id_name ) $this->id_name = $id_name;
         $this->prepare();
-        $this->persistence->property = $this->property;
+        $this->persistence->setProperty( $this->property );
     }
 
     /**
@@ -63,11 +67,13 @@ class Model_Model
      */
     public function prepare()
     {
-        $this->property->prepare( $this->definition, $this->relations, $this->id_name );
+        $this->property->setTable( $this->table, $this->id_name );
+        $this->property->prepare( $this->definition, $this->relations );
     }
 
     // +----------------------------------------------------------------------+
-    //  Persistence Methods. 
+    //  Persistence Methods.
+    //  how about converting entity object to array here...
     // +----------------------------------------------------------------------+
     public function fetch( $value, $column=null )
     {
@@ -130,6 +136,11 @@ class Model_Model
      */
     public function getTable() {
         return $this->table;
+    }
+
+    public function getRelationInfo( $name=null ) {
+        if( $name ) return Model_Helper::arrGet( $this->relations, $name );
+        return $this->relations;
     }
 
     /**
