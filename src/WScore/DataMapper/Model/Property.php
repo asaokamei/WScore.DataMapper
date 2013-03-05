@@ -151,6 +151,26 @@ class Model_Property
         return null;
     }
 
+    // +----------------------------------------------------------------------+
+    //  manipulating data
+    // +----------------------------------------------------------------------+
+    /**
+     * restrict keys in the property list.
+     *
+     * @param array $values
+     * @return array
+     */
+    public function restrict( $values )
+    {
+        if( empty( $values ) ) return $values;
+        foreach( $values as $key => $val ) {
+            if( !$this->exists( $key ) ) {
+                unset( $values[ $key ] );
+            }
+        }
+        return $values;
+    }
+
     /**
      * protect data not to overwrite id or relation fields.
      *

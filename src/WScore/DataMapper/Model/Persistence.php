@@ -63,23 +63,6 @@ class Model_Persistence
     }
 
     /**
-     * restrict keys in the property list.
-     *
-     * @param array $values
-     * @return array
-     */
-    public function restrict( $values )
-    {
-        if( empty( $values ) ) return $values;
-        foreach( $values as $key => $val ) {
-            if( !$this->property->exists( $key ) ) {
-                unset( $values[ $key ] );
-            }
-        }
-        return $values;
-    }
-
-    /**
      * @param null|string $class   entity class name.
      * @return \WScore\DbAccess\Query
      */
@@ -164,22 +147,22 @@ class Model_Persistence
     /**
      * update data. update( $entity ) or update( $id, $values ). 
      *
-     * @param array   $values
+     * @param array   $data
      * @param null                     $extra
      * @return Model
      */
-    public function update( $values, $extra=null )
+    public function update( $data, $extra=null )
     {
         if( $extra ) {
-            $id = $values;
-            $values = $extra;
+            $id   = $data;
+            $data = $extra;
         } else {
-            $id = $values[ $this->id_name ];
+            $id = $data[ $this->id_name ];
         }
-        $values = $this->restrict( $values );
-        unset( $values[ $this->id_name ] );
-        $this->property->updatedAt( $values );
-        $this->query()->id( $id )->update( $values );
+        $data = $this->property->restrict( $data );
+        unset( $data[ $this->id_name ] );
+        $this->property->updatedAt( $data );
+        $this->query()->id( $id )->update( $data );
         return $this;
     }
 
@@ -191,7 +174,7 @@ class Model_Persistence
      */
     public function insertValue( $values )
     {
-        $values = $this->restrict( $values );
+        $values = $this->property->restrict( $values );
         $this->property->updatedAt( $values );
         $this->property->createdAt( $values );
         $this->query()->insert( $values );
