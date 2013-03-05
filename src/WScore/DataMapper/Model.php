@@ -79,11 +79,12 @@ class Model
     /**
      * @param string       $value
      * @param null|string  $column
+     * @param bool|string  $packed
      * @return array
      */
-    public function fetch( $value, $column=null )
+    public function fetch( $value, $column=null, $packed=false )
     {
-        return $this->persistence->fetch( $value, $column );
+        return $this->persistence->fetch( $value, $column, $packed );
     }
 
     /**

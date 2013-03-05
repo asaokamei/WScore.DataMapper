@@ -120,11 +120,16 @@ class Model_Persistence
     /**
      * fetches entities from simple condition.
      * use $select to specify column name to get only the column you want.
+     * 
+     * packed: packs result to a simple array, i.e. [ 1, 2, 5,..].
+     *   false:  ignored,
+     *   true:   packs data with the selected column (id or $columnd)
+     *   string: packs data with the $pack column. 
      *
      * @param string|array $value
      * @param null         $column
-     * @param bool         $packed
-     * @return array|\WScore\DataMapper\Entity_Interface[]
+     * @param bool|string  $packed
+     * @return array
      */
     public function fetch( $value, $column=null, $packed=false )
     {
