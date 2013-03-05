@@ -76,21 +76,32 @@ class Model
     //  Persistence Methods.
     //  how about converting entity object to array here...
     // +----------------------------------------------------------------------+
+    /**
+     * @param string       $value
+     * @param null|string  $column
+     * @return array
+     */
     public function fetch( $value, $column=null )
     {
         return $this->persistence->fetch( $value, $column );
     }
-    
-    public function update( $entity )
+
+    /**
+     * @param array $data
+     * @return Model
+     */
+    public function update( $data )
     {
-        $values = $this->entityToArray( $entity );
-        return $this->persistence->update( $values );
+        return $this->persistence->update( $data );
     }
-    
-    public function insert( $entity ) 
+
+    /**
+     * @param array $data
+     * @return string
+     */
+    public function insert( $data ) 
     {
-        $values = $this->entityToArray( $entity );
-        return $this->persistence->insertId( $values );
+        return $this->persistence->insertId( $data );
     }
     // +----------------------------------------------------------------------+
     //  Managing Validation and Properties. 
