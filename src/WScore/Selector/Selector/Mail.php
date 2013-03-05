@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Html;
+namespace WScore\DataMapper\Selector;
 
 class Selector_Mail extends Selector
 {

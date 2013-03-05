@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Html;
+namespace WScore\DataMapper\Selector;
 
 /*
 TODO: move Selector stuff to Selector folder.
