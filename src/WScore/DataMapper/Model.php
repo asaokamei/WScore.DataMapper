@@ -59,8 +59,6 @@ class Model
         if( $table   ) $this->table   = $table;
         if( $id_name ) $this->id_name = $id_name;
         $this->prepare();
-        $this->persistence->setProperty( $this->property );
-        $this->presentation->setProperty( $this->property );
     }
 
     /**
@@ -70,6 +68,8 @@ class Model
     {
         $this->property->setTable( $this->table, $this->id_name );
         $this->property->prepare( $this->definition, $this->relations );
+        $this->persistence->setProperty( $this->property );
+        $this->presentation->setProperty( $this->property );
     }
 
     // +----------------------------------------------------------------------+
