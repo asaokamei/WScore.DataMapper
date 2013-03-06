@@ -44,6 +44,8 @@ class Property_Test extends \PHPUnit_Framework_TestCase
     {
         $label = $this->property->getLabel( 'friend_bday' );
         $this->assertEquals( 'birthday', $label );
+        $label = $this->property->getLabel( 'not_exists' );
+        $this->assertEquals( null, $label );
     }
     function test_isProtected()
     {
