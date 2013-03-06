@@ -1,10 +1,10 @@
 <?php
 namespace WScore\Selector;
 
-class Element_Hidden extends Selector
+class Element_Hidden extends Element_Input
 {
     /**
-     * @param Form $form
+     * @param \WScore\Html\Forms $form
      */
     public function __construct( $form )
     {

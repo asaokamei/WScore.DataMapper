@@ -1,10 +1,10 @@
 <?php
 namespace WScore\Selector;
 
-class Element_Date extends Selector
+class Element_Date extends Element_Input
 {
     /**
-     * @param Form $form
+     * @param \WScore\Html\Forms $form
      */
     public function __construct( $form )
     {
