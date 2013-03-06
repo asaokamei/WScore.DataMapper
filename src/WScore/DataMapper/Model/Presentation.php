@@ -15,7 +15,7 @@ class Model_Presentation
 
     /**
      * @Inject
-     * @var \WScore\DataMapper\Selector\Selector
+     * @var \WScore\Selector\Selector
      */
     protected $selector;
 
