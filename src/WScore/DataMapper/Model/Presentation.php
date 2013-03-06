@@ -117,25 +117,17 @@ class Model_Presentation
     {
         $selector = null;
         if( !$info = $this->property->getSelectInfo( $name ) ) return $selector;
+        $type   = Model_Helper::arrGet( $info, 'type', null );
+        $choice = Model_Helper::arrGet( $info, 'choice',  array() );
+        $extra  = Model_Helper::arrGet( $info, 'extra', null );
         if( $info[0] == 'Selector' )
         {
-            $arg2     = Model_Helper::arrGet( $info, 2, null );
-            $extra    = Model_Helper::arrGet( $info, 3, null );
-            $arg3 = Model_Helper::arrGet( $info, 'choice',  array() );
-            $arg4 = Model_Helper::arrGet( $info, 'filter', null );
-            if( is_array( $extra ) && !empty( $extra ) ) {
-                $arg3 = Model_Helper::arrGet( $extra, 'choice',  array() );
-                $arg4 = Model_Helper::arrGet( $extra, 'filter', null );
-            }
-            $selector = $this->selector->getInstance( $info[1], $name, $arg2, $arg3, $arg4 );
+            $selector = $this->selector->getInstance( $type, $name, $extra, $choice );
         }
         else
         {
             $class = $info[0];
-            $arg1     = Model_Helper::arrGet( $info[1], 0, null );
-            $arg2     = Model_Helper::arrGet( $info[1], 1, null );
-            $arg3     = Model_Helper::arrGet( $info[1], 2, null );
-            $selector = new $class( $name, $arg1, $arg2, $arg3 );
+            $selector = new $class( $name, $extra, $choice );
         }
         return $selector;
     }
