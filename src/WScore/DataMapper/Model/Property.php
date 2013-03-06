@@ -8,10 +8,16 @@ namespace WScore\DataMapper;
  */
 class Model_Property
 {
-    /** @var string                          name of database table          */
+    /**
+     * name of database table
+     * @var string
+     */
     protected $table;
 
-    /** @var string                          name of primary key             */
+    /**
+     * name of primary key
+     * @var string
+     */
     protected $id_name;
 
     /**
@@ -25,7 +31,10 @@ class Model_Property
      */
     protected $definition = array();
 
-    /** @var array                           property names as key => name   */
+    /**
+     * property names as key => name
+     * @var array
+     */
     protected $properties = array();
 
     /**
@@ -55,7 +64,10 @@ class Model_Property
     protected $dataTypes  = array();
 
 
-    /** @var array                           protected properties            */
+    /**
+     * protected properties
+     * @var array
+     */
     protected $protected  = array();
 
     /**
