@@ -21,7 +21,7 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
     }
     // +----------------------------------------------------------------------+
-    function test_0()
+    function test_text()
     {
         $selector = $this->selector;
         $sel = $selector->getInstance( 'text', 'test' );
@@ -34,7 +34,10 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $safe, $sel->popHtml( 'name', $text ) );
         $this->assertContains( $safe, $form );
         $this->assertEquals( '<input type="text" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
-        
+    }
+    function test_textarea()
+    {
+        $selector = $this->selector;
         // test Selector_Textarea
 
         $sel = $selector->getInstance( 'textarea', 'test' );
@@ -50,9 +53,13 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
                 . "\n"
                 . ' output</textarea>', 
             $form );
-        
+
+    }
+    function test_hidden()
+    {
         // test Selector_Hidden
 
+        $selector = $this->selector;
         $sel = $selector->getInstance( 'hidden', 'test' );
 
         $text = 'text <strong>bold</strong> output';
@@ -64,8 +71,12 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $this->assertContains( $safe, $form );
         $this->assertEquals( '<input type="hidden" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
 
+    }
+    function test_maila()
+    {
         // test Selector_Mail
 
+        $selector = $this->selector;
         $sel = $selector->getInstance( 'mail', 'test' );
 
         $text = 'text <strong>bold</strong> output';
@@ -77,8 +88,12 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $this->assertContains( $safe, $form );
         $this->assertEquals( '<input type="mail" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
 
-// test Selector_SelYMD
+    }
+    function test_DateYMD()
+    {
+        // test Selector_SelYMD
 
+        $selector = $this->selector;
         $sel = $selector->getInstance( 'dateYMD', 'test', 'start_y:1980' );
 
         $date = '1984-03-04';
