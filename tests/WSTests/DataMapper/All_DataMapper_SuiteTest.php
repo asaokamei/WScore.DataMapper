@@ -11,6 +11,7 @@ class All_DataMapper_SuiteTests
         $folder = dirname( __FILE__ ) . '/';
         $suite->addTestFile( $folder . 'Model/Property/OrigTest.php' );
         $suite->addTestFile( $folder . 'Model/Property/CsvTests.php' );
+        $suite->addTestFile( $folder . 'Model/Presentation/Test.php' );
         return $suite;
     }
 }
