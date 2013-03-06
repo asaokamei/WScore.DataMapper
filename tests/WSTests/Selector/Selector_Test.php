@@ -55,17 +55,27 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
 
         $sel = $selector->getInstance( 'hidden', 'test' );
 
-        echo 'class: ' . get_class( $sel ) . "\n";
-        echo 'html: ' . $sel->popHtml( 'name', "text <strong>bold</strong>\n output" ) . "\n";
-        echo 'form: ' . $sel->popHtml( 'form', "text <strong>bold</strong>\n output" ) . "\n";
+        $text = 'text <strong>bold</strong> output';
+        $safe = $this->h( $text );
+        $form = (string) $sel->popHtml( 'form', $text );
 
-// test Selector_Mail
+        $this->assertEquals( 'WScore\Selector\Element_Hidden', get_class( $sel ) );
+        $this->assertEquals( $safe, $sel->popHtml( 'name', $text ) );
+        $this->assertContains( $safe, $form );
+        $this->assertEquals( '<input type="hidden" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
+
+        // test Selector_Mail
 
         $sel = $selector->getInstance( 'mail', 'test' );
 
-        echo 'class: ' . get_class( $sel ) . "\n";
-        echo 'html: ' . $sel->popHtml( 'name', "text <strong>bold</strong>\n output" ) . "\n";
-        echo 'form: ' . $sel->popHtml( 'form', "text <strong>bold</strong>\n output" ) . "\n";
+        $text = 'text <strong>bold</strong> output';
+        $safe = $this->h( $text );
+        $form = (string) $sel->popHtml( 'form', $text );
+
+        $this->assertEquals( 'WScore\Selector\Element_Mail', get_class( $sel ) );
+        $this->assertEquals( $safe, $sel->popHtml( 'name', $text ) );
+        $this->assertContains( $safe, $form );
+        $this->assertEquals( '<input type="mail" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
 
 // test Selector_SelYMD
 
