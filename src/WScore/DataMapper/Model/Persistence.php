@@ -192,7 +192,7 @@ class Model_Persistence
      * override this method (i.e. just tag some flag, etc.).
      *
      * @param string $id
-     * @return \PdoStatement
+     * @return Query
      */
     public function delete( $id )
     {

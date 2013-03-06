@@ -89,11 +89,10 @@ class Model
 
     /**
      * @param array $data
-     * @return Model
      */
     public function update( $data )
     {
-        return $this->persistence->update( $data );
+        $this->persistence->update( $data );
     }
 
     /**
@@ -103,6 +102,15 @@ class Model
     public function insert( $data ) 
     {
         return $this->persistence->insertId( $data );
+    }
+
+    /**
+     * @param array|string $data
+     */
+    public function delete( $data )
+    {
+        $id = is_array( $data ) ? $data[ $this->id_name ]: $data;
+        $this->persistence->delete( $id );
     }
     // +----------------------------------------------------------------------+
     //  Managing Validation and Properties. 
