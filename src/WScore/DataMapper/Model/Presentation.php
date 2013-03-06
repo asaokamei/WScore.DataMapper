@@ -9,26 +9,9 @@ namespace WScore\DataMapper;
 class Model_Presentation
 {
     /**
-     * for selector construction. to use with WScore\Html\Selector,
-     * $selectors = array(
-     *  name => [ 'Selector', style, option text, [
-     *      'items' => [ [ val1, str1 ], [ val2, str2 ], ... ],
-     *      'filter' => function(){}
-     *  ] ],
-     * )
-     *
-     * @var array                                  */
-    protected $selectors  = array();
-
-    /**
      * @var array
      */
     private $selInstances = array();
-    /**
-     * for validation of inputs
-     * @var array
-     */
-    protected $validators = array();
 
     /**
      * @Inject
@@ -37,6 +20,7 @@ class Model_Presentation
     protected $selector;
 
     /**
+     * @Inject
      * @var \WScore\Validation\Rules
      */
     protected $rules;
@@ -68,19 +52,12 @@ class Model_Presentation
     // +----------------------------------------------------------------------+
     /**
      * @param string $name
-     * @return null|array
-     */
-    public function getValidateInfo( $name ) {
-        return Model_Helper::arrGet( $this->validators, $name );
-    }
-
-    /**
-     * @param string $name
      * @return \WScore\Validation\Rules
      */
     public function getValidationRule( $name )
     {
-        $validateInfo = $this->getValidateInfo( $name );
+        $validateInfo = $this->property->getValidateInfo( $name );
+        if( !$validateInfo ) return null;
         $type   = array_key_exists( 0, $validateInfo ) ? $validateInfo[0] : null ;
         $filter = array_key_exists( 1, $validateInfo ) ? $validateInfo[1] : '' ;
         if( $type ) {
@@ -95,14 +72,6 @@ class Model_Presentation
     // +----------------------------------------------------------------------+
     //  Selector for HTML form elements.
     // +----------------------------------------------------------------------+
-    /**
-     * @param string $name
-     * @return null|array
-     */
-    public function getSelectInfo( $name ) {
-        return Model_Helper::arrGet( $this->selectors, $name );
-    }
-
     /**
      * returns form element object for property name.
      * the object is pooled and will be reused for model/propName basis.
@@ -130,25 +99,26 @@ class Model_Presentation
     public function getSelector( $name )
     {
         $selector = null;
-        if( $info = $this->getSelectInfo( $name ) ) {
-            if( $info[0] == 'Selector' ) {
-                $arg2     = Model_Helper::arrGet( $info, 2, null );
-                $extra    = Model_Helper::arrGet( $info, 3, null );
-                $arg3 = Model_Helper::arrGet( $info, 'items',  array() );
-                $arg4 = Model_Helper::arrGet( $info, 'filter', null );
-                if( is_array( $extra ) && !empty( $extra ) ) {
-                    $arg3 = Model_Helper::arrGet( $extra, 'items',  array() );
-                    $arg4 = Model_Helper::arrGet( $extra, 'filter', null );
-                }
-                $selector = $this->selector->getInstance( $info[1], $name, $arg2, $arg3, $arg4 );
+        if( !$info = $this->property->getSelectInfo( $name ) ) return $selector;
+        if( $info[0] == 'Selector' )
+        {
+            $arg2     = Model_Helper::arrGet( $info, 2, null );
+            $extra    = Model_Helper::arrGet( $info, 3, null );
+            $arg3 = Model_Helper::arrGet( $info, 'items',  array() );
+            $arg4 = Model_Helper::arrGet( $info, 'filter', null );
+            if( is_array( $extra ) && !empty( $extra ) ) {
+                $arg3 = Model_Helper::arrGet( $extra, 'items',  array() );
+                $arg4 = Model_Helper::arrGet( $extra, 'filter', null );
             }
-            else {
-                $class = $info[0];
-                $arg1     = Model_Helper::arrGet( $info[1], 0, null );
-                $arg2     = Model_Helper::arrGet( $info[1], 1, null );
-                $arg3     = Model_Helper::arrGet( $info[1], 2, null );
-                $selector = new $class( $name, $arg1, $arg2, $arg3 );
-            }
+            $selector = $this->selector->getInstance( $info[1], $name, $arg2, $arg3, $arg4 );
+        }
+        else
+        {
+            $class = $info[0];
+            $arg1     = Model_Helper::arrGet( $info[1], 0, null );
+            $arg2     = Model_Helper::arrGet( $info[1], 1, null );
+            $arg3     = Model_Helper::arrGet( $info[1], 2, null );
+            $selector = new $class( $name, $arg1, $arg2, $arg3 );
         }
         return $selector;
     }

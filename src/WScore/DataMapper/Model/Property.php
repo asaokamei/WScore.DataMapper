@@ -58,6 +58,25 @@ class Model_Property
     /** @var array                           protected properties            */
     protected $protected  = array();
 
+    /**
+     * for selector construction. to use with WScore\Html\Selector,
+     * $selectors = array(
+     *  name => [ 'Selector', style, option text, [
+     *      'items' => [ [ val1, str1 ], [ val2, str2 ], ... ],
+     *      'filter' => function(){}
+     *  ] ],
+     * )
+     *
+     * @var array
+     */
+    protected $selectors  = array();
+
+    /**
+     * for validation of inputs
+     * @var array
+     */
+    protected $validators = array();
+
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances.
     // +----------------------------------------------------------------------+
@@ -89,6 +108,15 @@ class Model_Property
         $this->protected  = $return[ 'protected' ];
     }
 
+    /**
+     * @param array $validation
+     * @param array $selector
+     */
+    public function present( $validation, $selector )
+    {
+        $this->validators = $validation;
+        $this->selectors  = $selector;
+    }
     // +----------------------------------------------------------------------+
     //  Managing Properties.
     // +----------------------------------------------------------------------+
@@ -202,4 +230,24 @@ class Model_Property
         $list = $this->protect( $this->getProperty() );
         return $list;
     }
+
+    // +----------------------------------------------------------------------+
+    //  Validation and Selector properties.
+    // +----------------------------------------------------------------------+
+    /**
+     * @param string $name
+     * @return null|array
+     */
+    public function getSelectInfo( $name ) {
+        return Model_Helper::arrGet( $this->selectors, $name );
+    }
+
+    /**
+     * @param string $name
+     * @return null|array
+     */
+    public function getValidateInfo( $name ) {
+        return Model_Helper::arrGet( $this->validators, $name );
+    }
+
 }
