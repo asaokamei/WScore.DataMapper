@@ -68,7 +68,7 @@ class Model_Helper
         $protected  = array();
         if( !empty( $define ) ) {
             foreach( $define as $key => $info ) {
-                $properties[ $key ] = $info[0];
+                $properties[ $key ] = array( 'label' => $info[0] );
                 $dataTypes[  $key ] = $info[1];
                 if( isset( $info[2] ) ) {
                     $extraTypes[ $info[2] ][] = $key;

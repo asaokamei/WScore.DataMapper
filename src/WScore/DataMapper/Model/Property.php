@@ -177,7 +177,7 @@ class Model_Property
      * @return null
      */
     public function getLabel( $name ) {
-        if( $this->exists( $name ) ) return $this->properties[ $name ];
+        if( $this->exists( $name ) ) return $this->properties[ $name ][ 'label' ];
         return null;
     }
 
