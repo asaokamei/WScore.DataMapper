@@ -45,4 +45,28 @@ class Presentation_Test extends \PHPUnit_Framework_TestCase
         $this->assertNotSame( $rule2, $rule3 );
     }
     // +----------------------------------------------------------------------+
+    function test_forgeSelector()
+    {
+        $sel = $this->presentation->forgeSelector( 'friend_name' );
+        $this->assertEquals( 'WScore\Selector\Element_Text', get_class( $sel ) );
+        $this->assertEquals( 'friend_name', $sel->name );
+        $this->assertArrayHasKey( 'ime', $sel->attributes );
+        $this->assertEquals( 'on', $sel->attributes['ime'] );
+
+        $sel = $this->presentation->forgeSelector( 'gender' );
+        $this->assertEquals( 'WScore\Selector\Selector', get_class( $sel ) );
+        $this->assertEquals( 'gender', $sel->name );
+        $this->assertArrayNotHasKey( 'ime', $sel->attributes );
+    }
+    function test_getSelector()
+    {
+        $sel1 = $this->presentation->getSelector( 'friend_name' );
+        $sel2 = $this->presentation->getSelector( 'friend_name' );
+        $sel3 = $this->presentation->forgeSelector( 'friend_name' );
+        $this->assertEquals(  $sel1, $sel2 );
+        $this->assertEquals(  $sel2, $sel3 );
+        $this->assertSame(    $sel1, $sel2 );
+        $this->assertNotSame( $sel2, $sel3 );
+    }
+    // +----------------------------------------------------------------------+
 }
