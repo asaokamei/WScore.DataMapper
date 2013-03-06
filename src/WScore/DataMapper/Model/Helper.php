@@ -6,6 +6,23 @@ namespace WScore\DataMapper;
  */
 class Model_Helper
 {
+    private static $now=null;
+    /**
+     * @param mixed $datetime
+     */
+    public static function setCurrent( $datetime=null ) {
+        self::$now = $datetime;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getCurrent() {
+        $now = self::$now ?: new \DateTime();
+        $fmt = 'Y-m-d H:i:s';
+        return $now->format( $fmt );
+    }
+
     /**
      * @param array $values
      * @param array $extra
@@ -15,7 +32,7 @@ class Model_Helper
     {
         if( isset( $extra[ 'updated_at' ] ) ) {
             foreach( $extra[ 'updated_at' ] as $column ) {
-                $values[ $column ] = date( 'Y-m-d H:i:s' );
+                $values[ $column ] = self::getCurrent();
             }
         }
         return $values;
@@ -30,7 +47,7 @@ class Model_Helper
     {
         if( isset( $extra[ 'created_at' ] ) ) {
             foreach( $extra[ 'created_at' ] as $column ) {
-                $values[ $column ] = date( 'Y-m-d H:i:s' );
+                $values[ $column ] = self::getCurrent();
             }
         }
         return $values;
@@ -74,7 +91,7 @@ class Model_Helper
         if( !empty( $relations ) ) {
             foreach( $relations as $relInfo ) {
                 if( $relInfo[ 'relation_type' ] == 'HasOne' ) {
-                    $column = ( $relInfo[ 'source_column' ] ) ?: $id_name;
+                    $column = self::arrGet( $relInfo, 'source_column', $id_name );
                     array_push( $protected, $column );
                 }
             }
