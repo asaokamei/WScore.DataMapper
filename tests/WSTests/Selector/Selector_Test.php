@@ -1,5 +1,6 @@
 <?php
-namespace wsTests\Html;
+namespace WSTests\Selector;
+
 require( __DIR__ . '/../../autoloader.php' );
 use \WScore\Core;
 
