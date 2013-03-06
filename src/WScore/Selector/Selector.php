@@ -135,8 +135,8 @@ class Selector
         $option   = $this->prepareFilter( $option );
         $selector = new $class( $this->form, $styleToPass );
         $selector->set( $name, $option );
-        $selector->setItemData( $items );
-        $selector->setHtmlFilter( $htmlFilter );
+        if( $items ) $selector->setItemData( $items );
+        if( $htmlFilter ) $selector->setHtmlFilter( $htmlFilter );
         return $selector;
     }
 
