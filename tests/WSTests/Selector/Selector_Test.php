@@ -2,11 +2,12 @@
 namespace WSTests\Selector;
 
 require( __DIR__ . '/../../autoloader.php' );
-use \WScore\Core;
 
-Core::go();
-/** @var $selector \WScore\Html\Selector */
-$selector = Core::get( '\WScore\Html\Selector' );
+/** @var $container \WScore\DiContainer\Container */
+$container = include( __DIR__ . '/../../../vendor/wscore/dicontainer/scripts/instance.php' );
+
+/** @var $selector \WScore\Selector\Selector */
+$selector = $container->get( '\WScore\Selector\Selector' );
 
 /**
  * todo: make PHPUnit tests
