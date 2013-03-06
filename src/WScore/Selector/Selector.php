@@ -118,14 +118,14 @@ class Selector
     public function getInstance( $style, $name, $option=null, $items=array(), $htmlFilter=null )
     {
         $styleToPass = null;
-        if( class_exists( $class = '\WScore\Html\Selector_' . ucwords( $style ) ) ) {
-            $class = '\WScore\Html\Selector_' . ucwords( $style );
+        if( class_exists( $class = '\WScore\Selector\Element_' . ucwords( $style ) ) ) {
+            $class = '\WScore\Selector\Element_' . ucwords( $style );
         }        
         elseif( class_exists( $style ) ) {
             $class = $style;
         }
         else {
-            $class = 'WScore\Html\Selector';
+            $class = '\WScore\Selector\Selector';
             $styleToPass = $style;
         }
         /** @var $selector Selector */

@@ -1,5 +1,5 @@
 <?php
-namespace WScore\DataMapper\Selector;
+namespace WScore\Selector;
 
 class Element_DateMonth extends Selector
 {

@@ -1,5 +1,5 @@
 <?php
-namespace WScore\DataMapper\Selector;
+namespace WScore\Selector;
 
 class Element_DateDay extends Selector
 {
