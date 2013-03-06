@@ -181,18 +181,6 @@ class Model_Property
         return null;
     }
 
-    /**
-     * get full property of $name property.
-     *
-     * @param null $name
-     * @return array|null
-     */
-    public function getProperty( $name=null ) {
-        if( is_null( $name ) ) return $this->properties;
-        if( $this->exists( $name ) ) return $this->properties[ $name ];
-        return null;
-    }
-
     // +----------------------------------------------------------------------+
     //  manipulating data
     // +----------------------------------------------------------------------+
@@ -232,15 +220,6 @@ class Model_Property
             }
         }
         return $data;
-    }
-
-    /**
-     * @param null|string $name
-     * @return array
-     */
-    public function getPropertyList( $name=null ) {
-        $list = $this->protect( $this->getProperty() );
-        return $list;
     }
 
     // +----------------------------------------------------------------------+
