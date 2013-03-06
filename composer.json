@@ -11,7 +11,8 @@
     "require": {
         "wscore/dicontainer": "dev-master",
         "wscore/html": "dev-master",
-        "wscore/dbaccess": "dev-master"
+        "wscore/dbaccess": "dev-master",
+        "wscore/validation": "dev-master"
     },
     "autoload": {
         "psr-0": {
