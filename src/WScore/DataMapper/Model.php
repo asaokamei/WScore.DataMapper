@@ -33,16 +33,19 @@ class Model
     protected $relations  = array();
 
     /**
+     * @Inject
      * @var \WScore\DataMapper\Model_Persistence
      */
     public $persistence;
 
     /**
+     * @Inject
      * @var \WScore\DataMapper\Model_Presentation
      */
     public $presentation;
 
     /**
+     * @Inject
      * @var \WScore\DataMapper\Model_Property
      */
     public $property;
@@ -146,10 +149,13 @@ class Model
 
     /**
      * name of the model: i.e. class name.
+     * @param bool $short
      * @return string
      */
-    public function getModelName() {
-        return get_called_class();
+    public function getModelName( $short=false ) {
+        $class = get_called_class();
+        if( $short ) $class = substr( $class, strrpos( '\\', $class ) );
+        return $class;
     }
 
     /**
