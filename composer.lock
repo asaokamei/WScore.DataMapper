@@ -1,0 +1,142 @@
+{
+    "hash": "82f5914608627a530e5c71ba6a4a916d",
+    "packages": [
+        {
+            "name": "wscore/dbaccess",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/asaokamei/WScore.DbAccess.git",
+                "reference": "1515c6ed1d4e2fa5f76171ef4adaaea59fcebf22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/asaokamei/WScore.DbAccess/zipball/1515c6ed1d4e2fa5f76171ef4adaaea59fcebf22",
+                "reference": "1515c6ed1d4e2fa5f76171ef4adaaea59fcebf22",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "WScore\\DbAccess": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Asao Kamei",
+                    "email": "kamei@workspot.jp"
+                }
+            ],
+            "description": "Database access and query builder.",
+            "time": "2013-03-01 22:46:54"
+        },
+        {
+            "name": "wscore/dicontainer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/asaokamei/WScore.DiContainer.git",
+                "reference": "00c13b7190bf0521a30a1e3b7c071c2c770a36eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/asaokamei/WScore.DiContainer/zipball/00c13b7190bf0521a30a1e3b7c071c2c770a36eb",
+                "reference": "00c13b7190bf0521a30a1e3b7c071c2c770a36eb",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "WScore\\DiContainer": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Asao Kamei",
+                    "email": "kamei@workspot.jp"
+                }
+            ],
+            "description": "Simple DI container with auto-wiring.",
+            "time": "2013-02-23 00:28:51"
+        },
+        {
+            "name": "wscore/html",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/asaokamei/WScore.Html.git",
+                "reference": "f9f751e2c5f1b017ecd02543484b4a1cc12d33e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/asaokamei/WScore.Html/zipball/f9f751e2c5f1b017ecd02543484b4a1cc12d33e3",
+                "reference": "f9f751e2c5f1b017ecd02543484b4a1cc12d33e3",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "WScore\\Html": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Asao Kamei",
+                    "email": "kamei@workspot.jp"
+                }
+            ],
+            "description": "Html tag generator classes.",
+            "time": "2013-02-27 07:26:12"
+        },
+        {
+            "name": "wscore/validation",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/asaokamei/WScore.Validation.git",
+                "reference": "2f40a17491104d7e72afab0cfac9cc3063159ae6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/asaokamei/WScore.Validation/zipball/2f40a17491104d7e72afab0cfac9cc3063159ae6",
+                "reference": "2f40a17491104d7e72afab0cfac9cc3063159ae6",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "WScore\\Validation": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Asao Kamei",
+                    "email": "kamei@workspot.jp"
+                }
+            ],
+            "description": "Validation and filtration for values such as form input.",
+            "time": "2013-02-27 04:21:44"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "wscore/dicontainer": 20,
+        "wscore/html": 20,
+        "wscore/dbaccess": 20,
+        "wscore/validation": 20
+    },
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}
