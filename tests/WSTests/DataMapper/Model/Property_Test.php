@@ -98,4 +98,30 @@ class Property_Test extends \PHPUnit_Framework_TestCase
         $date = new \DateTime( $data[ 'mod_dt_friend' ] );
         $this->assertEquals( $now->diff( $date )->s, 0 );
     }
+    function test_restrict()
+    {
+        $data = array(
+            'friend_id'     => 'friend code',
+            'friend_name'   => 'name',
+            'friend_not'    => 'birthday',
+        );
+        $data = $this->property->restrict( $data );
+        $this->assertArrayHasKey(    'friend_id', $data );
+        $this->assertArrayHasKey(    'friend_name', $data );
+        $this->assertArrayNotHasKey( 'friend_not', $data );
+        $this->assertEquals( 2, count( $data ) );
+    }
+    function test_protect()
+    {
+        $data = array(
+            'friend_id'     => 'friend code',
+            'friend_name'   => 'name',
+            'friend_not'    => 'birthday',
+        );
+        $data = $this->property->protect( $data );
+        $this->assertArrayNotHasKey( 'friend_id', $data );
+        $this->assertArrayHasKey(    'friend_name', $data );
+        $this->assertArrayHasKey(    'friend_not', $data );
+        $this->assertEquals( 2, count( $data ) );
+    }
 }
