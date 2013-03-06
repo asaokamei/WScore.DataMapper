@@ -99,7 +99,7 @@ class Model_Property
      * @return bool
      */
     public function exists( $name ) {
-        return array_key_exists( $this->properties, $name );
+        return array_key_exists( $name, $this->properties );
     }
 
     /**
@@ -111,7 +111,7 @@ class Model_Property
      * @return bool
      */
     public function isProtected( $name ) {
-        return array_key_exists( $this->protected, $name );
+        return in_array( $name, $this->protected );
     }
 
     /**
