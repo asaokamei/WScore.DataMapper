@@ -192,11 +192,10 @@ class Model_Persistence
      * override this method (i.e. just tag some flag, etc.).
      *
      * @param string $id
-     * @return Query
      */
     public function delete( $id )
     {
-        return $this->query()->clearWhere()
+        $this->query()->clearWhere()
             ->id( $id )->limit(1)->execType( 'Delete' )->exec();
     }
 
