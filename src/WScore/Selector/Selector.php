@@ -45,8 +45,11 @@ class Selector
     /** @var callable|null */
     public $htmlFilter      = null;
 
-    /** @var Form */
+    /** 
+     * @var \WScore\Html\Forms 
+     */
     protected $form;
+    
     protected static $types = array(
         'form' => 'form',
         'edit' => 'form',
@@ -72,9 +75,9 @@ class Selector
 
     // +----------------------------------------------------------------------+
     /**
-     * @param Form $form
-     * @param null $style
-     * @DimInjection Fresh \WScore\Html\Form
+     * @Inject
+     * @param \WScore\Html\Forms $form
+     * @param string $style
      */
     public function __construct( $form, $style=null )
     {
@@ -87,7 +90,7 @@ class Selector
     }
 
     /**
-     * @return \WScore\Html\Form
+     * @return \WScore\Html\Forms
      */
     public function form() {
         return $this->form;
@@ -257,7 +260,7 @@ class Selector
      * create HTML Form element based on style.
      *
      * @param $value
-     * @return Form|Tags
+     * @return \WScore\Html\Elements
      */
     public function makeForm( $value )
     {
@@ -278,7 +281,7 @@ class Selector
 
     /**
      * @param $value
-     * @return Form|Tags
+     * @return \WScore\Html\Elements
      */
     public function formInput( $value )
     {
@@ -299,7 +302,7 @@ class Selector
 
     /**
      * @param $value
-     * @return Form|Tags
+     * @return \WScore\Html\Elements
      */
     public function formTextarea( $value ) {
         return $this->form->textArea( $this->name, $value, $this->attributes );
@@ -307,7 +310,7 @@ class Selector
 
     /**
      * @param $value
-     * @return Form|Tags
+     * @return \WScore\Html\Elements
      */
     public function formSelect( $value ) {
         $form = $this->form;
@@ -317,7 +320,7 @@ class Selector
 
     /**
      * @param $value
-     * @return Form|Tags
+     * @return \WScore\Html\Elements
      */
     public function formRadio( $value ) {
         return $this->form->radioBox( $this->name, $this->item_data, $value, $this->attributes );
@@ -325,7 +328,7 @@ class Selector
 
     /**
      * @param $value
-     * @return Form|Tags
+     * @return \WScore\Html\Elements
      */
     public function formCheck( $value ) {
         return $this->form->checkBox( $this->name, $this->item_data, $value, $this->attributes );
@@ -333,7 +336,7 @@ class Selector
 
     /**
      * @param $value
-     * @return Form|Tags
+     * @return \WScore\Html\Elements
      */
     public function formCheckToggle( $value ) {
         $forms = $this->form->input( 'hidden', $this->name, $this->item_data[0][0], $this->attributes );
