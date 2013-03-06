@@ -14,6 +14,11 @@ class Model_Presentation
     private $selInstances = array();
 
     /**
+     * @var array
+     */
+    private $ruleInstances = array();
+    
+    /**
      * @Inject
      * @var \WScore\Selector\Selector
      */
@@ -50,11 +55,17 @@ class Model_Presentation
     // +----------------------------------------------------------------------+
     //  Validator for input validation.
     // +----------------------------------------------------------------------+
+    public function getRule( $name ) {
+        if( isset( $this->ruleInstances[ $name ] ) ) {
+            return $this->ruleInstances[ $name ];
+        }
+        return $this->ruleInstances[ $name ] = $this->forgeRule( $name );
+    }
     /**
      * @param string $name
      * @return \WScore\Validation\Rules
      */
-    public function getValidationRule( $name )
+    public function forgeRule( $name )
     {
         $validateInfo = $this->property->getValidateInfo( $name );
         if( !$validateInfo ) return null;
@@ -65,6 +76,12 @@ class Model_Presentation
         }
         else {
             $rule = $this->rules->text( $filter );
+        }
+        if( $this->property->isRequired( $name ) ) {
+            $rule[ 'required' ] = true;
+        }
+        if( $pattern = $this->property->getPattern( $name ) ) {
+            $rule[ 'pattern' ] = $pattern;
         }
         return $rule;
     }
@@ -79,12 +96,12 @@ class Model_Presentation
      * @param string $name
      * @return null|object
      */
-    public function getSelInstance( $name )
+    public function getSelector( $name )
     {
         if( isset( $this->selInstances[ $name ] ) ) {
             return $this->selInstances[ $name ];
         }
-        return $this->selInstances[ $name ] = $this->getSelector( $name );
+        return $this->selInstances[ $name ] = $this->forgeSelector( $name );
     }
 
     /**
@@ -96,7 +113,7 @@ class Model_Presentation
      * @param string $name
      * @return null|object
      */
-    public function getSelector( $name )
+    public function forgeSelector( $name )
     {
         $selector = null;
         if( !$info = $this->property->getSelectInfo( $name ) ) return $selector;
