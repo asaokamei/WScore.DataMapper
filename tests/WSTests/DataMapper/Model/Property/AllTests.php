@@ -1,56 +1,10 @@
 <?php
 namespace WSTests\DataMapper\Model;
 
-require( __DIR__ . '/../../../autoloader.php' );
-
-class Property_Test extends \PHPUnit_Framework_TestCase
+class Property_AllTests extends \PHPUnit_Framework_TestCase
 {
     /** @var \WScore\DataMapper\Model_Property */
     public $property;
-
-    public $define;
-    public $relation;
-    public $validation;
-    public $selector;
-    // +----------------------------------------------------------------------+
-    function setUp()
-    {
-        /** @var $container \WScore\DiContainer\Container */
-        $container = include( __DIR__ . '/../../../../vendor/wscore/dicontainer/scripts/instance.php' );
-        $this->property = $container->get( '\WScore\DataMapper\Model_Property' );
-        $this->define = array(
-            'friend_id'     => array( 'friend code', 'number', ),
-            'friend_name'   => array( 'name',        'string', ),
-            'friend_bday'   => array( 'birthday',    'string', ),
-            'friend_tel'    => array( 'telephone',   'string', ),
-            'tag_id'        => array( 'tag ID',      'number', ),
-            'new_dt_friend' => array( 'created at',  'string', 'created_at'),
-            'mod_dt_friend' => array( 'updated at',  'string', 'updated_at'),
-        );
-        $this->relation = array(
-            'tag' => array(
-                'relation_type' => 'HasOne',
-                'target_model'  => 'WSTests\DbAccess\Tags',
-                'source_column' => 'tag_id',
-            ),
-        );
-        $this->validation = array(
-            'friend_id'   => array( 'number' ),
-            'friend_name' => array( 'text', 'required' => true ),
-            'friend_bday' => array( 'date', 'required' => false ),
-            'friend_tel'  => array( 'tel',  'pattern' => '[-0-9]*' ),
-        );
-        $this->selector = array(
-            'friend_id'   => array( 'Selector', 'text' ),
-            'friend_name' => array( 'Selector', 'text',    'width:43 | ime:on' ),
-            'friend_bday' => array( 'Selector', 'DateYMD', 'ime:off' ),
-            'friend_tel'  => array( 'Selector', 'text',    'ime:off' ),
-        );
-        $this->property->setTable( 'friend', 'friend_id' );
-        $this->property->prepare( $this->define, $this->relation );
-        $this->property->present( $this->validation, $this->selector );
-    }
-
     // +----------------------------------------------------------------------+
     function test_exists_method()
     {

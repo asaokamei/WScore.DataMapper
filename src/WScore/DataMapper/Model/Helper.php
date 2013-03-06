@@ -54,6 +54,48 @@ class Model_Helper
     }
 
     /**
+     * @param string $csv_string
+     * @return array
+     */
+    public static function analyzeCsv( $csv_string )
+    {
+        $list    = explode( "\n", $csv_string );
+        $result  = array();
+        $header  = true;
+        $section = false;
+        foreach( $list as $line )
+        {
+            $csv = str_getcsv( $line );
+            if( !$csv[0] ) continue;
+            if( substr( $csv[0], 0, 1 ) === '#' ) { // it's a section.
+                $section = strtolower( substr( $csv[0], 1 ) );
+                $header  = false;
+                continue;
+            }
+            if( !$header ) { // it's a header line.
+                $header = $csv;
+                continue;
+            }
+            if( $section ) {
+                $merged = self::mergeCsvWithHeader( $header, $csv );
+                $id = $merged[ 'id' ];
+                $result[ $section ][ $id ] = $merged;
+            }
+        }
+        return $result;
+    }
+
+    public static function mergeCsvWithHeader( $header, $csv )
+    {
+        $merged = array();
+        foreach( $header as $idx => $key ) {
+            $val = $csv[ $idx ];
+            $merged[ $key ] = $val;
+        }
+        return $merged;
+    }
+
+    /**
      * @param $define
      * @param $relations
      * @param $id_name

@@ -104,10 +104,10 @@ class Model_Presentation
         {
             $arg2     = Model_Helper::arrGet( $info, 2, null );
             $extra    = Model_Helper::arrGet( $info, 3, null );
-            $arg3 = Model_Helper::arrGet( $info, 'items',  array() );
+            $arg3 = Model_Helper::arrGet( $info, 'choice',  array() );
             $arg4 = Model_Helper::arrGet( $info, 'filter', null );
             if( is_array( $extra ) && !empty( $extra ) ) {
-                $arg3 = Model_Helper::arrGet( $extra, 'items',  array() );
+                $arg3 = Model_Helper::arrGet( $extra, 'choice',  array() );
                 $arg4 = Model_Helper::arrGet( $extra, 'filter', null );
             }
             $selector = $this->selector->getInstance( $info[1], $name, $arg2, $arg3, $arg4 );
