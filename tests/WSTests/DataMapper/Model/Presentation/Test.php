@@ -34,5 +34,15 @@ class Presentation_Test extends \PHPUnit_Framework_TestCase
         $this->assertFalse( $rule[ 'required' ] );
         $this->assertEquals( '[-0-9]*', $rule[ 'pattern' ] );
     }
+    function test_getRule()
+    {
+        $rule1 = $this->presentation->getRule( 'friend_name' );
+        $rule2 = $this->presentation->getRule( 'friend_name' );
+        $rule3 = $this->presentation->forgeRule( 'friend_name' );
+        $this->assertEquals(  $rule1, $rule2 );
+        $this->assertEquals(  $rule2, $rule3 );
+        $this->assertSame(    $rule1, $rule2 );
+        $this->assertNotSame( $rule2, $rule3 );
+    }
     // +----------------------------------------------------------------------+
 }
