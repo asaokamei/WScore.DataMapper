@@ -22,6 +22,7 @@ class Property_Test extends \PHPUnit_Framework_TestCase
             'friend_id'     => array( 'friend code', 'number', ),
             'friend_name'   => array( 'name',        'string', ),
             'friend_bday'   => array( 'birthday',    'string', ),
+            'friend_tel'    => array( 'telephone',   'string', ),
             'tag_id'        => array( 'tag ID',      'number' ),
             'new_dt_friend' => array( 'created at',  'string', 'created_at'),
             'mod_dt_friend' => array( 'updated at',  'string', 'updated_at'),
@@ -35,8 +36,9 @@ class Property_Test extends \PHPUnit_Framework_TestCase
         );
         $this->validation = array(
             'friend_id'   => array( 'number' ),
-            'friend_name' => array( 'text', 'required' ),
-            'friend_bday' => array( 'date', 'required' ),
+            'friend_name' => array( 'text', 'required' => true ),
+            'friend_bday' => array( 'date', 'required' => true ),
+            'friend_tel'  => array( 'tel',  'pattern' => '[-0-9]*' ),
         );
         $this->selector = array(
             'friend_id'   => array( 'Selector', 'text' ),
@@ -153,7 +155,13 @@ class Property_Test extends \PHPUnit_Framework_TestCase
     {
         $valid = $this->property->getValidateInfo( 'friend_bday' );
         $this->assertEquals( 'date', $valid[0] );
-        $this->assertEquals( 'required',  $valid[1] );
+        $this->assertEquals( true,  $valid['required'] );
+    }
+    function test_required()
+    {
+        $this->assertTrue(  $this->property->isRequired( 'friend_name' ) );
+        $this->assertFalse( $this->property->isRequired( 'friend_tel' ) );
+        $this->assertFalse( $this->property->isRequired( 'no_such_info' ) );
     }
     // +----------------------------------------------------------------------+
 }

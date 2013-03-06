@@ -262,4 +262,12 @@ class Model_Property
         return Model_Helper::arrGet( $this->validators, $name );
     }
 
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function isRequired( $name ) {
+        $info = Model_Helper::arrGet( $this->validators, $name );
+        return isset( $info[ 'required' ] ) ?: false;
+    }
 }
