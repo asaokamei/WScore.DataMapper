@@ -44,12 +44,6 @@ class Model_Property extends Model_PropertyAbstract
      */
     protected $selectors  = array();
 
-    /**
-     * for validation of inputs
-     * @var array
-     */
-    protected $validators = array();
-
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances.
     // +----------------------------------------------------------------------+

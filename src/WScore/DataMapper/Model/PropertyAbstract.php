@@ -46,6 +46,11 @@ class Model_PropertyAbstract
      */
     protected $protected  = array();
 
+    /**
+     * for validation of inputs
+     * @var array
+     */
+    protected $validators = array();
 
     /**
      * @param string $table
@@ -108,6 +113,14 @@ class Model_PropertyAbstract
         return null;
     }
 
+    /**
+     * @param $name
+     * @return null
+     */
+    public function getPattern( $name ) {
+        $info = Model_Helper::arrGet( $this->validators, $name );
+        return isset( $info[ 'pattern' ] ) ? $info[ 'pattern' ]: null;
+    }
 
     // +----------------------------------------------------------------------+
     //  manipulating data
