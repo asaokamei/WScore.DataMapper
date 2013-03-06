@@ -1,9 +1,8 @@
 <?php
+require_once( __DIR__ . '/../vendor/composer/ClassLoader.php' );
+$loader = new \Composer\Autoload\ClassLoader();
 
-spl_autoload_register(
-    function( $c ) {
-        $path = __DIR__ . '/' . strtr( $c, '\\_', '//' ).'.php';
-        @include_once $path;
-    }
-);
-
+$loader->add( 'WScore\DataMapper', __DIR__.'/../src' );
+$loader->add( 'WScore\Selector',   __DIR__.'/../src' );
+$loader->add( 'WSTests',   __DIR__ );
+$loader->register();
