@@ -21,10 +21,18 @@ class Presentation_Test extends \PHPUnit_Framework_TestCase
         $this->presentation->setProperty( $this->property );
     }
     // +----------------------------------------------------------------------+
-    function test0()
+    function test_forgeRule()
     {
-        $rule = $this->presentation->getValidationRule( 'friend_name' );
-        $this->assertTrue( $rule );
+        $rule = $this->presentation->forgeRule( 'friend_name' );
+        $this->assertEquals( 'WScore\Validation\Rules', get_class( $rule ) );
+        $this->assertEquals( 'text', $rule->getType() );
+        $this->assertTrue( $rule[ 'required' ] );
+
+        $rule = $this->presentation->forgeRule( 'friend_tel' );
+        $this->assertEquals( 'WScore\Validation\Rules', get_class( $rule ) );
+        $this->assertEquals( 'tel', $rule->getType() );
+        $this->assertFalse( $rule[ 'required' ] );
+        $this->assertEquals( '[-0-9]*', $rule[ 'pattern' ] );
     }
     // +----------------------------------------------------------------------+
 }
