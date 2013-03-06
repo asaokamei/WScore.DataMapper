@@ -7,12 +7,17 @@ class Property_Test extends \PHPUnit_Framework_TestCase
 {
     /** @var \WScore\DataMapper\Model_Property */
     public $property;
+
     public $define;
     public $relation;
+    public $validation;
+    public $selector;
     // +----------------------------------------------------------------------+
     function setUp()
     {
-        $this->property = new \WScore\DataMapper\Model_Property();
+        /** @var $container \WScore\DiContainer\Container */
+        $container = include( __DIR__ . '/../../../../vendor/wscore/dicontainer/scripts/instance.php' );
+        $this->property = $container->get( '\WScore\DataMapper\Model_Property' );
         $this->define = array(
             'friend_id'     => array( 'friend code', 'number', ),
             'friend_name'   => array( 'name',        'string', ),
@@ -28,8 +33,19 @@ class Property_Test extends \PHPUnit_Framework_TestCase
                 'source_column' => 'tag_id',
             ),
         );
+        $this->validation = array(
+            'friend_id'   => array( 'number' ),
+            'friend_name' => array( 'text', 'required' ),
+            'friend_bday' => array( 'date', 'required' ),
+        );
+        $this->selector = array(
+            'friend_id'   => array( 'Selector', 'text' ),
+            'friend_name' => array( 'Selector', 'text', 'width:43' ),
+            'friend_bday' => array( 'Selector', 'DateYMD' ),
+        );
         $this->property->setTable( 'friend', 'friend_id' );
         $this->property->prepare( $this->define, $this->relation );
+        $this->property->present( $this->validation, $this->selector );
     }
 
     // +----------------------------------------------------------------------+
@@ -56,6 +72,7 @@ class Property_Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue(  $this->property->isProtected( 'tag_id' ) );
     }
+    // +----------------------------------------------------------------------+
     function test_updatedAt()
     {
         $data = array( 'test' => 'fine' );
@@ -98,6 +115,7 @@ class Property_Test extends \PHPUnit_Framework_TestCase
         $date = new \DateTime( $data[ 'mod_dt_friend' ] );
         $this->assertEquals( $now->diff( $date )->s, 0 );
     }
+    // +----------------------------------------------------------------------+
     function test_restrict()
     {
         $data = array(
@@ -124,4 +142,18 @@ class Property_Test extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(    'friend_not', $data );
         $this->assertEquals( 2, count( $data ) );
     }
+    // +----------------------------------------------------------------------+
+    function test_selector_info()
+    {
+        $rule = $this->property->getSelectInfo( 'friend_bday' );
+        $this->assertEquals( 'Selector', $rule[0] );
+        $this->assertEquals( 'DateYMD',  $rule[1] );
+    }
+    function test_validation_info()
+    {
+        $valid = $this->property->getValidateInfo( 'friend_bday' );
+        $this->assertEquals( 'date', $valid[0] );
+        $this->assertEquals( 'required',  $valid[1] );
+    }
+    // +----------------------------------------------------------------------+
 }
