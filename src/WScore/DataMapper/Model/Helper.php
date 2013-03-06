@@ -6,6 +6,7 @@ namespace WScore\DataMapper;
  */
 class Model_Helper
 {
+    // +----------------------------------------------------------------------+
     private static $now=null;
     /**
      * @param mixed $datetime
@@ -53,6 +54,7 @@ class Model_Helper
         return $values;
     }
 
+    // +----------------------------------------------------------------------+
     /**
      * @param string $csv_string
      * @return array
@@ -89,12 +91,52 @@ class Model_Helper
     {
         $merged = array();
         foreach( $header as $idx => $key ) {
+            if( !$key ) continue;
             $val = $csv[ $idx ];
+            if( strtolower( $val ) === 'true'  ) $val = true;
+            if( strtolower( $val ) === 'false' ) $val = false;
             $merged[ $key ] = $val;
         }
         return $merged;
     }
 
+    public static function analyzeTypes( $properties, $relations, $id_name )
+    {
+        $dataTypes  = array();
+        $extraTypes = array();
+        foreach( $properties as $key => $info ) {
+            if( isset( $info[ 'bindType' ] ) ) {
+                $dataTypes[ $key ] = $info[ 'bindType' ];
+            }
+            if( isset( $info[ 'extra' ] ) ) {
+                $extraTypes[ $info[ 'extra' ] ][] = $key;
+            }
+        }
+        // set up primaryKey if id_name is set.
+        if( isset( $id_name ) ) {
+            $extraTypes[ 'primaryKey' ][] = $id_name;
+        }
+        $protected  = array();
+        // protect some properties in extraTypes.
+        foreach( $extraTypes as $type => $list ) {
+            if( in_array( $type, array( 'primaryKey', 'created_at', 'updated_at' ) ) ) {
+                foreach( $list as $key ) {
+                    array_push( $protected, $key );
+                }
+            }
+        }
+        // protect properties used for relation.
+        if( !empty( $relations ) ) {
+            foreach( $relations as $relInfo ) {
+                if( $relInfo[ 'type' ] == 'HasOne' ) {
+                    $column = self::arrGet( $relInfo, 'source', $id_name );
+                    array_push( $protected, $column );
+                }
+            }
+        }
+        return compact( 'dataTypes', 'extraTypes', 'protected' );
+    }
+    // +----------------------------------------------------------------------+
     /**
      * @param $define
      * @param $relations
@@ -141,6 +183,7 @@ class Model_Helper
         return compact( 'properties', 'dataTypes', 'extraTypes', 'protected' );
     }
 
+    // +----------------------------------------------------------------------+
     /**
      * @param array $arr
      * @param string $key

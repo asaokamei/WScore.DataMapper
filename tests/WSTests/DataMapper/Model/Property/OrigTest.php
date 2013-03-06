@@ -3,7 +3,7 @@ namespace WSTests\DataMapper\Model;
 
 require( __DIR__ . '/../../../../autoloader.php' );
 
-class Property_Test extends Property_AllTests
+class Property_OrigTest extends Property_AllTests
 {
     /** @var \WScore\DataMapper\Model_Property */
     public $property;
@@ -43,10 +43,10 @@ class Property_Test extends Property_AllTests
             'friend_tel'  => array( 'tel',  'pattern' => '[-0-9]*' ),
         );
         $this->selector = array(
-            'friend_id'   => array( 'Selector', 'text' ),
-            'friend_name' => array( 'Selector', 'text',    'extra' => 'width:43 | ime:on' ),
-            'friend_bday' => array( 'Selector', 'DateYMD', 'extra' => 'ime:off' ),
-            'friend_tel'  => array( 'Selector', 'text',    'extra' => 'ime:off' ),
+            'friend_id'   => array( 'Selector', 'type' => 'text' ),
+            'friend_name' => array( 'Selector', 'type' => 'text',    'extra' => 'width:43 | ime:on' ),
+            'friend_bday' => array( 'Selector', 'type' => 'DateYMD', 'extra' => 'ime:off' ),
+            'friend_tel'  => array( 'Selector', 'type' => 'text',    'extra' => 'ime:off' ),
         );
         $this->property->setTable( 'friend', 'friend_id' );
         $this->property->prepare( $this->define, $this->relation );

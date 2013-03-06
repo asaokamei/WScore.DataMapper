@@ -1,4 +1,4 @@
-"#definition",,,,,,,,
+"#properties",,,,,,,,
 "id","active","label","dbDef","notNull","default","required","extra","bindType"
 "friend_id",,"friend code","serial","TRUE",,,,
 "friend_name",,"name","text","TRUE","''","TRUE",,
@@ -17,7 +17,7 @@
 "friend_id",,,,,,,,
 "friend_name","Selector","text",,"ime:on",,,,
 "gender","Selector","radio","[m:male,f:female]",,,,,
-"friend_bday","Selector","date",,"ime:off",,,,
+"friend_bday","Selector","DateYMD",,"ime:off",,,,
 "friend_tel","Selector","tel",,,,,,
 "tag_id","Selector",,,,,,,
 "new_dt_friend",,,,,,,,

@@ -104,17 +104,15 @@ class Property_AllTests extends \PHPUnit_Framework_TestCase
     {
         $rule = $this->property->getSelectInfo( 'friend_bday' );
         $this->assertEquals( 'Selector', $rule[0] );
-        $this->assertEquals( 'DateYMD',  $rule[1] );
+        $this->assertEquals( 'DateYMD',  $rule[ 'type' ] );
     }
     function test_validation_info()
     {
         $valid = $this->property->getValidateInfo( 'friend_bday' );
         $this->assertEquals( 'date', $valid[0] );
-        $this->assertEquals( false,  $valid['required'] );
 
         $valid = $this->property->getValidateInfo( 'friend_name' );
         $this->assertEquals( 'text', $valid[0] );
-        $this->assertEquals( true,   $valid['required'] );
     }
     function test_required()
     {
