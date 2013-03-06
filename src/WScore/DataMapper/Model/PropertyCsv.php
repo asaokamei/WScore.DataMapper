@@ -126,15 +126,6 @@ class Model_PropertyCsv
         $this->protected  = $return[ 'protected' ];
     }
 
-    /**
-     * @param array $validation
-     * @param array $selector
-     */
-    public function present( $validation, $selector )
-    {
-        $this->validators = $validation;
-        $this->selectors  = $selector;
-    }
     // +----------------------------------------------------------------------+
     //  Managing Properties.
     // +----------------------------------------------------------------------+
@@ -259,4 +250,5 @@ class Model_PropertyCsv
         $info = Model_Helper::arrGet( $this->properties, $name );
         return isset( $info[ 'required' ] ) ? $info[ 'required' ]===true: false;
     }
+    // +----------------------------------------------------------------------+
 }
