@@ -323,7 +323,7 @@ class Selector
      * @return \WScore\Html\Elements
      */
     public function formRadio( $value ) {
-        return $this->form->radioBox( $this->name, $this->item_data, $value, $this->attributes );
+        return $this->form->radioList( $this->name, $this->item_data, $value, $this->attributes );
     }
 
     /**
@@ -331,7 +331,7 @@ class Selector
      * @return \WScore\Html\Elements
      */
     public function formCheck( $value ) {
-        return $this->form->checkBox( $this->name, $this->item_data, $value, $this->attributes );
+        return $this->form->checkList( $this->name, $this->item_data, $value, $this->attributes );
     }
 
     /**

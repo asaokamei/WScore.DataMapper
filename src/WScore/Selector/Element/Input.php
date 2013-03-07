@@ -1,8 +1,20 @@
 <?php
 namespace WScore\Selector;
 
-class Element_Input extends Selector
+class Element_Input extends SelectorAbstract
 {
+    /**
+     * @Inject
+     * @param \WScore\Html\Forms $form
+     * @param string $style
+     */
+    public function __construct( $form, $style=null )
+    {
+        $this->form = $form;
+        if( $style ) $this->style = $style;
+        // setup filter for html safe value.
+        $this->htmlFilter = array( $this, 'htmlSafe' );
+    }
     /**
      * make FORM type of value.
      * create HTML Form element based on style.

@@ -21,6 +21,8 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
     }
     // +----------------------------------------------------------------------+
+    //  tests for input:[type=]
+    // +----------------------------------------------------------------------+
     function test_text()
     {
         $selector = $this->selector;
@@ -106,6 +108,9 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( '<input type="password" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
 
     }
+    // +----------------------------------------------------------------------+
+    //  test on SelectDiv
+    // +----------------------------------------------------------------------+
     function test_DateYMD()
     {
         // test Selector_SelYMD
@@ -206,6 +211,78 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
 ', $form );
 
     }
+    // +----------------------------------------------------------------------+
+    //  test on Radio/Check/Select
+    // +----------------------------------------------------------------------+
+    function test_select()
+    {
+        // test Selector_Mail
+
+        $selector = $this->selector;
+        $choices  = array(
+            array( 'M', 'male' ),
+            array( 'F', 'female' ),
+        );
+        $sel = $selector->getInstance( 'select', 'test', null, $choices );
+
+        $text = $sel->popHtml( 'html', 'F' ); // should be female.
+        $form = (string) $sel->popHtml( 'form', 'M' );
+
+        $this->assertEquals( '<select name="test" class="FormSelector">
+  <option value="M" selected="selected">male</option>
+  <option value="F">female</option>
+</select>
+', $form );
+        $this->assertEquals( 'female', $text );
+
+    }
+    function test_radio()
+    {
+        // test Selector_Mail
+
+        $selector = $this->selector;
+        $choices  = array(
+            array( 'M', 'male' ),
+            array( 'F', 'female' ),
+        );
+        $sel = $selector->getInstance( 'radio', 'test', null, $choices );
+
+        $text = $sel->popHtml( 'html', 'F' ); // should be female.
+        $form = (string) $sel->popHtml( 'form', 'M' );
+
+        $this->assertEquals( '<div class="forms-DivList"><nl>
+  <li><label><input type="radio" name="test" value="M" class="FormSelector" checked="checked" />male</label></li>
+  <li><label><input type="radio" name="test" value="F" class="FormSelector" />female</label></li>
+</nl>
+</div>
+', $form );
+        $this->assertEquals( 'female', $text );
+
+    }
+    function test_check()
+    {
+        // test Selector_Mail
+
+        $selector = $this->selector;
+        $choices  = array(
+            array( 'M', 'male' ),
+            array( 'F', 'female' ),
+        );
+        $sel = $selector->getInstance( 'check', 'test', null, $choices );
+
+        $text = $sel->popHtml( 'html', 'F' ); // should be female.
+        $form = (string) $sel->popHtml( 'form', 'M' );
+
+        $this->assertEquals( '<div class="forms-DivList"><nl>
+  <li><label><input type="checkbox" name="test[]" value="M" class="FormSelector" checked="checked" />male</label></li>
+  <li><label><input type="checkbox" name="test[]" value="F" class="FormSelector" />female</label></li>
+</nl>
+</div>
+', $form );
+        $this->assertEquals( 'female', $text );
+
+    }
+    // +----------------------------------------------------------------------+
 }
 
 
