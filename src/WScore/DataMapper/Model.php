@@ -15,6 +15,9 @@ class Model
      */
     protected $id_name;
 
+    /** @var \WScore\DataMapper\Entity_Interface    return class from Pdo            */
+    public $recordClassName = 'WScore\DataMapper\Entity_Generic';
+
     /**
      * define property and data type. from this data,
      * properties, extraTypes and dataTypes are generated.
@@ -169,4 +172,22 @@ class Model
         if( $name ) return Model_Helper::arrGet( $this->relations, $name );
         return $this->relations;
     }
+    /**
+     * @param array $data
+     * @return \WScore\DataMapper\Entity_Interface
+     */
+    public function getRecord( $data=array() )
+    {
+        /** @var $record \WScore\DataMapper\Entity_Interface */
+        $class  = ( $this->entityClass ) ?: $this->recordClassName;
+        $record = new $class( $this, Entity_Interface::_ENTITY_TYPE_NEW_ );
+        $this->entityClass = null;
+        if( !empty( $data ) ) {
+            foreach( $data as $key => $val ) {
+                $record->$key = $val;
+            }
+        }
+        return $record;
+    }
+
 }
