@@ -55,6 +55,16 @@ class Model_Persistence
     }
 
     /**
+     * @param string $table
+     * @param string $id_name
+     */
+    public function setTable( $table, $id_name )
+    {
+        $this->table   = $table;
+        $this->id_name = $id_name;
+    }
+
+    /**
      * @param \WScore\DataMapper\Model_Property $property
      */
     public function setProperty( $property )
@@ -71,7 +81,7 @@ class Model_Persistence
         // set fetch mode after query is cloned in table() method.
         return $this->query
             ->table( $this->table, $this->id_name )
-            ->setFetchMode( \PDO::FETCH_CLASS, $class, array( $this, 'get' ) );
+            ->setFetchMode( \PDO::FETCH_ASSOC );
     }
 
     /**
@@ -129,7 +139,7 @@ class Model_Persistence
      * @param string|array $value
      * @param null         $column
      * @param bool|string  $packed
-     * @return array
+     * @return \PdoStatement
      */
     public function fetch( $value, $column=null, $packed=false )
     {
