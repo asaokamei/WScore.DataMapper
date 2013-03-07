@@ -1,32 +1,6 @@
 <?php
 namespace WScore\Selector;
 
-/*
-TODO: move Selector stuff to Selector folder.
-
-Selector( $style, $name, $opt1, $opt2, $ime );
-
-class htmlText extends Selector {
-    function __construct( $name, $width, $limit, $ime ) {
-        $this->style = 'text';
-        $this->name  = $name;
-        $this->width = $width;
-        $this->maxlength = $limit;
-        $this->setIME( $ime );
-    }
-}
-
-class sel_active_flag extends Selector {
-    function __construct( $name, $opt1, $opt2, $ime ) {
-        // code should work as is pretty much.
-    }
-}
-
-class selYear ...
-
-class selDateDs ...
-
-*/
 class Selector
 {
     /**
