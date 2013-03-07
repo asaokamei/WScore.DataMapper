@@ -109,4 +109,18 @@ class ElementAbstract
     public function htmlSafe( $string ) {
         return htmlentities( $string, ENT_QUOTES, 'UTF-8');
     }
+
+    /**
+     * @param array $arr
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function arrGet( $arr, $key, $default=null ) {
+        if( array_key_exists( $key, $arr ) ) {
+            return $arr[ $key ];
+        }
+        return $default;
+    }
+
 }
