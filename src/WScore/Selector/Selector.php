@@ -49,7 +49,7 @@ class Selector
      * @param string   $option
      * @param array    $items
      * @param \Closure $htmlFilter
-     * @return Selector
+     * @return ElementAbstract|ElementItemizedAbstract
      * @throws \RuntimeException
      */
     public function getInstance( $style, $name, $option=null, $items=array(), $htmlFilter=null )
