@@ -95,17 +95,6 @@ class Selector
     public function form() {
         return $this->form;
     }
-    /**
-     * set up Selector. make sure to overload this function. 
-     *
-     * @param string      $name
-     * @param array $option
-     */
-    public function set( $name, $option=array() )
-    {
-        $this->name  = $name;
-        $this->attributes = array_merge( $this->attributes, $option );
-    }
 
     /**
      * get instances of Selector for various styles in Selector_*. 
@@ -139,150 +128,6 @@ class Selector
         if( $items ) $selector->setItemData( $items );
         if( $htmlFilter ) $selector->setHtmlFilter( $htmlFilter );
         return $selector;
-    }
-
-    // +----------------------------------------------------------------------+
-    /**
-     * pops HTML/FORM/RAW ($type) of the Selector for a given $value.
-     *
-     * @param $type
-     * @param null $value
-     * @return mixed
-     */
-    public function popHtml( $type, $value=null )
-    {
-        $type = \strtolower( $type );
-        $type = ( isset( static::$types[ $type ] ) ) ? ucwords( static::$types[ $type ] ) : 'Html';
-        $method = 'make' . $type;
-        return $this->$method( $value );
-    }
-
-    /**
-     * makes RAW type of a value.
-     * returns as is for single value, returns as 'div > nl > li' for arrays.
-     *
-     * @param $value
-     * @return mixed
-     */
-    public function makeRaw( $value ) {
-        if( is_array( $value ) ) {
-            if( count( $value ) > 1 ) return $this->form->lists( $value );
-            $value = array_pop( $value );
-        }
-        return $value;
-    }
-    // +----------------------------------------------------------------------+
-    /**
-     * makes HTML safe value.
-     *
-     * @param string|array $value
-     * @return string|void
-     */
-    public function makeHtml( $value )
-    {
-        if( !empty( $this->item_data ) && !in_array( $this->style, array( 'text' ) ) ) {
-            // match with items. assumed values are safe.
-            $value = $this->makeHtmlItems( $value );
-        }
-        elseif( is_array( $value ) ) {
-            // input is an array. make all safely encode.
-            array_walk( $value, $this->htmlFilter );
-        }
-        else {
-            // encode input value for safety.
-            $value = call_user_func( $this->htmlFilter, $value );
-        }
-        return $this->makeRaw( $value );
-    }
-
-    /**
-     * returns itemized value as an array.
-     * replaces the value with err_msg_empty if value fails to match with item_data.
-     *
-     * @param $value
-     * @return array
-     */
-    public function makeHtmlItems( $value )
-    {
-        if( !is_array( $value ) ) $value = array( $value );
-        foreach( $value as $key => &$val ) {
-            if( $string = $this->findValueFromItems( $val ) ) {
-                $value[ $key ] = $string;
-            }
-            else {
-                $value[ $key ] = $this->err_msg_empty;
-            }
-        }
-        return $value;
-    }
-
-    /**
-     * finds a value for a given single value from itemized data.
-     *
-     * @param $value
-     * @return bool
-     */
-    public function findValueFromItems( &$value )
-    {
-        foreach( $this->item_data as $item ) {
-            if( $value == $this->arrGet( $item, 0 ) ) {
-                return $item[1];
-            }
-        }
-        return false;
-    }
-    // +----------------------------------------------------------------------+
-    /**
-     * make FORM type of value.
-     * create HTML Form element based on style.
-     *
-     * @param $value
-     * @return \WScore\Html\Elements
-     */
-    public function makeForm( $value )
-    {
-        if( is_null( $value ) ) { // use default value if value is not set.
-            $value = $this->default_items;
-        }
-        if( $this->add_head_option && !empty( $this->item_data ) ) {
-            $this->item_data = array_merge(
-                array( array( '', $this->add_head_option ) ), // first item with empty value.
-                $this->item_data
-            );
-        }
-        $style = strtolower( $this->style );
-        $formStyle = ( isset( static::$formStyle[ $style ] ) ) ? static::$formStyle[ $style ]: 'input';
-        $method = 'form' . ucwords( $formStyle ); // select, textarea, radioBox, checkBox
-        return $this->$method( $value );
-    }
-
-    /**
-     * @param $value
-     * @return \WScore\Html\Elements
-     */
-    public function formInput( $value )
-    {
-        $input = $this->form->input( $this->style, $this->name, $value, $this->attributes );
-        if( empty( $this->item_data ) ) { return $input; }
-        $id = $this->name . '_list';
-        $input->list( $id );
-        /** @var $lists Form */
-        $lists = $this->form->datalist()->id( $id );
-        foreach( $this->item_data as $item ) {
-            $option = $this->form->option()->value( $item );
-            $option->_noBodyTag = true;
-            $lists->_contain( $option );
-        }
-        $div = $this->form->div( $input, $lists );
-        return $div;
-    }
-
-    /**
-     * @param $value
-     * @return \WScore\Html\Elements
-     */
-    public function formTextarea( $value ) {
-        return $this->form->textArea( $this->name, $value, $this->attributes );
     }
 
     /**
@@ -322,19 +167,6 @@ class Selector
             }
         }
         return $filter_array;
-    }
-
-    /**
-     * @param array $arr
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function arrGet( $arr, $key, $default=null ) {
-        if( array_key_exists( $key, $arr ) ) {
-            return $arr[ $key ];
-        }
-        return $default;
     }
     // +----------------------------------------------------------------------+
 }
