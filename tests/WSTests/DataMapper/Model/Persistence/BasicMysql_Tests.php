@@ -133,5 +133,19 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
             $this->assertEquals( $data[$key], $fetched->$key );
         }
     }
+    function test_delete()
+    {
+        $stmt = $this->friend->fetch( 'M', 'gender' );
+        $fetched = $stmt->fetchAll();
+        $this->assertEquals( 2, count( $fetched ) );
+
+        $id_to_delete = $fetched[0];
+        $this->friend->delete( $id_to_delete );
+
+        $stmt = $this->friend->fetch( 'M', 'gender' );
+        $fetched = $stmt->fetchAll();
+        $this->assertEquals( 1, count( $fetched ) );
+        $this->assertNotEquals( $id_to_delete, $fetched[0]['friend_id'] );
+    }
     // +----------------------------------------------------------------------+
 }
