@@ -77,17 +77,4 @@ class ElementItemizedAbstract extends ElementAbstract
     public function makeForm( $value ) {
     }
 
-    /**
-     * @param array $arr
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function arrGet( $arr, $key, $default=null ) {
-        if( array_key_exists( $key, $arr ) ) {
-            return $arr[ $key ];
-        }
-        return $default;
-    }
-
 }
