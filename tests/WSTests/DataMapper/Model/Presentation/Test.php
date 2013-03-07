@@ -54,7 +54,7 @@ class Presentation_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 'on', $sel->attributes['ime'] );
 
         $sel = $this->presentation->forgeSelector( 'gender' );
-        $this->assertEquals( 'WScore\Selector\Selector', get_class( $sel ) );
+        $this->assertEquals( 'WScore\Selector\Element_Radio', get_class( $sel ) );
         $this->assertEquals( 'gender', $sel->name );
         $this->assertArrayNotHasKey( 'ime', $sel->attributes );
     }
