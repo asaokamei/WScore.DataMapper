@@ -361,6 +361,29 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
 
     }
     // +----------------------------------------------------------------------+
+    function test_text_with_list()
+    {
+        $selector = $this->selector;
+        $items = array( 'very good', 'excellent' );
+        $sel = $selector->getInstance( 'text', 'test' );
+        $sel->setItemData( $items );
+
+        $text = 'text <strong>bold</strong> output';
+        $safe = $this->h( $text );
+        $form = (string) $sel->popHtml( 'form', $text );
+
+        $this->assertEquals( 'WScore\Selector\Element_Text', get_class( $sel ) );
+        $this->assertEquals( $safe, $sel->popHtml( 'name', $text ) );
+        $this->assertContains( $safe, $form );
+        $this->assertEquals( '<div>
+  <input type="text" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" list="test_list" />
+  <datalist id="test_list">
+    <input type="option" name="" value="very good" />
+    <input type="option" name="" value="excellent" />
+  </datalist>
+</div>
+', $form );
+    }
 }
 
 

@@ -28,6 +28,16 @@ class Element_Input extends ElementAbstract
         if( empty( $this->item_data ) ) {
             return $input;
         }
-        return $input;
+        $id = $this->name . '_list';
+        $input->list( $id );
+        /** @var $lists \WScore\Html\Forms */
+        $lists = $this->form->elements->datalist()->id( $id );
+        foreach( $this->item_data as $item ) {
+            $option = $this->form->option()->value( $item );
+            $option->_noBodyTag = true;
+            $lists->_contain( $option );
+        }
+        $div = $this->form->elements->div( $input, $lists );
+        return $div;
     }
 }
