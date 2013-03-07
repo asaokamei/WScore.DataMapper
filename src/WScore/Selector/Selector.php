@@ -121,8 +121,9 @@ class Selector
     public function getInstance( $style, $name, $option=null, $items=array(), $htmlFilter=null )
     {
         $styleToPass = null;
-        if( class_exists( $class = '\WScore\Selector\Element_' . ucwords( $style ) ) ) {
-            $class = '\WScore\Selector\Element_' . ucwords( $style );
+        $formStyle = isset( static::$formStyle[ $style ] ) ? static::$formStyle[ $style ]: $style;
+        if( class_exists( $class = '\WScore\Selector\Element_' . ucwords( $formStyle ) ) ) {
+            $class = '\WScore\Selector\Element_' . ucwords( $formStyle );
         }        
         elseif( class_exists( $style ) ) {
             $class = $style;
