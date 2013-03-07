@@ -18,7 +18,8 @@ class Selector
         'radio'       => 'radio',
         'radio_hor'   => 'radio',
         'radio_ver'   => 'radio',
-        'checktoggle'    => 'checkToggle',
+        'toggle'      => 'checkToggle',
+        'checktoggle' => 'checkToggle',
     );
 
     // +----------------------------------------------------------------------+
@@ -53,7 +54,6 @@ class Selector
      */
     public function getInstance( $style, $name, $option=null, $items=array(), $htmlFilter=null )
     {
-        $styleToPass = null;
         $formStyle = isset( static::$formStyle[ $style ] ) ? static::$formStyle[ $style ]: $style;
         if( class_exists( $class = '\WScore\Selector\Element_' . ucwords( $formStyle ) ) ) {
             $class = '\WScore\Selector\Element_' . ucwords( $formStyle );
@@ -63,11 +63,10 @@ class Selector
         }
         else {
             $class = '\WScore\Selector\Selector';
-            $styleToPass = $style;
         }
         /** @var $selector ElementAbstract */
         $option   = $this->prepareFilter( $option );
-        $selector = new $class( $this->form, $styleToPass );
+        $selector = new $class( $this->form );
         $selector->set( $name, $option );
         if( $items ) $selector->setItemData( $items );
         if( $htmlFilter ) $selector->setHtmlFilter( $htmlFilter );
