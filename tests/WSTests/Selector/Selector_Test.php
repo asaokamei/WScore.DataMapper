@@ -108,6 +108,30 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( '<input type="password" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
 
     }
+    function test_date()
+    {
+        // test Selector_Mail
+
+        $selector = $this->selector;
+        $sel = $selector->getInstance( 'date', 'test' );
+
+        $text = 'text <strong>bold</strong> output';
+        $safe = $this->h( $text );
+        $form = (string) $sel->popHtml( 'form', $text );
+
+        $this->assertEquals( 'WScore\Selector\Element_Date', get_class( $sel ) );
+        $this->assertEquals( $safe, $sel->popHtml( 'name', $text ) );
+        $this->assertContains( $safe, $form );
+        $this->assertEquals( '<input type="date" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
+
+        // shows date like 2012.01.23.
+        $htmlFilter = function( $val ) {
+            return str_replace( '-', '.', $val );
+        };
+        $sel->setHtmlFilter( $htmlFilter );
+        $dotted = (string) $sel->popHtml( 'html', '1999-12-31' );
+        $this->assertEquals( '1999.12.31', $dotted );
+    }
     // +----------------------------------------------------------------------+
     //  test on SelectDiv
     // +----------------------------------------------------------------------+
