@@ -141,21 +141,6 @@ class Selector
         return $selector;
     }
 
-    /**
-     * @param array $items
-     */
-    public function setItemData( $items ) {
-        $this->item_data = $items;
-    }
-
-    /**
-     * @param \Closure $filter
-     */
-    public function setHtmlFilter( $filter ) {
-        if( $filter instanceof \Closure ) {
-            $this->htmlFilter = $filter;
-        }
-    }
     // +----------------------------------------------------------------------+
     /**
      * pops HTML/FORM/RAW ($type) of the Selector for a given $value.
@@ -170,15 +155,6 @@ class Selector
         $type = ( isset( static::$types[ $type ] ) ) ? ucwords( static::$types[ $type ] ) : 'Html';
         $method = 'make' . $type;
         return $this->$method( $value );
-    }
-
-    /**
-     * @param $type
-     * @param $value
-     * @return mixed
-     */
-    public function show( $type, $value=null ) {
-        return $this->popHtml( $type, $value );
     }
 
     /**
@@ -313,32 +289,6 @@ class Selector
      * @param $value
      * @return \WScore\Html\Elements
      */
-    public function formSelect( $value ) {
-        $form = $this->form;
-        if( $this->style == 'mult_select' ) $form->multiple = true;
-        return $form->select( $this->name, $this->item_data, $value, $this->attributes );
-    }
-
-    /**
-     * @param $value
-     * @return \WScore\Html\Elements
-     */
-    public function formRadio( $value ) {
-        return $this->form->radioList( $this->name, $this->item_data, $value, $this->attributes );
-    }
-
-    /**
-     * @param $value
-     * @return \WScore\Html\Elements
-     */
-    public function formCheck( $value ) {
-        return $this->form->checkList( $this->name, $this->item_data, $value, $this->attributes );
-    }
-
-    /**
-     * @param $value
-     * @return \WScore\Html\Elements
-     */
     public function formCheckToggle( $value ) {
         $forms = $this->form->input( 'hidden', $this->name, $this->item_data[0][0], $this->attributes );
         if( $value && $value == $this->item_data[1][0] ) {
@@ -347,14 +297,7 @@ class Selector
         $forms .= $this->form->checkLabel( $this->name, $this->item_data[1][0], $this->item_data[1][1], $this->attributes );
         return $forms;
     }
-    // +----------------------------------------------------------------------+
-    /**
-     * @param $class
-     */
-    public function addClass( $class ) {
-        $this->attributes[ 'class' ] .= " $class";
-    }
-    
+
     /**
      * prepares filter if it is in string; 'rule1:parameter1|rule2:parameter2'
      * This is copied from Validator. DRY!
