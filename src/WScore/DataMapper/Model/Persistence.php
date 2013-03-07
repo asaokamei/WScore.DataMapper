@@ -14,31 +14,11 @@ class Model_Persistence
     /** @var string                          name of primary key             */
     protected $id_name;
 
-    /**
-     * define property and data type. from this data,
-     * properties, extraTypes and dataTypes are generated.
-     * definition = array(
-     *   column => [ name, data_type, extra_info ],
-     * )
-     *
-     * @var array
-     */
-    protected $definition = array();
-
-    /** @var array                           relations settings              */
-    protected $relations  = array();
-
     /** 
      * @Inject
      * @var \WScore\DbAccess\Query  
      */
     protected $query;
-
-    /** @var \WScore\DataMapper\Entity_Interface    return class from Pdo            */
-    public $recordClassName = 'WScore\DataMapper\Entity_Generic';
-
-    /** @var null|string    entity class name for quick methods (find/fetch). */
-    protected $entityClass = null;
 
     /**
      * @var \WScore\DataMapper\Model_Property
@@ -73,60 +53,16 @@ class Model_Persistence
     }
 
     /**
-     * @param null|string $class   entity class name.
      * @return \WScore\DbAccess\Query
      */
-    public function query( $class=null ) {
-        if( !$class ) $class = $this->recordClassName;
+    public function query() {
         // set fetch mode after query is cloned in table() method.
         return $this->query
-            ->table( $this->table, $this->id_name )
-            ->setFetchMode( \PDO::FETCH_ASSOC );
+            ->table( $this->table, $this->id_name );
     }
-
-    /**
-     * set entity class for quick methods (find/fetch).
-     *
-     * @param $class
-     */
-    public function setEntityClass( $class ) {
-        $this->entityClass = $class;
-    }
-    /**
-     * @param array $data
-     * @return \WScore\DataMapper\Entity_Interface
-     */
-    public function getRecord( $data=array() )
-    {
-        /** @var $record \WScore\DataMapper\Entity_Interface */
-        $class  = ( $this->entityClass ) ?: $this->recordClassName;
-        $record = new $class( $this, Entity_Interface::_ENTITY_TYPE_NEW_ );
-        $this->entityClass = null;
-        if( !empty( $data ) ) {
-            foreach( $data as $key => $val ) {
-                $record->$key = $val;
-            }
-        }
-        return $record;
-    }
-
     // +----------------------------------------------------------------------+
     //  Basic DataBase Access.
     // +----------------------------------------------------------------------+
-    /**
-     * @param string $id
-     * @return Entity_Interface
-     */
-    public function find( $id ) {
-        if( !$id ) return null;
-        $limit = count( $id );
-        $record = $this->query( $this->entityClass )->id( $id )->limit( $limit )->select();
-        $this->entityClass = null;
-        if( !is_array( $id ) ) $record = $record[0];
-        /** @var $record Entity_Interface */
-        return $record;
-    }
-
     /**
      * fetches entities from simple condition.
      * use $select to specify column name to get only the column you want.
@@ -143,8 +79,7 @@ class Model_Persistence
      */
     public function fetch( $value, $column=null, $packed=false )
     {
-        $query = $this->query( $this->entityClass );
-        $this->entityClass = null;
+        $query = $this->query();
         if( !$column         ) $column = $this->id_name;
         if( $packed === true ) $packed = $column;
         if( is_null( $value ) ) {
