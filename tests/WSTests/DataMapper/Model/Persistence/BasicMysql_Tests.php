@@ -121,5 +121,17 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
         $fetched = $stmt->fetch();
         $this->assertEquals( '999-9999-9999', $fetched[ 'friend_tel' ] );
     }
+    function test_fetch_mode_to_get_object()
+    {
+        $data = $this->getFriendData(3);
+        $stmt = $this->friend->fetch( '3' );
+        $stmt->setFetchMode( \PDO::FETCH_CLASS, 'stdClass' );
+        $fetched = $stmt->fetch();
+        $this->assertTrue( is_object( $fetched ) );
+        $list = array( 'friend_name', 'gender', 'friend_bday', 'friend_tel' );
+        foreach( $list as $key ) {
+            $this->assertEquals( $data[$key], $fetched->$key );
+        }
+    }
     // +----------------------------------------------------------------------+
 }
