@@ -1,7 +1,7 @@
 <?php
 namespace WScore\Selector;
 
-class Element_Password extends Selector
+class Element_Password extends Element_Input
 {
     /**
      * @param Form $form
