@@ -1,7 +1,7 @@
 <?php
 namespace WScore\Selector;
 
-class SelectorAbstract
+class ElementAbstract
 {
     public $types = array(
         'edit' => 'Form',
