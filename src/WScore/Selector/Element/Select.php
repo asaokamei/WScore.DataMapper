@@ -18,9 +18,6 @@ class Element_Select extends ElementItemizedAbstract
      */
     public function makeForm( $value ) {
         $form = $this->form;
-        if( $this->style == 'mult_select' ) {
-            $this->attributes[ 'multiple' ] = true;
-        }
         return $form->select( $this->name, $this->item_data, $value, $this->attributes );
     }
 
