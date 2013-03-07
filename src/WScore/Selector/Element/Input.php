@@ -1,7 +1,7 @@
 <?php
 namespace WScore\Selector;
 
-class Element_Input extends SelectorAbstract
+class Element_Input extends ElementAbstract
 {
     /**
      * @Inject

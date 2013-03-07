@@ -1,7 +1,7 @@
 <?php
 namespace WScore\Selector;
 
-class Element_Radio extends SelectorAbstract
+class Element_Radio extends ElementAbstract
 {
     /**
      * @param \WScore\Html\Forms $form

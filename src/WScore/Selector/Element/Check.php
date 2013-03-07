@@ -1,7 +1,7 @@
 <?php
 namespace WScore\Selector;
 
-class Element_Check extends SelectorAbstract
+class Element_Check extends ElementAbstract
 {
     /**
      * @param \WScore\Html\Forms $form
