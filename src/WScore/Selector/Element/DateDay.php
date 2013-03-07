@@ -1,13 +1,11 @@
 <?php
 namespace WScore\Selector;
 
-class Element_DateDay extends Selector
+class Element_DateDay extends Element_Select
 {
     public function __construct( $form )
     {
-        parent::__construct( $form );
-        $this->style  = 'SELECT';
-
+        $this->form = $form;
     }
     public function set( $name, $option=array(), $htmlFilter=NULL )
     {

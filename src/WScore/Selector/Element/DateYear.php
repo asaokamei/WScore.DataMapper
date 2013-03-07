@@ -1,11 +1,11 @@
 <?php
 namespace WScore\Selector;
 
-class Element_DateYear extends Selector
+class Element_DateYear extends Element_Select
 {
     public function __construct( $form )
     {
-        parent::__construct( $form );
+        $this->form = $form;
         $this->style  = 'SELECT';
 
     }
