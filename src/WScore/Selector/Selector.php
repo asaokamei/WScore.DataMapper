@@ -54,7 +54,9 @@ class Selector
      */
     public function getInstance( $style, $name, $option=null, $items=array(), $htmlFilter=null )
     {
-        $formStyle = isset( static::$formStyle[ $style ] ) ? static::$formStyle[ $style ]: $style;
+        // weird code... cannot lower $style and use it for class autoload (i.e. dateYMD->dateymd).
+        $formStyle = strtolower( $style );
+        $formStyle = isset( static::$formStyle[ $formStyle ] ) ? static::$formStyle[ $formStyle ]: $style;
         if( class_exists( $class = '\WScore\Selector\Element_' . ucwords( $formStyle ) ) ) {
             $class = '\WScore\Selector\Element_' . ucwords( $formStyle );
         }        
