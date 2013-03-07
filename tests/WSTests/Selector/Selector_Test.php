@@ -72,7 +72,7 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( '<input type="hidden" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
 
     }
-    function test_maila()
+    function test_mail()
     {
         // test Selector_Mail
 
@@ -87,6 +87,23 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $safe, $sel->popHtml( 'name', $text ) );
         $this->assertContains( $safe, $form );
         $this->assertEquals( '<input type="mail" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
+
+    }
+    function test_password()
+    {
+        // test Selector_Mail
+
+        $selector = $this->selector;
+        $sel = $selector->getInstance( 'password', 'test' );
+
+        $text = 'text <strong>bold</strong> output';
+        $safe = $this->h( $text );
+        $form = (string) $sel->popHtml( 'form', $text );
+
+        $this->assertEquals( 'WScore\Selector\Element_Password', get_class( $sel ) );
+        $this->assertEquals( $safe, $sel->popHtml( 'name', $text ) );
+        $this->assertContains( $safe, $form );
+        $this->assertEquals( '<input type="password" name="test" value="text &lt;strong&gt;bold&lt;/strong&gt; output" class="FormSelector" />', $form );
 
     }
     function test_DateYMD()
