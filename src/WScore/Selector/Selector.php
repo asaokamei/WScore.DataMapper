@@ -77,16 +77,12 @@ class Selector
     /**
      * @Inject
      * @param \WScore\Html\Forms $form
-     * @param string $style
+     * @return \WScore\Selector\Selector
      */
-    public function __construct( $form, $style=null )
+    public function __construct( $form )
     {
         $this->form = $form;
-        if( $style ) $this->style = $style;
         // setup filter for html safe value.
-        $this->htmlFilter = function( $v ) {
-            return htmlentities( $v, ENT_QUOTES, 'UTF-8');
-        };
     }
 
     /**
@@ -121,7 +117,7 @@ class Selector
             $class = '\WScore\Selector\Selector';
             $styleToPass = $style;
         }
-        /** @var $selector Selector */
+        /** @var $selector ElementAbstract */
         $option   = $this->prepareFilter( $option );
         $selector = new $class( $this->form, $styleToPass );
         $selector->set( $name, $option );
