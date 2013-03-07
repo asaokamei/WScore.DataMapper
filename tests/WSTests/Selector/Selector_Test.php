@@ -282,6 +282,60 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 'female', $text );
 
     }
+    function test_check_multiple()
+    {
+        // test Selector_Mail
+
+        $selector = $this->selector;
+        $choices  = array(
+            array( 'M', 'male' ),
+            array( 'F', 'female' ),
+            array( 'U', 'unknown'),
+            array( 'N', 'neutral' ),
+        );
+        $sel = $selector->getInstance( 'check', 'test', null, $choices );
+
+        $text = $sel->popHtml( 'html', array( 'F', 'U' ) ); // should be female.
+        $form = (string) $sel->popHtml( 'form', array( 'M', 'U' ) );
+
+        $this->assertEquals( '<div class="forms-DivList"><nl>
+  <li><label><input type="checkbox" name="test[]" value="M" class="FormSelector" checked="checked" />male</label></li>
+  <li><label><input type="checkbox" name="test[]" value="F" class="FormSelector" />female</label></li>
+  <li><label><input type="checkbox" name="test[]" value="U" class="FormSelector" checked="checked" />unknown</label></li>
+  <li><label><input type="checkbox" name="test[]" value="N" class="FormSelector" />neutral</label></li>
+</nl>
+</div>
+', $form );
+        $this->assertEquals( 'female,unknown', $text );
+
+    }
+    function test_select_multiple()
+    {
+        // test Selector_Mail
+
+        $selector = $this->selector;
+        $choices  = array(
+            array( 'M', 'male' ),
+            array( 'F', 'female' ),
+            array( 'U', 'unknown'),
+            array( 'N', 'neutral' ),
+        );
+        $sel = $selector->getInstance( 'mult_select', 'test', null, $choices );
+
+        $text = $sel->popHtml( 'html', array( 'F', 'U' ) ); // should be female.
+        $form = (string) $sel->popHtml( 'form', array( 'M', 'U' ) );
+
+        $this->assertEquals( 'female,unknown', $text );
+        // TODO: fix test[] for multiple select.
+        $this->assertEquals( '<select name="test[]" class="FormSelector">
+  <option value="M" selected="selected">male</option>
+  <option value="F">female</option>
+  <option value="U" selected="selected">unknown</option>
+  <option value="N">neutral</option>
+</select>
+', $form );
+
+    }
     // +----------------------------------------------------------------------+
 }
 
