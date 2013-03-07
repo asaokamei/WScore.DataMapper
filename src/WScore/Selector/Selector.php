@@ -30,35 +30,10 @@ class selDateDs ...
 class Selector
 {
     /**
-     * html type: select, textarea, radio, check, and others (text, hidden, date, etc.)
-     * @var string
-     *
-     */
-    public $style           = '';
-    public $name            = '';
-    public $item_data       = array();
-    public $default_items   = '';
-    public $err_msg_empty   = '*invalid*';
-    public $add_head_option = '';
-    public $attributes      = array( 'class' => 'FormSelector' );
-
-    /** @var callable|null */
-    public $htmlFilter      = null;
-
-    /** 
      * @var \WScore\Html\Forms 
      */
     protected $form;
     
-    protected static $types = array(
-        'form' => 'form',
-        'edit' => 'form',
-        'new'  => 'form',
-        'html' => 'html',
-        'disp' => 'html',
-        'name' => 'html',
-        'raw'  => 'raw'
-    );
     protected static $formStyle = array(
         'textarea'    => 'textarea',
         'select'      => 'select',
@@ -71,7 +46,6 @@ class Selector
         'radio_ver'   => 'radio',
         'checktoggle'    => 'checkToggle',
     );
-    public static $encoding = 'UTF-8';
 
     // +----------------------------------------------------------------------+
     /**
