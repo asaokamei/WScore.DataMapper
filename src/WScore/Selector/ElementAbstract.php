@@ -25,7 +25,7 @@ class ElementAbstract
      * @Inject
      * @var \WScore\Html\Forms
      */
-    protected $form;
+    public $form;
 
     /**
      * set up Selector. make sure to overload this function.
