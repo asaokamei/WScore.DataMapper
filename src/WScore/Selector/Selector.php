@@ -62,7 +62,7 @@ class Selector
     protected static $formStyle = array(
         'textarea'    => 'textarea',
         'select'      => 'select',
-        'mult_select' => 'select',
+        'mult_select' => 'SelectMultiple',
         'check'       => 'check',
         'check_hor'   => 'check',
         'check_ver'   => 'check',

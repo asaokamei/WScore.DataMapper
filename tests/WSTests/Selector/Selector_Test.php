@@ -327,7 +327,7 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals( 'female,unknown', $text );
         // TODO: fix test[] for multiple select.
-        $this->assertEquals( '<select name="test[]" class="FormSelector">
+        $this->assertEquals( '<select name="test[]" class="FormSelector" multiple="multiple">
   <option value="M" selected="selected">male</option>
   <option value="F">female</option>
   <option value="U" selected="selected">unknown</option>
