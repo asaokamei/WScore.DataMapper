@@ -189,4 +189,20 @@ class Model
         return $this->relations;
     }
 
+    /**
+     * @param $name
+     * @return \WScore\Validation\Rules
+     */
+    public function getRule( $name ) {
+        return $this->presentation->getRule( $name );
+    }
+
+    /**
+     * @param $name
+     * @return null|object
+     */
+    public function getSelector( $name ) {
+        return $this->presentation->getSelector( $name );
+    }
+
 }
