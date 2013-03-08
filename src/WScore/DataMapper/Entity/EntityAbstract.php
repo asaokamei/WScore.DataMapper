@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Entity;
 
-class EntityAbstract implements EntityInterface
+class EntityAbstract implements EntityInterface, \ArrayAccess
 {
     /** @var string */
     protected $_model;
