@@ -31,10 +31,14 @@ class EntityAbstract implements EntityInterface
      * @param string $id_type
      * @param \WScore\DataMapper\Model $model
      */
-    public function __construct( $model, $id_type )
+    public function __construct( $model, $id_type=null )
     {
         $this->_model   = $model->getModelName();
-        $this->_id_type = $id_type;
+        if( isset( $id_type ) ) {
+            $this->_id_type = $id_type;
+        } else {
+            $this->_id_type = EntityInterface::_ID_TYPE_SYSTEM;
+        }
         $this->_id_name = $model->getIdName();
         if( !$this->_identifier = $this->getId() ) {
             $this->_identifier = (string) self::$_id_for_new++;
