@@ -105,11 +105,12 @@ class Model
     }
 
     /**
-     * @param array $data
+     * @param array   $data
+     * @param null    $extra
      */
-    public function update( $data )
+    public function update( $data, $extra=null )
     {
-        $this->persistence->update( $data );
+        $this->persistence->update( $data, $extra );
     }
 
     /**

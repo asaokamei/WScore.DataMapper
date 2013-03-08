@@ -125,4 +125,47 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $fetched = $stmt->fetch();
         $this->assertEquals( '999-9999-9999', $fetched[ 'friend_tel' ] );
     }
+    function test_update_with_id()
+    {
+        $stmt = $this->friend->fetch( '1' );
+        $original = $stmt->fetch();
+
+        $vals = array( 'friend_tel' => '12345678' );
+        $this->friend->update( '1', $vals );
+
+        $stmt = $this->friend->fetch( '1' );
+        $updated = $stmt->fetch();
+
+        $list = array( 'friend_name', 'gender', 'friend_bday' );
+        foreach( $list as $key ) {
+            $this->assertEquals( $original[$key], $updated[$key] );
+        }
+        $this->assertEquals( '12345678', $updated[ 'friend_tel' ] );
+    }
+    function test_fetch_mode_to_get_object()
+    {
+        $data = $this->getFriendData(3);
+        $stmt = $this->friend->fetch( '3' );
+        $stmt->setFetchMode( \PDO::FETCH_CLASS, 'stdClass' );
+        $fetched = $stmt->fetch();
+        $this->assertTrue( is_object( $fetched ) );
+        $list = array( 'friend_name', 'gender', 'friend_bday', 'friend_tel' );
+        foreach( $list as $key ) {
+            $this->assertEquals( $data[$key], $fetched->$key );
+        }
+    }
+    function test_delete()
+    {
+        $stmt = $this->friend->fetch( 'M', 'gender' );
+        $fetched = $stmt->fetchAll();
+        $this->assertEquals( 2, count( $fetched ) );
+
+        $id_to_delete = $fetched[0];
+        $this->friend->delete( $id_to_delete );
+
+        $stmt = $this->friend->fetch( 'M', 'gender' );
+        $fetched = $stmt->fetchAll();
+        $this->assertEquals( 1, count( $fetched ) );
+        $this->assertNotEquals( $id_to_delete, $fetched[0]['friend_id'] );
+    }
 }
