@@ -1,8 +1,6 @@
 <?php
 namespace WScore\DataMapper;
 
-use \WScore\DataMapper\Entity\EntityInterface;
-
 /**
  * Model that governs how entity should be mapped to database (persistence) and to final view (presentation).
  * 
@@ -21,18 +19,6 @@ class Model
      * @var string                          
      */
     protected $id_name;
-
-    /**
-     * return class from Pdo
-     * @var \WScore\DataMapper\Entity\EntityInterface    
-     */
-    public $recordClassName = 'WScore\DataMapper\Entity\EntityGeneric';
-
-    /**
-     * temporary return class from Pdo.
-     * @var string
-     */
-    public $entityClass = null;
     
     /**
      * define property and data type. from this data,
@@ -115,9 +101,6 @@ class Model
     public function fetch( $value, $column=null, $packed=false )
     {
         $stmt  = $this->persistence->fetch( $value, $column, $packed );
-        $class = ( $this->entityClass ) ?: $this->recordClassName;
-        $stmt->setFetchMode( \PDO::FETCH_CLASS, $class, array( $this ) );
-        $class = null;
         return $stmt;
     }
 
@@ -145,24 +128,6 @@ class Model
     {
         $id = is_array( $data ) ? $data[ $this->id_name ]: $data;
         $this->persistence->delete( $id );
-    }
-
-    /**
-     * @param array $data
-     * @return \WScore\DataMapper\Entity\EntityInterface
-     */
-    public function newEntity( $data=array() )
-    {
-        /** @var $record \WScore\DataMapper\Entity\EntityInterface */
-        $class  = ( $this->entityClass ) ?: $this->recordClassName;
-        $record = new $class( $this, EntityInterface::_ID_TYPE_VIRTUAL );
-        $this->entityClass = null;
-        if( !empty( $data ) ) {
-            foreach( $data as $key => $val ) {
-                $record->$key = $val;
-            }
-        }
-        return $record;
     }
     // +----------------------------------------------------------------------+
     //  Managing Validation and Properties. 

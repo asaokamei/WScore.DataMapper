@@ -93,8 +93,36 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $fetched = $stmt->fetch();
         $list = array( 'friend_name', 'gender', 'friend_bday', 'friend_tel' );
         foreach( $list as $key ) {
-            $this->assertEquals( $data1[$key], $fetched->$key );
+            $this->assertEquals( $data1[$key], $fetched[$key] );
         }
+    }
+    function test_fetch_with_condition()
+    {
+        $stmt = $this->friend->fetch( 'F', 'gender' );
+        $fetched = $stmt->fetchAll();
+        $this->assertEquals( 2, count( $fetched ) );
+        $this->assertNotEquals( $fetched[0]['friend_name'], $fetched[1]['friend_name'] );
+        $this->assertEquals( 'F', $fetched[0][ 'gender' ] );
+        $this->assertEquals( 'F', $fetched[1][ 'gender' ] );
+    }
+    function test_fetch_with_condition_as_array()
+    {
+        $stmt = $this->friend->fetch( 'F', 'gender' );
+        $fetched = $stmt->fetchAll();
+        $this->assertEquals( 2, count( $fetched ) );
+        $this->assertNotEquals( $fetched[0]['friend_name'], $fetched[1]['friend_name'] );
+        $this->assertEquals( 'F', $fetched[0][ 'gender' ] );
+        $this->assertEquals( 'F', $fetched[1][ 'gender' ] );
+    }
+    function test_update()
+    {
+        $stmt = $this->friend->fetch( '2' );
+        $fetched = $stmt->fetch();
+        $fetched[ 'friend_tel' ] = '999-9999-9999';
+        $this->friend->update( $fetched );
 
+        $stmt = $this->friend->fetch( '2' );
+        $fetched = $stmt->fetch();
+        $this->assertEquals( '999-9999-9999', $fetched[ 'friend_tel' ] );
     }
 }
