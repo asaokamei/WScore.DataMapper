@@ -65,7 +65,7 @@ class Model
 
     /**
      * @Inject
-     * @var \WScore\DataMapper\Model_Property
+     * @var \WScore\DataMapper\Model_PropertyCsv
      */
     public $property;
     
@@ -80,18 +80,26 @@ class Model
     {
         if( $table   ) $this->table   = $table;
         if( $id_name ) $this->id_name = $id_name;
-        $this->prepare();
+        $this->persistence->setProperty( $this->property );
+        $this->persistence->setTable( $this->table, $this->id_name );
+        $this->presentation->setProperty( $this->property );
     }
 
     /**
      * prepares restricted properties.
      */
-    public function prepare()
+    public function prepareByDefinition( $definition, $relation )
     {
         $this->property->setTable( $this->table, $this->id_name );
-        $this->property->prepare( $this->definition, $this->relations );
-        $this->persistence->setProperty( $this->property );
-        $this->presentation->setProperty( $this->property );
+        $this->property->prepare( $definition, $relation );
+    }
+
+    /**
+     * @param string $csv
+     */
+    public function prepareByCsv( $csv )
+    {
+        $this->property->prepare( $csv );
     }
 
     // +----------------------------------------------------------------------+
