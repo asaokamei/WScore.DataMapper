@@ -1,6 +1,8 @@
 <?php
 namespace WScore\DataMapper;
 
+use \WScore\DataMapper\Entity\EntityInterface;
+
 class Model
 {
     /**
@@ -15,9 +17,18 @@ class Model
      */
     protected $id_name;
 
-    /** @var \WScore\DataMapper\Entity_Interface    return class from Pdo            */
-    public $recordClassName = 'WScore\DataMapper\Entity_Generic';
+    /**
+     * return class from Pdo
+     * @var \WScore\DataMapper\Entity\EntityInterface    
+     */
+    public $recordClassName = 'WScore\DataMapper\Entity\EntityGeneric';
 
+    /**
+     * temporary return class from Pdo.
+     * @var string
+     */
+    public $entityClass = null;
+    
     /**
      * define property and data type. from this data,
      * properties, extraTypes and dataTypes are generated.
@@ -86,11 +97,12 @@ class Model
      * @param string       $value
      * @param null|string  $column
      * @param bool|string  $packed
-     * @return array
+     * @return \PdoStatement
      */
     public function fetch( $value, $column=null, $packed=false )
     {
-        return $this->persistence->fetch( $value, $column, $packed );
+        $stmt = $this->persistence->fetch( $value, $column, $packed );
+        return $stmt;
     }
 
     /**
@@ -117,6 +129,24 @@ class Model
     {
         $id = is_array( $data ) ? $data[ $this->id_name ]: $data;
         $this->persistence->delete( $id );
+    }
+
+    /**
+     * @param array $data
+     * @return \WScore\DataMapper\Entity\EntityInterface
+     */
+    public function newEntity( $data=array() )
+    {
+        /** @var $record \WScore\DataMapper\Entity\EntityInterface */
+        $class  = ( $this->entityClass ) ?: $this->recordClassName;
+        $record = new $class( $this, EntityInterface::_ID_TYPE_VIRTUAL );
+        $this->entityClass = null;
+        if( !empty( $data ) ) {
+            foreach( $data as $key => $val ) {
+                $record->$key = $val;
+            }
+        }
+        return $record;
     }
     // +----------------------------------------------------------------------+
     //  Managing Validation and Properties. 
@@ -168,26 +198,13 @@ class Model
         return $this->table;
     }
 
+    /**
+     * @param null|string $name
+     * @return array
+     */
     public function getRelationInfo( $name=null ) {
         if( $name ) return Model_Helper::arrGet( $this->relations, $name );
         return $this->relations;
-    }
-    /**
-     * @param array $data
-     * @return \WScore\DataMapper\Entity_Interface
-     */
-    public function getRecord( $data=array() )
-    {
-        /** @var $record \WScore\DataMapper\Entity_Interface */
-        $class  = ( $this->entityClass ) ?: $this->recordClassName;
-        $record = new $class( $this, Entity_Interface::_ENTITY_TYPE_NEW_ );
-        $this->entityClass = null;
-        if( !empty( $data ) ) {
-            foreach( $data as $key => $val ) {
-                $record->$key = $val;
-            }
-        }
-        return $record;
     }
 
 }
