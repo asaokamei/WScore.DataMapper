@@ -81,6 +81,8 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         return $data;
     }
     // +----------------------------------------------------------------------+
+    //  test for persistence
+    // +----------------------------------------------------------------------+
     function test_insert_and_fetch()
     {
         $this->assertEquals( 'WSTests\DataMapper\Model\models\Friends', get_class( $this->friend ) );
@@ -168,4 +170,51 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 1, count( $fetched ) );
         $this->assertNotEquals( $id_to_delete, $fetched[0]['friend_id'] );
     }
+    // +----------------------------------------------------------------------+
+    //  test for rules
+    // +----------------------------------------------------------------------+
+    function test_forgeRule()
+    {
+        $rule = $this->friend->getRule( 'friend_name' );
+        $this->assertEquals( 'WScore\Validation\Rules', get_class( $rule ) );
+        $this->assertEquals( 'text', $rule->getType() );
+        $this->assertTrue( $rule[ 'required' ] );
+
+        $rule = $this->friend->getRule( 'friend_tel' );
+        $this->assertEquals( 'WScore\Validation\Rules', get_class( $rule ) );
+        $this->assertEquals( 'tel', $rule->getType() );
+        $this->assertFalse( $rule[ 'required' ] );
+        $this->assertEquals( '[-0-9]*', $rule[ 'pattern' ] );
+    }
+    function test_getRule()
+    {
+        $rule1 = $this->friend->getRule( 'friend_name' );
+        $rule2 = $this->friend->getRule( 'friend_name' );
+        $this->assertEquals(  $rule1, $rule2 );
+        $this->assertSame(    $rule1, $rule2 );
+    }
+    // +----------------------------------------------------------------------+
+    //  test for selector
+    // +----------------------------------------------------------------------+
+    function test_forgeSelector()
+    {
+        $sel = $this->friend->getSelector( 'friend_name' );
+        $this->assertEquals( 'WScore\Selector\Element_Text', get_class( $sel ) );
+        $this->assertEquals( 'friend_name', $sel->name );
+        $this->assertArrayHasKey( 'ime', $sel->attributes );
+        $this->assertEquals( 'on', $sel->attributes['ime'] );
+
+        $sel = $this->friend->getSelector( 'gender' );
+        $this->assertEquals( 'WScore\Selector\Element_Radio', get_class( $sel ) );
+        $this->assertEquals( 'gender', $sel->name );
+        $this->assertArrayNotHasKey( 'ime', $sel->attributes );
+    }
+    function test_getSelector()
+    {
+        $sel1 = $this->friend->getSelector( 'friend_name' );
+        $sel2 = $this->friend->getSelector( 'friend_name' );
+        $this->assertEquals(  $sel1, $sel2 );
+        $this->assertSame(    $sel1, $sel2 );
+    }
+    // +----------------------------------------------------------------------+
 }
