@@ -3,9 +3,8 @@ namespace WScore\DataMapper\Entity;
 
 class EntityAbstract implements EntityInterface
 {
-
     /** @var string */
-    private $_model;
+    protected $_model;
     
     /** @var string */
     private $_id_type;
