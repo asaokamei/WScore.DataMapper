@@ -3,6 +3,11 @@ namespace WScore\DataMapper;
 
 use \WScore\DataMapper\Entity\EntityInterface;
 
+/**
+ * Model that governs how entity should be mapped to database (persistence) and to final view (presentation).
+ * 
+ * TODO: Model should be array world. maybe move entity stuff to EntityManager. 
+ */
 class Model
 {
     /**
@@ -101,7 +106,10 @@ class Model
      */
     public function fetch( $value, $column=null, $packed=false )
     {
-        $stmt = $this->persistence->fetch( $value, $column, $packed );
+        $stmt  = $this->persistence->fetch( $value, $column, $packed );
+        $class = ( $this->entityClass ) ?: $this->recordClassName;
+        $stmt->setFetchMode( \PDO::FETCH_CLASS, $class, array( $this ) );
+        $class = null;
         return $stmt;
     }
 
