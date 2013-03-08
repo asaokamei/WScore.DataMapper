@@ -7,15 +7,14 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asaokamei/WScore.DbAccess.git",
-                "reference": "1515c6ed1d4e2fa5f76171ef4adaaea59fcebf22"
+                "reference": "46f4b2968d51175ae89c0d5663d2e5e4d80adbc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asaokamei/WScore.DbAccess/zipball/1515c6ed1d4e2fa5f76171ef4adaaea59fcebf22",
-                "reference": "1515c6ed1d4e2fa5f76171ef4adaaea59fcebf22",
+                "url": "https://api.github.com/repos/asaokamei/WScore.DbAccess/zipball/46f4b2968d51175ae89c0d5663d2e5e4d80adbc5",
+                "reference": "46f4b2968d51175ae89c0d5663d2e5e4d80adbc5",
                 "shasum": ""
             },
-            "time": "2013-03-01 22:46:54",
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -29,7 +28,8 @@
                     "email": "kamei@workspot.jp"
                 }
             ],
-            "description": "Database access and query builder."
+            "description": "Database access and query builder.",
+            "time": "2013-03-07 08:17:37"
         },
         {
             "name": "wscore/dicontainer",
@@ -45,7 +45,6 @@
                 "reference": "00c13b7190bf0521a30a1e3b7c071c2c770a36eb",
                 "shasum": ""
             },
-            "time": "2013-02-23 00:28:51",
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -59,7 +58,8 @@
                     "email": "kamei@workspot.jp"
                 }
             ],
-            "description": "Simple DI container with auto-wiring."
+            "description": "Simple DI container with auto-wiring.",
+            "time": "2013-02-23 00:28:51"
         },
         {
             "name": "wscore/html",
@@ -75,7 +75,6 @@
                 "reference": "05a191885037e86a80509435127200909f5e4808",
                 "shasum": ""
             },
-            "time": "2013-03-06 22:06:28",
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -89,7 +88,8 @@
                     "email": "kamei@workspot.jp"
                 }
             ],
-            "description": "Html tag generator classes."
+            "description": "Html tag generator classes.",
+            "time": "2013-03-06 22:06:28"
         },
         {
             "name": "wscore/validation",
@@ -105,7 +105,6 @@
                 "reference": "2f40a17491104d7e72afab0cfac9cc3063159ae6",
                 "shasum": ""
             },
-            "time": "2013-02-27 04:21:44",
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -119,10 +118,13 @@
                     "email": "kamei@workspot.jp"
                 }
             ],
-            "description": "Validation and filtration for values such as form input."
+            "description": "Validation and filtration for values such as form input.",
+            "time": "2013-02-27 04:21:44"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+
+    ],
     "aliases": [
 
     ],
@@ -132,5 +134,11 @@
         "wscore/html": 20,
         "wscore/dbaccess": 20,
         "wscore/validation": 20
-    }
+    },
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
 }
