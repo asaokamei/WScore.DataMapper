@@ -169,7 +169,9 @@ class Model
      */
     public function getModelName( $short=false ) {
         $class = get_called_class();
-        if( $short ) $class = substr( $class, strrpos( '\\', $class ) );
+        if( $short && strpos( $class, '\\' ) !== false ) {
+            $class = substr( $class, strrpos( $class, '\\' )+1 );
+        }
         return $class;
     }
 
