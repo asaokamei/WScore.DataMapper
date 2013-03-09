@@ -60,7 +60,7 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $container = include( __DIR__ . '/../../../../vendor/wscore/dicontainer/scripts/instance.php' );
         $container->set( '\Pdo', self::$config );
         // set up persistence model
-        $this->friend = $container->get( '\WSTests\DataMapper\Model\models\Friends' );
+        $this->friend = $container->get( '\WSTests\DataMapper\models\Friends' );
     }
 
     /**
@@ -85,7 +85,7 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
     // +----------------------------------------------------------------------+
     function test_insert_and_fetch()
     {
-        $this->assertEquals( 'WSTests\DataMapper\Model\models\Friends', get_class( $this->friend ) );
+        $this->assertEquals( 'WSTests\DataMapper\models\Friends', get_class( $this->friend ) );
         $data1 = $this->getFriendData(1);
         $this->friend->insert( $data1 );
         $this->friend->insert( $this->getFriendData(2) );
