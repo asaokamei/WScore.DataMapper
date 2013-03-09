@@ -109,6 +109,9 @@ class EntityManager
         return $entity;
     }
 
+    public function clear() {
+        $this->collection->clear();
+    }
     /**
      * fetches entity object from database using models. 
      * 
