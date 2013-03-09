@@ -126,19 +126,36 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
      * @param string $name
      * @return mixed
      */
-    public function _getAttribute( $name ) {
+    public function getEntityAttribute( $name ) {
         return array_key_exists( $name, $this->_attrEntity ) ? $this->_attrEntity[ $name ]: null;
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function setEntityAttribute( $name, $value ) {
+        $this->_attrEntity[ $name ] = $value;
+    }
+    
     /**
      * @param string $prop
      * @param string $name
      * @return mixed
      */
-    public function _getAttributeProperty( $prop, $name=null ) {
+    public function getPropertyAttribute( $prop, $name=null ) {
         if( !array_key_exists( $prop, $this->_attrMember ) ) return null;
         if( is_null( $name ) ) return $this->_attrMember[ $prop ];
         return array_key_exists( $name, $this->_attrMember[ $prop ] ) ? $this->_attrMember[ $prop ][ $name ]: null;
+    }
+
+    /**
+     * @param string $prop
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function setPropertyAttribute( $prop, $name, $value ) {
+        $this->_attrMember[ $prop ][ $name ] = $value;
     }
     // +----------------------------------------------------------------------+
     //  for ArrayAccess

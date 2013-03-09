@@ -40,15 +40,28 @@ interface EntityInterface
      * @param string $name
      * @return mixed
      */
-    public function _getAttribute( $name );
+    public function getEntityAttribute( $name );
+
+    /**
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function setEntityAttribute( $name, $value );
 
     /**
      * @param string $prop
      * @param string $name
      * @return mixed
      */
-    public function _getAttributeProperty( $prop, $name=null );
+    public function getPropertyAttribute( $prop, $name=null );
 
+    /**
+     * @param string $prop
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function setPropertyAttribute( $prop, $name, $value );
+    
     /**
      * @param string $id
      */
