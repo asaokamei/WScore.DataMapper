@@ -14,6 +14,8 @@ class All_DataMapper_SuiteTests
         $suite->addTestFile( $folder . 'Model/Presentation/Test.php' );
         $suite->addTestFile( $folder . 'Model/Persistence/BasicMysql_Tests.php' );
         $suite->addTestFile( $folder . 'Model/Basic_Test.php' );
+        $suite->addTestFile( $folder . 'EntityBasic_Test.php' );
+        $suite->addTestFile( $folder . 'EmBasic_Test.php' );
         return $suite;
     }
 }
