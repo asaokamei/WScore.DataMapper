@@ -80,10 +80,10 @@ class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
     function test_array_access()
     {
         $entity = new friend( $this->friend, EntityInterface::_ID_TYPE_VIRTUAL );
-        $entity->test = 'test value';
-        $this->assertEquals( 'test value', $entity[ 'test' ] );
+        $entity->friend_name = 'test value';
+        $this->assertEquals( 'test value', $entity[ 'friend_name' ] );
         
-        $entity[ 'test' ] = 'more value';
-        $this->assertEquals( 'more value', $entity->test );
+        $entity[ 'friend_name' ] = 'more value';
+        $this->assertEquals( 'more value', $entity->friend_name );
     }
 }
