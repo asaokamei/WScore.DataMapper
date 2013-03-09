@@ -49,7 +49,9 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     }
 
     public static final function getStaticModelName() {
-        return static::$_modelName;
+        $model = static::$_modelName;
+        if( substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
+        return $model;
     }
     
     /**
