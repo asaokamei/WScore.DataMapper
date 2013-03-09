@@ -121,6 +121,7 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
         $this->$id_name = $id;
         $this->_id_type = self::_ID_TYPE_SYSTEM;
     }
+    
     /**
      * @param string $name
      * @return mixed

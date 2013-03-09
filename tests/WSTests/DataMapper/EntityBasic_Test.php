@@ -28,11 +28,37 @@ class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
         class_exists( '\WSTests\DataMapper\entities\friend' );
     }
     // +----------------------------------------------------------------------+
-    function test0()
+    function test_new_friend()
     {
         $entity = new friend( $this->friend, EntityInterface::_ID_TYPE_VIRTUAL );
+        $this->assertEquals( friend::getStaticModelName(), $entity->getModelName() );
         $this->assertFalse( $entity->isIdPermanent() );
         $this->assertEquals( $this->friend->getModelName(), $entity->getModelName() );
         $this->assertEquals( $this->friend->getModelName(true), $entity->getModelName(true) );
+        $this->assertEquals( 'Friends.0.1', $entity->getCenaId() );
+    }
+    function test_to_delete()
+    {
+        $entity = new friend( $this->friend, EntityInterface::_ID_TYPE_VIRTUAL );
+        $this->assertFalse( $entity->toDelete() );
+        
+        $entity->toDelete( false );
+        $this->assertFalse( $entity->toDelete() );
+
+        $entity->toDelete( '1' );
+        $this->assertFalse( $entity->toDelete() );
+
+        $entity->toDelete( true );
+        $this->assertTrue( $entity->toDelete() );
+    }
+    function test_system_id()
+    {
+        $entity = new friend( $this->friend, EntityInterface::_ID_TYPE_VIRTUAL );
+        $this->assertFalse( $entity->isIdPermanent() );
+        $this->assertNull( $entity->getId() );
+        
+        $entity->setSystemId( '10' );
+        $this->assertTrue( $entity->isIdPermanent() );
+        $this->assertEquals( '10', $entity->getId() );
     }
 }
