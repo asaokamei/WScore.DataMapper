@@ -16,7 +16,7 @@ class Presentation_Test extends \PHPUnit_Framework_TestCase
         /** @var $container \WScore\DiContainer\Container */
         $container = include( __DIR__ . '/../../../../../vendor/wscore/dicontainer/scripts/instance.php' );
         $this->property = $container->get( '\WScore\DataMapper\Model_PropertyCsv' );
-        $this->property->prepare( file_get_contents( __DIR__.'/../Property/test.csv' ) );
+        $this->property->prepare( file_get_contents( __DIR__.'/../../models/friends.csv' ) );
         $this->presentation = $container->get( '\WScore\DataMapper\Model_Presentation' );
         $this->presentation->setProperty( $this->property );
     }

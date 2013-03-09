@@ -15,7 +15,7 @@ class Property_CsvTest extends Property_AllTests
         $container = include( __DIR__ . '/../../../../../vendor/wscore/dicontainer/scripts/instance.php' );
         class_exists( '\WScore\DataMapper\Model_Helper' );
         $this->property = $container->get( '\WScore\DataMapper\Model_PropertyCsv' );
-        $csv_file = __DIR__ . '/test.csv';
+        $csv_file = __DIR__ . '/../../models/friends.csv';
         $this->csv = file_get_contents( $csv_file );
         /** @var $helper \WScore\DataMapper\Model_Helper */
         $this->property->setTable( 'friend', 'friend_id' );
