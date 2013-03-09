@@ -46,13 +46,13 @@ class EntityManager
         return $this->collection->collection();
     }
     // +----------------------------------------------------------------------+
-    //  Managing Model.
+    //  Managing Entities and Models.
     // +----------------------------------------------------------------------+
     /**
      * @param Entity\EntityInterface $entity
      * @return \WScore\DataMapper\Model
      */
-    public function getModel( $entity )
+    private function getModel( $entity )
     {
         $modelName = $this->getModelName( $entity );
         $modelKey  = $modelName;
@@ -87,48 +87,8 @@ class EntityManager
         return $modelName;
     }
     // +----------------------------------------------------------------------+
-    //  methods from original Model
+    //  Methods for Entities. 
     // +----------------------------------------------------------------------+
-    /**
-     * fetches entity object from database using models. 
-     * 
-     * @param Entity\EntityInterface       $entity
-     * @param string       $value
-     * @param null|string  $column
-     * @param bool|string  $packed
-     * @return \PdoStatement
-     */
-    public function fetch( $entity, $value, $column=null, $packed=false )
-    {
-        $model = $this->getModel( $entity );
-        $class = $this->getClass( $entity );
-        $stmt  = $model->fetch( $value, $column, $packed );
-        $stmt->setFetchMode( \PDO::FETCH_CLASS, $class, array( $this ) );
-        return $stmt;
-    }
-
-    /**
-     * constructs a *new* entity to be inserted into database. 
-     * 
-     * @param Entity\EntityInterface       $entity
-     * @param array  $data
-     * @return \WScore\DataMapper\Entity\EntityInterface
-     */
-    public function newEntity( $entity, $data=array() )
-    {
-        /** @var $record \WScore\DataMapper\Entity\EntityInterface */
-        $model = $this->getModel( $entity );
-        $class = $this->getClass( $entity );
-        $record = new $class( $model, EntityInterface::_ID_TYPE_VIRTUAL );
-        if( !empty( $data ) ) {
-            foreach( $data as $key => $val ) {
-                $record->$key = $val;
-            }
-        }
-        return $record;
-    }
-
-
     /**
      * @param Entity\EntityInterface|Entity\EntityInterface[] $entity
      * @return Entity\EntityInterface|Entity\EntityInterface[]
@@ -147,6 +107,48 @@ class EntityManager
             $this->collection->add( $entity );
         }
         return $entity;
+    }
+
+    /**
+     * fetches entity object from database using models. 
+     * 
+     * @param Entity\EntityInterface       $entity
+     * @param string       $value
+     * @param null|string  $column
+     * @param bool|string  $packed
+     * @return \PdoStatement
+     */
+    public function fetch( $entity, $value, $column=null, $packed=false )
+    {
+        $model = $this->getModel( $entity );
+        $class = $this->getClass( $entity );
+        $stmt  = $model->fetch( $value, $column, $packed );
+        $stmt->setFetchMode( \PDO::FETCH_CLASS, $class, array( $this ) );
+        $fetched = $stmt->fetchAll();
+        $this->register( $fetched );
+        return $fetched;
+    }
+
+    /**
+     * constructs a *new* entity to be inserted into database. 
+     * 
+     * @param Entity\EntityInterface       $entity
+     * @param array  $data
+     * @return \WScore\DataMapper\Entity\EntityInterface
+     */
+    public function newEntity( $entity, $data=array() )
+    {
+        $model = $this->getModel( $entity );
+        $class = $this->getClass( $entity );
+        /** @var $record \WScore\DataMapper\Entity\EntityInterface */
+        $record = new $class( $model, EntityInterface::_ID_TYPE_VIRTUAL );
+        if( !empty( $data ) ) {
+            foreach( $data as $key => $val ) {
+                $record->$key = $val;
+            }
+        }
+        $this->register( $record );
+        return $record;
     }
 
     /**
