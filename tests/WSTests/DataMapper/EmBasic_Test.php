@@ -128,4 +128,41 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
         }
         $this->assertEquals( '2', $friend->getId() );
     }
+    function test_fetch_and_modify()
+    {
+        // save third data to database. 
+        $data   = $this->getFriendData(3);
+        $this->em->newEntity( $this->friendEntity, $data );
+        $this->em->save();
+        $this->em->clear();
+
+        // fetch the inserted data. 
+        $fetch = $this->em->fetch( $this->friendEntity, '3' );
+        $friend = $fetch[0];
+        $this->assertEquals( '3', $friend->getId() );
+        
+        $friend[ 'friend_name' ] = 'save test';
+        $this->em->save();
+        $this->em->clear();
+
+        $fetch = $this->em->fetch( $this->friendEntity, '3' );
+        $friend = $fetch[0];
+        $this->assertEquals( 'save test', $friend[ 'friend_name' ] );
+        $list = array( 'gender', 'friend_bday', 'friend_tel' );
+        foreach( $list as $key ) {
+            $this->assertEquals( $data[$key], $friend->$key );
+        }
+    }
+    function test_delete()
+    {
+        // fetch the inserted data. 
+        $fetch = $this->em->fetch( $this->friendEntity, '2' );
+        $friend = $fetch[0];
+        $friend->toDelete( true );
+        $this->em->save();
+        $this->em->clear();
+        
+        $fetch = $this->em->fetch( $this->friendEntity, '2' );
+        $this->assertEquals( '0', count( $fetch ) );
+    }
 }
