@@ -61,4 +61,20 @@ class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertTrue( $entity->isIdPermanent() );
         $this->assertEquals( '10', $entity->getId() );
     }
+    function test_entity_attribute()
+    {
+        $entity = new friend( $this->friend, EntityInterface::_ID_TYPE_VIRTUAL );
+        $entity->setEntityAttribute( 'test', 'some value' );
+        $this->assertEquals( 'some value', $entity->getEntityAttribute( 'test' ) );
+    }
+    function test_property_attribute()
+    {
+        $entity = new friend( $this->friend, EntityInterface::_ID_TYPE_VIRTUAL );
+        $entity->setPropertyAttribute( 'property', 'attributes', 'more value' );
+        $this->assertEquals( 'more value', $entity->getPropertyAttribute( 'property', 'attributes' ) );
+        
+        $attributes = $entity->getPropertyAttribute( 'property' );
+        $this->assertArrayHasKey( 'attributes', $attributes );
+        $this->assertEquals( 'more value', $attributes[ 'attributes' ] );
+    }
 }
