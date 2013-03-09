@@ -48,4 +48,9 @@ interface EntityInterface
      * @return mixed
      */
     public function _getAttributeProperty( $prop, $name=null );
+
+    /**
+     * @param string $id
+     */
+    public function setSystemId( $id );
 }

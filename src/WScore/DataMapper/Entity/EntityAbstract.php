@@ -103,7 +103,16 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     public function isIdPermanent() {
         return $this->_id_type !== self::_ID_TYPE_VIRTUAL;
     }
-    
+
+    /**
+     * @param string $id
+     */
+    public function setSystemId( $id ) 
+    {
+        $id_name = $this->_id_name;
+        $this->$id_name = $id;
+        $this->_id_type = self::_ID_TYPE_SYSTEM;
+    }
     /**
      * @param string $name
      * @return mixed
