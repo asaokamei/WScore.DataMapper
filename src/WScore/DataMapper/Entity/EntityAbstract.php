@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Entity;
 
-abstract class EntityAbstract implements EntityInterface, \ArrayAccess
+class EntityAbstract implements EntityInterface, \ArrayAccess
 {
     /** @var string */
     public static $_modelName;
@@ -48,6 +48,10 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
         }
     }
 
+    public static final function getStaticModelName() {
+        return static::$_modelName;
+    }
+    
     /**
      * @return null|string
      */
@@ -56,10 +60,6 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
         return ( isset( $this->$idName ) ) ? $this->$idName: null;
     }
 
-    public static final function staticModelName() {
-        return static::$_modelName;
-    }
-    
     /**
      * @param bool $short
      * @return string

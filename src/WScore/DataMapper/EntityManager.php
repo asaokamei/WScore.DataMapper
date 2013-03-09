@@ -54,12 +54,7 @@ class EntityManager
      */
     public function getModel( $entity )
     {
-        if( is_string( $entity ) ) {
-            /** @var $entity Entity\EntityAbstract  */
-            $modelName = $entity::staticModelName();
-        } else {
-            $modelName = $entity->getModelName();
-        }
+        $modelName = $this->getModelName( $entity );
         $modelKey  = $modelName;
         if( substr( $modelKey, 0, 1 ) == '\\' ) $modelKey = substr( $modelKey, 1 );
         $modelKey = str_replace( '\\', '-', $modelKey );
@@ -73,9 +68,23 @@ class EntityManager
      * @param Entity\EntityInterface $entity
      * @return string
      */
-    public function getClass( $entity ) {
+    private function getClass( $entity ) {
         $class = is_string( $entity ) ? $entity : get_class( $entity );
         return $class;
+    }
+
+    /**
+     * @param Entity\EntityInterface $entity
+     * @return string
+     */
+    private function getModelName( $entity ) {
+        if( is_string( $entity ) ) {
+            /** @var $entity Entity\EntityAbstract  */
+            $modelName = $entity::getStaticModelName();
+        } else {
+            $modelName = $entity->getModelName();
+        }
+        return $modelName;
     }
     // +----------------------------------------------------------------------+
     //  methods from original Model
@@ -108,13 +117,35 @@ class EntityManager
     public function newEntity( $entity, $data=array() )
     {
         /** @var $record \WScore\DataMapper\Entity\EntityInterface */
+        $model = $this->getModel( $entity );
         $class = $this->getClass( $entity );
-        $record = new $class( $this, EntityInterface::_ID_TYPE_VIRTUAL );
+        $record = new $class( $model, EntityInterface::_ID_TYPE_VIRTUAL );
         if( !empty( $data ) ) {
             foreach( $data as $key => $val ) {
                 $record->$key = $val;
             }
         }
         return $record;
+    }
+
+
+    /**
+     * @param Entity\EntityInterface|Entity\EntityInterface[] $entity
+     * @return Entity\EntityInterface|Entity\EntityInterface[]
+     */
+    public function register( $entity )
+    {
+        if( is_array( $entity ) ) {
+            foreach( $entity as $key => $ent ) {
+                $entity[ $key ] = $this->register( $ent );
+            }
+            return $entity;
+        }
+        /** @var Entity\EntityInterface */
+        $cenaId = $entity->getCenaId();
+        if( !isset( $this->collection[ $cenaId ] ) ) {
+            $this->collection->add( $entity );
+        }
+        return $entity;
     }
 }

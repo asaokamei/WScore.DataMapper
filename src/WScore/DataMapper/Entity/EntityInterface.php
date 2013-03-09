@@ -11,8 +11,6 @@ interface EntityInterface
      * @return null|string
      */
     public function getId();
-
-    public static function staticModelName();
     
     /**
      * @param bool $short
