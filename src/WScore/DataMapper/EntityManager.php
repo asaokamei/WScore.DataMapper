@@ -116,14 +116,14 @@ class EntityManager
      * @param string       $value
      * @param null|string  $column
      * @param bool|string  $packed
-     * @return \PdoStatement
+     * @return EntityInterface[]
      */
     public function fetch( $entity, $value, $column=null, $packed=false )
     {
         $model = $this->getModel( $entity );
         $class = $this->getClass( $entity );
         $stmt  = $model->fetch( $value, $column, $packed );
-        $stmt->setFetchMode( \PDO::FETCH_CLASS, $class, array( $this ) );
+        $stmt->setFetchMode( \PDO::FETCH_CLASS, $class, array( $model ) );
         $fetched = $stmt->fetchAll();
         $this->register( $fetched );
         return $fetched;
