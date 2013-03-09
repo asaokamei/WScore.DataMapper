@@ -4,7 +4,6 @@ namespace WScore\DataMapper;
 /**
  * Model that governs how entity should be mapped to database (persistence) and to final view (presentation).
  * 
- * TODO: Model should be array world. maybe move entity stuff to EntityManager. 
  */
 class Model
 {
