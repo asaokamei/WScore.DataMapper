@@ -1,9 +1,9 @@
 <?php
-namespace WScore\DataMapper;
+namespace WScore\DataMapper\Entity;
 
-class Entity_Collection implements \ArrayAccess, \Iterator, \Countable
+class Collection implements \ArrayAccess, \Iterator, \Countable
 {
-    /** @var Entity_Interface[]  */
+    /** @var EntityInterface[]  */
     public $_elements = array();
 
     /** @var array   $binds[ propertyName ] = $value */
@@ -15,36 +15,36 @@ class Entity_Collection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * @param Entity_Interface[] $entities
-     * @return Entity_Collection
+     * @param EntityInterface[] $entities
+     * @return Collection
      */
     public function collection( $entities = array() )
     {
         $collection            = new static();
         foreach( $entities as $entity ) {
-            $collection->_elements[ $entity->_get_cenaId() ] = $entity;
+            $collection->_elements[ $entity->getCenaId() ] = $entity;
         }
         return $collection;
     }
 
     /**
-     * @param \WScore\DataMapper\Entity_Interface $entity
+     * @param \WScore\DataMapper\Entity\EntityInterface $entity
      */
     public function add( $entity )
     {
         $this->bindEntity( $entity );
-        $cenaId = $entity->_get_cenaId();
+        $cenaId = $entity->getCenaId();
         if( !$this->offsetExists( $cenaId ) ) {
             $this->offsetSet( $cenaId, $entity );
         }
     }
 
     /**
-     * @param \WScore\DataMapper\Entity_Interface $entity
+     * @param \WScore\DataMapper\Entity\EntityInterface $entity
      */
     public function del( $entity )
     {
-        $cenaId = $entity->_get_cenaId();
+        $cenaId = $entity->getCenaId();
         if( $this->offsetExists( $cenaId ) ) {
             $this->offsetUnset( $cenaId );
         }
@@ -103,7 +103,7 @@ class Entity_Collection implements \ArrayAccess, \Iterator, \Countable
     /**
      * binds an entity. i.e. sets certain value for a property.
      *
-     * @param \WScore\DataMapper\Entity_Interface $entity
+     * @param \WScore\DataMapper\Entity\EntityInterface $entity
      */
     public function bindEntity( $entity )
     {
@@ -117,7 +117,7 @@ class Entity_Collection implements \ArrayAccess, \Iterator, \Countable
      * @param string     $model
      * @param array|string $values
      * @param string|null $column
-     * @return \WScore\DataMapper\Entity_Collection
+     * @return \WScore\DataMapper\Entity\Collection
      */
     public function fetch( $model, $values, $column=null )
     {
@@ -125,9 +125,9 @@ class Entity_Collection implements \ArrayAccess, \Iterator, \Countable
         $result = array();
         foreach( $this->_elements as $cenaId => $entity )
         {
-            if( $model && $model !== $entity->_get_Model() ) continue;
+            if( $model && $model !== $entity->getModelName() ) continue;
             if( !$column ) {
-                $prop = $entity->_get_id();
+                $prop = $entity->getId();
             }
             else {
                 $prop = $entity[ $column ];
@@ -184,14 +184,14 @@ class Entity_Collection implements \ArrayAccess, \Iterator, \Countable
     //  for ArrayAccess and Iterator. 
     // +----------------------------------------------------------------------+
     /**
-     * @return Entity_Interface
+     * @return EntityInterface
      */
     public function getNext() {
         return next( $this->_elements );
     }
 
     /**
-     * @return Entity_Interface
+     * @return EntityInterface
      */
     public function first() {
         return reset( $this->_elements );
@@ -200,7 +200,7 @@ class Entity_Collection implements \ArrayAccess, \Iterator, \Countable
     /**
      * Return the current element
      *
-     * @return Entity_Interface   Can return any type.
+     * @return EntityInterface   Can return any type.
      */
     public function current() {
         return current( $this->_elements );
