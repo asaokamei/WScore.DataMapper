@@ -38,19 +38,19 @@ class Model
 
     /**
      * @Inject
-     * @var \WScore\DataMapper\Model_Persistence
+     * @var \WScore\DataMapper\Model\Persistence
      */
     public $persistence;
 
     /**
      * @Inject
-     * @var \WScore\DataMapper\Model_Presentation
+     * @var \WScore\DataMapper\Model\Presentation
      */
     public $presentation;
 
     /**
      * @Inject
-     * @var \WScore\DataMapper\Model_PropertyCsv
+     * @var \WScore\DataMapper\Model\PropertyCsv
      */
     public $property;
     
@@ -186,7 +186,7 @@ class Model
      * @return array
      */
     public function getRelationInfo( $name=null ) {
-        if( $name ) return Model_Helper::arrGet( $this->relations, $name );
+        if( $name ) return Model\Helper::arrGet( $this->relations, $name );
         return $this->relations;
     }
 

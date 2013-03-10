@@ -1,12 +1,12 @@
 <?php
-namespace WScore\DataMapper;
+namespace WScore\DataMapper\Model;
 
 /**
  * base class for dao's for database tables.
  * a Table Data Gateway pattern.
  *
  */
-class Model_Persistence
+class Persistence
 {
     /** @var string                          name of database table          */
     protected $table;
@@ -89,7 +89,7 @@ class Model_Persistence
         }
         $record = $query->select();
         if( $packed ) {
-            return Model_Helper::packToArray( $record, $packed );
+            return Helper::packToArray( $record, $packed );
         }
         return $record;
     }
@@ -128,7 +128,7 @@ class Model_Persistence
         $data = $this->property->updatedAt( $data );
         $data = $this->property->createdAt( $data );
         $this->query()->insert( $data );
-        $id = Model_Helper::arrGet( $data, $this->id_name, true );
+        $id = Helper::arrGet( $data, $this->id_name, true );
         return $id;
     }
 

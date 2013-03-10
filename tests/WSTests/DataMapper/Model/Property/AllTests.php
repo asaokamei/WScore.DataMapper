@@ -58,8 +58,8 @@ class Property_AllTests extends \PHPUnit_Framework_TestCase
     }
     function test_setCurrent_in_helper()
     {
-        /** @var $helper \WScore\DataMapper\Model_Helper */
-        $helper = '\WScore\DataMapper\Model_Helper';
+        /** @var $helper \WScore\DataMapper\Model\Helper */
+        $helper = '\WScore\DataMapper\Model\Helper';
         $now    = new \DateTime( '2001-03-04 05:06:07' );
         $helper::setCurrent( $now );
         $data = array( 'test' => 'fine' );

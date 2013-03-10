@@ -15,7 +15,7 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
     /** @var \WScore\DbAccess\Query */
     public $query;
 
-    /** @var \WScore\DataMapper\Model_Persistence */
+    /** @var \WScore\DataMapper\Model\Persistence */
     public $friend;
     // +----------------------------------------------------------------------+
     static function setUpBeforeClass()
@@ -61,9 +61,9 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
         $container->set( '\Pdo', self::$config );
         // set up persistence model
         $csv = __DIR__ . '/../../models/friends.csv';
-        $property = new \WScore\DataMapper\Model_PropertyCsv();
+        $property = new \WScore\DataMapper\Model\PropertyCsv();
         $property->prepare( file_get_contents( $csv ) );
-        $this->friend = $container->get( '\WScore\DataMapper\Model_Persistence' );
+        $this->friend = $container->get( '\WScore\DataMapper\Model\Persistence' );
         $this->friend->setProperty( $property );
         $this->friend->setTable( self::$table, self::$id_name );
     }
@@ -88,7 +88,7 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
     // +----------------------------------------------------------------------+
     function test_insert_and_fetch()
     {
-        $this->assertEquals( 'WScore\DataMapper\Model_Persistence', get_class( $this->friend ) );
+        $this->assertEquals( 'WScore\DataMapper\Model\Persistence', get_class( $this->friend ) );
         $data1 = $this->getFriendData(1);
         $this->friend->insertId( $data1 );
         $this->friend->insertId( $this->getFriendData(2) );

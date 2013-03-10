@@ -1,12 +1,12 @@
 <?php
-namespace WScore\DataMapper;
+namespace WScore\DataMapper\Model;
 
 /**
  * base class for dao's for database tables.
  * a Table Data Gateway pattern.
  *
  */
-class Model_PropertyAbstract
+class PropertyAbstract
 {
     /**
      * name of database table
@@ -91,7 +91,7 @@ class Model_PropertyAbstract
      * @return array
      */
     public function updatedAt( $data ) {
-        return Model_Helper::updatedAt( $data, $this->extraTypes );
+        return Helper::updatedAt( $data, $this->extraTypes );
     }
 
     /**
@@ -99,7 +99,7 @@ class Model_PropertyAbstract
      * @return array
      */
     public function createdAt( $data ) {
-        return Model_Helper::createdAt( $data, $this->extraTypes );
+        return Helper::createdAt( $data, $this->extraTypes );
     }
 
     /**
@@ -118,7 +118,7 @@ class Model_PropertyAbstract
      * @return null
      */
     public function getPattern( $name ) {
-        $info = Model_Helper::arrGet( $this->validators, $name );
+        $info = Helper::arrGet( $this->validators, $name );
         return isset( $info[ 'pattern' ] ) ? $info[ 'pattern' ]: null;
     }
 

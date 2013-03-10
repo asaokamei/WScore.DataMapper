@@ -5,7 +5,7 @@ require( __DIR__ . '/../../../../autoloader.php' );
 
 class Property_OrigTest extends Property_AllTests
 {
-    /** @var \WScore\DataMapper\Model_Property */
+    /** @var \WScore\DataMapper\Model\Property */
     public $property;
 
     public $define;
@@ -17,7 +17,7 @@ class Property_OrigTest extends Property_AllTests
     {
         /** @var $container \WScore\DiContainer\Container */
         $container = include( __DIR__ . '/../../../../../vendor/wscore/dicontainer/scripts/instance.php' );
-        $this->property = $container->get( '\WScore\DataMapper\Model_Property' );
+        $this->property = $container->get( '\WScore\DataMapper\Model\Property' );
         $this->define = array(
             'friend_id'     => array( 'friend code', 'number', ),
             'friend_name'   => array( 'name',        'string', ),

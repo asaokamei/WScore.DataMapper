@@ -5,19 +5,19 @@ require( __DIR__ . '/../../../../autoloader.php' );
 
 class Presentation_Test extends \PHPUnit_Framework_TestCase
 {
-    /** @var \WScore\DataMapper\Model_Property */
+    /** @var \WScore\DataMapper\Model\Property */
     public $property;
     
-    /** @var \WScore\DataMapper\Model_Presentation */
+    /** @var \WScore\DataMapper\Model\Presentation */
     public $presentation;
     
     function setUp()
     {
         /** @var $container \WScore\DiContainer\Container */
         $container = include( __DIR__ . '/../../../../../vendor/wscore/dicontainer/scripts/instance.php' );
-        $this->property = $container->get( '\WScore\DataMapper\Model_PropertyCsv' );
+        $this->property = $container->get( '\WScore\DataMapper\Model\PropertyCsv' );
         $this->property->prepare( file_get_contents( __DIR__.'/../../models/friends.csv' ) );
-        $this->presentation = $container->get( '\WScore\DataMapper\Model_Presentation' );
+        $this->presentation = $container->get( '\WScore\DataMapper\Model\Presentation' );
         $this->presentation->setProperty( $this->property );
     }
     // +----------------------------------------------------------------------+

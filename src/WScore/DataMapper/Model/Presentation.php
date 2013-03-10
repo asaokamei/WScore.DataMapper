@@ -1,12 +1,12 @@
 <?php
-namespace WScore\DataMapper;
+namespace WScore\DataMapper\Model;
 
 /**
  * base class for dao's for database tables.
  * a Table Data Gateway pattern.
  *
  */
-class Model_Presentation
+class Presentation
 {
     /**
      * @var array
@@ -117,9 +117,9 @@ class Model_Presentation
     {
         $selector = null;
         if( !$info = $this->property->getSelectInfo( $name ) ) return $selector;
-        $type   = Model_Helper::arrGet( $info, 'type', null );
-        $choice = Model_Helper::arrGet( $info, 'choice',  array() );
-        $extra  = Model_Helper::arrGet( $info, 'extra', null );
+        $type   = Helper::arrGet( $info, 'type', null );
+        $choice = Helper::arrGet( $info, 'choice',  array() );
+        $extra  = Helper::arrGet( $info, 'extra', null );
         if( $info[0] == 'Selector' )
         {
             $selector = $this->selector->getInstance( $type, $name, $extra, $choice );

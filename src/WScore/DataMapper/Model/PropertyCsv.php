@@ -1,12 +1,12 @@
 <?php
-namespace WScore\DataMapper;
+namespace WScore\DataMapper\Model;
 
 /**
  * base class for dao's for database tables.
  * a Table Data Gateway pattern.
  *
  */
-class Model_PropertyCsv extends Model_PropertyAbstract
+class PropertyCsv extends PropertyAbstract
 {
     /**
      * define property and data type. from this data,
@@ -61,12 +61,12 @@ class Model_PropertyCsv extends Model_PropertyAbstract
     public function prepare( $csv_string )
     {
         $this->definition = $csv_string;
-        $return = Model_Helper::analyzeCsv( $csv_string );
+        $return = Helper::analyzeCsv( $csv_string );
         $this->properties = $return[ 'properties' ];
         $this->selectors  = $return[ 'selector' ];
         $this->validators = $return[ 'validation' ];
         $this->relations  = $return[ 'relation' ];
-        $return = Model_Helper::analyzeTypes( $this->properties, $this->relations, $this->id_name );
+        $return = Helper::analyzeTypes( $this->properties, $this->relations, $this->id_name );
         $this->dataTypes  = $return[ 'dataTypes' ];
         $this->extraTypes = $return[ 'extraTypes' ];
         $this->protected  = $return[ 'protected' ];
@@ -79,7 +79,7 @@ class Model_PropertyCsv extends Model_PropertyAbstract
      * @return null|array
      */
     public function getSelectInfo( $name ) {
-        $info = Model_Helper::arrGet( $this->selectors, $name );
+        $info = Helper::arrGet( $this->selectors, $name );
         if( isset( $info[ 'selector' ] ) ) $info[0] = $info[ 'selector' ];
         return $info;
     }
@@ -89,7 +89,7 @@ class Model_PropertyCsv extends Model_PropertyAbstract
      * @return null|array
      */
     public function getValidateInfo( $name ) {
-        $info = Model_Helper::arrGet( $this->validators, $name );
+        $info = Helper::arrGet( $this->validators, $name );
         if( isset( $info[ 'type' ] ) ) $info[0] = $info[ 'type' ];
         return $info;
     }
@@ -99,7 +99,7 @@ class Model_PropertyCsv extends Model_PropertyAbstract
      * @return bool
      */
     public function isRequired( $name ) {
-        $info = Model_Helper::arrGet( $this->properties, $name );
+        $info = Helper::arrGet( $this->properties, $name );
         return isset( $info[ 'required' ] ) ? $info[ 'required' ]===true: false;
     }
     // +----------------------------------------------------------------------+

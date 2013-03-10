@@ -1,10 +1,10 @@
 <?php
-namespace WScore\DataMapper;
+namespace WScore\DataMapper\Model;
 
 /**
  * helper class for model class.
  */
-class Model_Helper
+class Helper
 {
     // +----------------------------------------------------------------------+
     private static $now=null;

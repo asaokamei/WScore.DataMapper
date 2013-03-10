@@ -1,12 +1,12 @@
 <?php
-namespace WScore\DataMapper;
+namespace WScore\DataMapper\Model;
 
 /**
  * base class for dao's for database tables.
  * a Table Data Gateway pattern.
  *
  */
-class Model_Property extends Model_PropertyAbstract
+class Property extends PropertyAbstract
 {
     /**
      * define property and data type. from this data,
@@ -58,7 +58,7 @@ class Model_Property extends Model_PropertyAbstract
     public function prepare( $definition, $relations )
     {
         $this->definition = $definition;
-        $return = Model_Helper::prepare( $definition, $relations, $this->id_name );
+        $return = Helper::prepare( $definition, $relations, $this->id_name );
         $this->properties = $return[ 'properties' ];
         $this->dataTypes  = $return[ 'dataTypes' ];
         $this->extraTypes = $return[ 'extraTypes' ];
@@ -82,7 +82,7 @@ class Model_Property extends Model_PropertyAbstract
      * @return null|array
      */
     public function getSelectInfo( $name ) {
-        return Model_Helper::arrGet( $this->selectors, $name );
+        return Helper::arrGet( $this->selectors, $name );
     }
 
     /**
@@ -90,7 +90,7 @@ class Model_Property extends Model_PropertyAbstract
      * @return null|array
      */
     public function getValidateInfo( $name ) {
-        return Model_Helper::arrGet( $this->validators, $name );
+        return Helper::arrGet( $this->validators, $name );
     }
 
     /**
@@ -98,7 +98,7 @@ class Model_Property extends Model_PropertyAbstract
      * @return bool
      */
     public function isRequired( $name ) {
-        $info = Model_Helper::arrGet( $this->validators, $name );
+        $info = Helper::arrGet( $this->validators, $name );
         return isset( $info[ 'required' ] ) ?: false;
     }
     // +----------------------------------------------------------------------+
