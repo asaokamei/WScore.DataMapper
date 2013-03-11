@@ -7,6 +7,11 @@ use \WScore\DataMapper\Entity\Collection;
 interface RelationInterface
 {
     /**
+     * @param EntityInterface $source
+     * @return mixed
+     */
+    public function setSource( $source );
+    /**
      * fetches related entities from database.
      *
      * @return RelationInterface
