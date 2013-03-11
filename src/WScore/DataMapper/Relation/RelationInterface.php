@@ -7,11 +7,19 @@ use \WScore\DataMapper\Entity\Collection;
 interface RelationInterface
 {
     /**
-     * loads related entities from database.
+     * fetches related entities from database.
      *
      * @return RelationInterface
      */
-    public function load();
+    public function fetch();
+
+    /**
+     * gets related entities from EntityManager's repository.
+     * i.e. no database access.
+     * 
+     * @return Collection
+     */
+    public function get();
     
     /**
      * sets relation between the source and the target entity, 
@@ -38,11 +46,4 @@ interface RelationInterface
      * @return RelationInterface
      */
     public function del( $target=null );
-
-    /**
-     * gets the related entities.
-     *
-     * @return Collection
-     */
-    public function get();
 }
