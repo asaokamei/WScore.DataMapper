@@ -112,6 +112,26 @@ class EntityManager
     public function clear() {
         $this->collection->clear();
     }
+
+    /**
+     * get entity objects from EntityManager's repository.
+     *
+     * @param Entity\EntityInterface       $entity
+     * @param string       $value
+     * @param null|string  $column
+     * @param bool|string  $packed
+     * @return \WScore\DataMapper\Entity\Collection
+     */
+    public function get( $entity, $value, $column=null, $packed=false )
+    {
+        $class = $this->getClass( $entity );
+        $found = $this->collection->fetch( $class, $value, $column );
+        if( $packed ) {
+            $found->pack( $packed );
+        }
+        return $found;
+    }
+    
     /**
      * fetches entity object from database using models. 
      * 
