@@ -3,22 +3,17 @@ namespace WSTests\DataMapper\models;
 
 use \WScore\DataMapper\Model;
 
-class Friends extends Model
+class Contacts extends Model
 {
-    protected $table = 'friend';
+    protected $table = 'contact';
     
-    protected $id_name = 'friend_id';
-
-    const GENDER_MALE   = 'M';
-    const GENDER_FEMALE = 'F';
-    const GENDER_NONE   = 'N';
+    protected $id_name = 'contact_id';
 
     public function __construct()
     {
         parent::__construct();
-        $csv = file_get_contents( __DIR__ . '/friends.csv' );
+        $csv = file_get_contents( __DIR__ . '/contacts.csv' );
         $this->property->prepare( $csv );
-        $this->setGenderChoice();
     }
 
     public function setupTable()
@@ -28,29 +23,31 @@ class Friends extends Model
         $this->persistence->query()->dbAccess()->execSQL( $sql );
         $sql = "
             CREATE TABLE {$table} (
-              friend_id    SERIAL,
-              friend_name  text    NOT NULL,
-              gender       char(1) NOT NULL,
-              friend_bday  date,
-              friend_tel   text    NOT NULL,
-              new_dt_friend   datetime,
-              mod_dt_friend   datetime,
-              constraint friend_pkey PRIMARY KEY (
-                friend_id
+              contact_id       SERIAL,
+              friend_id        int,
+              contact_info     text,
+              new_dt_contact   datetime,
+              mod_dt_contact   datetime,
+              constraint contact_id PRIMARY KEY (
+                contact_id
               )
             )
         ";
         $this->persistence->query()->dbAccess()->execSQL( $sql );
     }
 
-    public function setGenderChoice( $all=false )
+    /**
+     * @param int $idx
+     * @return array
+     */
+    static function makeContact( $idx=0 )
     {
-        $this->property->selectors[ 'gender' ][ 'choice' ] = array(
-            array( self::GENDER_NONE, 'not sure' ),
-            array( self::GENDER_MALE, 'male' ),
+        $values = array(
+            'contact_info' => 'my contact',
         );
-        if( $all ) {
-            $this->property->selectors[ 'gender' ][ 'choice' ][] = array( self::GENDER_FEMALE, 'female' );
+        if( $idx > 0 ) {
+            $values[ 'contact_info' ] .= '#' . $idx;
         }
+        return $values;
     }
 }
