@@ -45,6 +45,15 @@ class EntityManager
     public function emptyCollection() {
         return $this->collection->collection();
     }
+
+    /**
+     * @param EntityInterface|string $entity
+     * @return string
+     */
+    public function getIdName( $entity ) {
+        $model = $this->getModel( $entity );
+        return $model->getIdName();
+    }
     // +----------------------------------------------------------------------+
     //  Managing Entities and Models.
     // +----------------------------------------------------------------------+

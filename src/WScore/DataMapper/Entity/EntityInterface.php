@@ -11,7 +11,12 @@ interface EntityInterface
      * @return null|string
      */
     public function getId();
-    
+
+    /**
+     * @return string
+     */
+    public function getIdName();
+
     /**
      * @param bool $short
      * @return string

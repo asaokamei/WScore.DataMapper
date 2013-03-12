@@ -69,6 +69,13 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     }
 
     /**
+     * @return string
+     */
+    public function getIdName() {
+        return $this->_id_name;
+    }
+
+    /**
      * @param bool $short
      * @return string
      */
