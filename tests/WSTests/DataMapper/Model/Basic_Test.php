@@ -82,17 +82,6 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
             $this->assertEquals( $data1[$key], $fetched[$key] );
         }
     }
-    function test_insert_and_fetch_using_contact()
-    {
-        $this->assertEquals( 'WSTests\DataMapper\models\Contacts', get_class( $this->contact ) );
-        $data = $this->getContactData(1);
-        $this->contact->insert( $data );
-        $stmt = $this->contact->fetch( '1' );
-        $fetched = $stmt->fetch();
-        foreach( $data as $key => $val ) {
-            $this->assertEquals( $val, $fetched[$key] );
-        }
-    }
     function test_fetch_with_condition()
     {
         $stmt = $this->friend->fetch( 'F', 'gender' );
@@ -239,6 +228,37 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         foreach( $list as $key ) {
             $this->assertEquals( $data[$key], $fetched[$key] );
         }
+    }
+    // +----------------------------------------------------------------------+
+    //  test using Contacts
+    // +----------------------------------------------------------------------+
+    function test_insert_and_fetch_using_contact()
+    {
+        $this->assertEquals( 'WSTests\DataMapper\models\Contacts', get_class( $this->contact ) );
+        $data = $this->getContactData(1);
+        $this->contact->insert( $data );
+        $stmt = $this->contact->fetch( '1' );
+        $fetched = $stmt->fetch();
+        foreach( $data as $key => $val ) {
+            $this->assertEquals( $val, $fetched[$key] );
+        }
+    }
+    function test_update_using_contact()
+    {
+        $stmt = $this->contact->fetch( '1' );
+        $fetched = $stmt->fetch();
+        $fetched[ 'info' ] = 'new information';
+        $this->contact->update( $fetched );
+
+        $stmt = $this->contact->fetch( '1' );
+        $fetched = $stmt->fetch();
+        $this->assertEquals( 'new information', $fetched[ 'info' ] );
+    }
+    function test_delete_using_contact()
+    {
+        $this->contact->delete( '1' );
+        $stmt = $this->contact->fetch( '1' );
+        $this->assertEquals( 0, $stmt->rowCount() );
     }
     // +----------------------------------------------------------------------+
 }
