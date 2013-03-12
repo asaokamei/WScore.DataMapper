@@ -43,8 +43,8 @@ class Collection implements \ArrayAccess, \Countable
         $cenaId = $entity->getCenaId();
         if( !isset( $this->cenaIds[ $cenaId ] ) ) {
             $this->entities[] = $entity;
-            key( end( $this->entities ) );
-            $this->cenaIds[ $cenaId ] = key( end( $this->entities ) );;
+            end( $this->entities );
+            $this->cenaIds[ $cenaId ] = key( $this->entities );
         }
     }
 
