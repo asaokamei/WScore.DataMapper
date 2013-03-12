@@ -43,6 +43,24 @@ class Friends extends Model
         $this->persistence->query()->dbAccess()->execSQL( $sql );
     }
 
+    /**
+     * @param int $idx
+     * @return array
+     */
+    function getFriendData( $idx=1 )
+    {
+        $gender = array( 'M', 'F' );
+        $gender = $gender[ $idx % 2 ];
+        $day    = 10 + $idx;
+        $data = array(
+            'friend_name' => 'friend #' . $idx,
+            'gender'      => $gender,
+            'friend_bday' => '1989-02-' . $day,
+            'friend_tel'  => '03-123456-' . $idx,
+        );
+        return $data;
+    }
+
     public function setGenderChoice( $all=false )
     {
         $this->property->selectors[ 'gender' ][ 'choice' ] = array(
