@@ -51,10 +51,10 @@ class RelationAbstract implements RelationInterface
             throw new \RuntimeException( 'target type not set. ' );
         }
         if( !isset( $info[ 'source' ] ) || !$info[ 'source' ] ) {
-            $info[ 'source' ] = $source->getIdName();
+            $info[ 'source' ] = $this->em->getIdName( $info[ 'entity' ] );
         }
         if( !isset( $info[ 'target' ] ) || !$info[ 'target' ] ) {
-            $info[ 'target' ] = $this->em->getIdName( $info[ 'entity' ] );
+            $info[ 'target' ] = $info[ 'source' ];
         }
         $this->info = $info;
     }
