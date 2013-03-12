@@ -234,4 +234,13 @@ class EntityManager
         return $data;
     }
 
+    /**
+     * @param EntityInterface $source
+     * @param string $name
+     * @return Relation\RelationInterface
+     */
+    public function relation( $source, $name )
+    {
+        return /* $relation*/;
+    }
 }
