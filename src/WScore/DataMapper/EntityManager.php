@@ -64,7 +64,7 @@ class EntityManager
      * @param Entity\EntityInterface $entity
      * @return \WScore\DataMapper\Model
      */
-    private function getModel( $entity )
+    public function getModel( $entity )
     {
         $modelName = $this->getModelName( $entity );
         $modelKey  = $modelName;
