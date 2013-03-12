@@ -20,12 +20,12 @@ class RelationManager
         $cenaId = $source->getCenaId();
         if( !isset( $this->relations[ $cenaId ][ $name ] ) )
         {
-            $type = $info[ 'relation_type' ];
+            $type = $info[ 'type' ];
             $class = '\WScore\DataMapper\Relation\\' . ucwords( $type );
             if( !class_exists( $class ) ) {
                 throw new \RuntimeException( "no relation class for $class" );
             }
-            $this->relations[ $cenaId ][ $name ] = new $type( $name, $source, $info );
+            $this->relations[ $cenaId ][ $name ] = new $class( $name, $source, $info );
         }
         return $this->relations[ $cenaId ][ $name ];
     }
