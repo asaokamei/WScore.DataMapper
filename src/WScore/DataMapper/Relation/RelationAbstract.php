@@ -64,13 +64,17 @@ class RelationAbstract implements RelationInterface
     {
         $this->source = $source;
     }
-
+    
     /**
      * fetches related entities from database.
      *
      * @return RelationInterface
      */
-    public function fetch() {}
+    public function fetch()
+    {
+        $this->findEntity( 'fetch' );
+        return $this;
+    }
 
     /**
      * gets related entities from EntityManager's repository.
@@ -78,7 +82,11 @@ class RelationAbstract implements RelationInterface
      *
      * @return Collection
      */
-    public function get() {}
+    public function get()
+    {
+        $this->findEntity( 'get' );
+        return $this;
+    }
 
     /**
      * a utility method for finding target entity object from EM.

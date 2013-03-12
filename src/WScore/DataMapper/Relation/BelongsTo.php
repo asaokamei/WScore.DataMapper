@@ -7,29 +7,6 @@ use \WScore\DataMapper\Entity\Collection;
 class BelongsTo extends RelationAbstract
 {
     /**
-     * fetches related entities from database.
-     *
-     * @return RelationInterface
-     */
-    public function fetch()
-    {
-        $this->findEntity( 'fetch' );
-        return $this;
-    }
-
-    /**
-     * gets related entities from EntityManager's repository.
-     * i.e. no database access.
-     *
-     * @return Collection
-     */
-    public function get()
-    {
-        $this->findEntity( 'get' );
-        return $this;
-    }
-
-    /**
      * sets relation between the source and the target entity,
      * i.e. replaces the existing relations.
      *
