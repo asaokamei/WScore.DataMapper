@@ -237,6 +237,8 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 'WSTests\DataMapper\models\Contacts', get_class( $this->contact ) );
         $data = $this->getContactData(1);
         $this->contact->insert( $data );
+        $this->contact->insert( $this->getContactData(2) );
+        $this->contact->insert( $this->getContactData(3) );
         $stmt = $this->contact->fetch( '1' );
         $fetched = $stmt->fetch();
         foreach( $data as $key => $val ) {
@@ -245,19 +247,23 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
     }
     function test_update_using_contact()
     {
-        $stmt = $this->contact->fetch( '1' );
+        $stmt = $this->contact->fetch( '2' );
         $fetched = $stmt->fetch();
         $fetched[ 'info' ] = 'new information';
         $this->contact->update( $fetched );
 
-        $stmt = $this->contact->fetch( '1' );
+        $stmt = $this->contact->fetch( '2' );
         $fetched = $stmt->fetch();
         $this->assertEquals( 'new information', $fetched[ 'info' ] );
     }
     function test_delete_using_contact()
     {
-        $this->contact->delete( '1' );
-        $stmt = $this->contact->fetch( '1' );
+        $stmt = $this->contact->fetch( '3' );
+        $fetched = $stmt->fetch();
+        $this->assertEquals( '3', $fetched[ 'contact_id' ] );
+
+        $this->contact->delete( '3' );
+        $stmt = $this->contact->fetch( '3' );
         $this->assertEquals( 0, $stmt->rowCount() );
     }
     // +----------------------------------------------------------------------+
