@@ -16,6 +16,9 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
     public $em;
     
     public $friendEntity = '\WSTests\DataMapper\entities\friend';
+
+    public $contactEntity = '\WSTests\DataMapper\entities\contact';
+
     // +----------------------------------------------------------------------+
     static function setUpBeforeClass()
     {
@@ -42,6 +45,13 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
         /** @var $model \WSTests\DataMapper\models\Friends */
         $model = $this->em->getModel( $this->friendEntity );
         return $model->getFriendData( $idx );
+    }
+
+    function getContactData( $idx=1 )
+    {
+        /** @var $model \WSTests\DataMapper\models\Contacts */
+        $model = $this->em->getModel( $this->contactEntity );
+        return $model->makeContact( $idx );
     }
 
     /**
@@ -136,5 +146,32 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
         
         $fetch = $this->em->fetch( $this->friendEntity, '2' );
         $this->assertEquals( '0', count( $fetch ) );
+    }
+    // +----------------------------------------------------------------------+
+    function test_new_entity_and_insert_with_contact()
+    {
+        // create entity from array of data using newEntity.
+        $data1   = $this->getFriendData(1);
+        $friend  = $this->em->newEntity( $this->friendEntity, $data1 );
+        $data2   = $this->getContactData(1);
+        $contact = $this->em->newEntity( $this->contactEntity, $data2 );
+
+        // check entity has the same data.
+        $this->assertEquals( 'WSTests\DataMapper\entities\friend',  get_class( $friend ) );
+        $this->assertEquals( 'WSTests\DataMapper\entities\contact', get_class( $contact ) );
+        $this->assertFalse( $friend->isIdPermanent() );
+        $this->assertFalse( $contact->isIdPermanent() );
+        foreach( $data1 as $key => $val ) {
+            $this->assertEquals( $val, $friend->$key );
+        }
+        foreach( $data2 as $key => $val ) {
+            $this->assertEquals( $val, $contact->$key );
+        }
+        // save the entity to database, i.e. insert.
+        $this->em->save();
+        $this->assertTrue( $friend->isIdPermanent() );
+        $this->assertTrue( $contact->isIdPermanent() );
+        $this->assertEquals( '4', $friend->getId() );
+        $this->assertEquals( '1', $contact->getId() );
     }
 }
