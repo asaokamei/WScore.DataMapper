@@ -91,6 +91,6 @@ class HasOneBasic_Tests extends \PHPUnit_Framework_TestCase
         $contact = $contact[0];
         $this->assertEquals( null, $contact[ 'friend' ] );
         $em->relation( $contact, 'friend' )->fetch();
-        $this->assertEquals( null, $contact[ 'friend' ] );
+        $this->assertEquals( $this->friendEntity, '\\'.get_class( $contact[ 'friend' ] ) );
     }
 }
