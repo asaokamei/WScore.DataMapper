@@ -4,7 +4,10 @@ namespace WScore\DataMapper\Entity;
 class Collection implements \ArrayAccess, \Iterator, \Countable
 {
     /** @var EntityInterface[]  */
-    public $_elements = array();
+    public $entities = array();
+
+    /** @var int[] */
+    public $cenaIds = array();
 
     /** @var array   $binds[ propertyName ] = $value */
     public $binds = array();
@@ -22,7 +25,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     {
         $collection            = new static();
         foreach( $entities as $entity ) {
-            $collection->_elements[ $entity->getCenaId() ] = $entity;
+            $collection->add( $entity );
         }
         return $collection;
     }
@@ -34,8 +37,10 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     {
         $this->bindEntity( $entity );
         $cenaId = $entity->getCenaId();
-        if( !$this->offsetExists( $cenaId ) ) {
-            $this->offsetSet( $cenaId, $entity );
+        if( !isset( $this->cenaIds[ $cenaId ] ) ) {
+            $this->entities[] = $entity;
+            key( end( $this->entities ) );
+            $this->cenaIds[ $cenaId ] = key( end( $this->entities ) );;
         }
     }
 
@@ -45,15 +50,17 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     public function del( $entity )
     {
         $cenaId = $entity->getCenaId();
-        if( $this->offsetExists( $cenaId ) ) {
-            $this->offsetUnset( $cenaId );
-        }
+        if( !isset( $this->cenaIds[ $cenaId ] ) ) return;
+        $offset = $this->cenaIds[ $cenaId ];
+        unset( $this->entities[ $offset ] );
+        unset( $this->cenaIds[ $cenaId ] );
     }
     /**
      * clears the collection.
      */
     public function clear() {
-        $this->_elements = array();
+        $this->entities = array();
+        $this->cenaIds  = array();
     }
 
     /**
@@ -64,11 +71,11 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     public function cleanUpBind()
     {
         if( empty( $this->binds ) ) return;
-        if( empty( $this->_elements ) ) return;
+        if( empty( $this->entities ) ) return;
         foreach( $this->binds as $prop => $val ) {
-            foreach( $this->_elements as $key => $entity ) {
+            foreach( $this->entities as $key => $entity ) {
                 if( $entity[ $prop ] !== $val ) {
-                    unset( $this->_elements[ $key ] );
+                    $this->del( $key );
                     break;
                 }
             }
@@ -81,8 +88,8 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      */
     public function set( $name, $value )
     {
-        if( empty( $this->_elements ) ) return;
-        foreach( $this->_elements as $entity ) {
+        if( empty( $this->entities ) ) return;
+        foreach( $this->entities as $entity ) {
             $entity[ $name ] = $value;
         }
     }
@@ -95,7 +102,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     public function bind( $name, $value )
     {
         $this->binds[ $name ] = $value;
-        foreach( $this->_elements as $entity ) {
+        foreach( $this->entities as $entity ) {
             $this->bindEntity( $entity );
         }
     }
@@ -117,13 +124,13 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @param string     $model
      * @param array|string $values
      * @param string|null $column
-     * @return \WScore\DataMapper\Entity\Collection
+     * @return EntityInterface[]
      */
     public function fetch( $model, $values, $column=null )
     {
         if( !is_array( $values ) ) $values = array( $values );
         $result = array();
-        foreach( $this->_elements as $cenaId => $entity )
+        foreach( $this->entities as $entity )
         {
             if( $model && $model !== $entity->getModelName() ) continue;
             if( !$column ) {
@@ -134,7 +141,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
             }
             if( in_array( $prop, $values ) ) $result[] = $entity;
         }
-        return $this->collection( $result );
+        return $result;
     }
 
     /**
@@ -146,8 +153,8 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
     public function pack( $select )
     {
         $result = array();
-        if( empty( $this->_elements ) ) return $result;
-        foreach( $this->_elements as $rec ) {
+        if( empty( $this->entities ) ) return $result;
+        foreach( $this->entities as $rec ) {
             if( !is_array( $select ) ) {
                 $result[] = $this->arrGet( $rec, $select );
             }
@@ -187,14 +194,14 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return EntityInterface
      */
     public function getNext() {
-        return next( $this->_elements );
+        return next( $this->entities );
     }
 
     /**
      * @return EntityInterface
      */
     public function first() {
-        return reset( $this->_elements );
+        return reset( $this->entities );
     }
 
     /**
@@ -203,7 +210,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return EntityInterface   Can return any type.
      */
     public function current() {
-        return current( $this->_elements );
+        return current( $this->entities );
     }
 
     /**
@@ -212,7 +219,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return void Any returned value is ignored.
      */
     public function next() {
-        next( $this->_elements );
+        next( $this->entities );
     }
 
     /**
@@ -221,7 +228,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return mixed scalar on success, or null on failure.
      */
     public function key() {
-        return key( $this->_elements );
+        return key( $this->entities );
     }
 
     /**
@@ -230,7 +237,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return boolean
      */
     public function valid() {
-        $key = key( $this->_elements );
+        $key = key( $this->entities );
         return ( $key !== null && $key !== false );
     }
 
@@ -240,7 +247,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return void Any returned value is ignored.
      */
     public function rewind() {
-        reset( $this->_elements );
+        reset( $this->entities );
     }
 
     /**
@@ -250,7 +257,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return boolean true on success or false on failure.
      */
     public function offsetExists( $offset ) {
-        return array_key_exists( $offset, $this->_elements );
+        return array_key_exists( $offset, $this->entities );
     }
 
     /**
@@ -260,18 +267,19 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return mixed Can return all value types.
      */
     public function offsetGet( $offset ) {
-        return $this->offsetExists( $offset ) ? $this->_elements[ $offset ]: null;
+        return $this->offsetExists( $offset ) ? $this->entities[ $offset ]: null;
     }
 
     /**
      * Offset to set
      *
      * @param mixed $offset
-     * @param mixed $value
+     * @param EntityInterface $value
      * @return void
      */
     public function offsetSet( $offset, $value ) {
-        $this->_elements[ $offset ] = $value;
+        $this->entities[ $offset ] = $value;
+        $this->cenaIds[ $value->getCenaId() ] = $offset;
     }
 
     /**
@@ -281,7 +289,10 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return void
      */
     public function offsetUnset( $offset ) {
-        if ( $this->offsetExists( $offset ) ) unset( $this->_elements[ $offset ] );
+        if( !$this->offsetExists( $offset ) ) return;
+        $cenaId = $this->entities[ $offset ]->getCenaId();
+        unset( $this->cenaIds[ $cenaId ] );
+        unset( $this->entities[ $offset ] );
     }
 
     /**
@@ -290,6 +301,6 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      * @return int The custom count as an integer.
      */
     public function count() {
-        return count( $this->_elements );
+        return count( $this->entities );
     }
 }
