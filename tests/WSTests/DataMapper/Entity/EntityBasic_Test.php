@@ -3,6 +3,7 @@ namespace WSTests\DataMapper;
 
 use \WScore\DataMapper\Entity\EntityInterface;
 use \WSTests\DataMapper\entities\friend;
+use \WSTests\DataMapper\entities\contact;
 
 require( __DIR__ . '/../../../autoloader.php' );
 
@@ -11,9 +12,11 @@ class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
     /** @var mixed */
     public static $config = 'dsn=mysql:dbname=test_WScore username=admin password=admin';
 
-    /** @var \WScore\DataMapper\Model */
+    /** @var \WSTests\DataMapper\models\Friends */
     public $friend;
 
+    /** @var \WSTests\DataMapper\models\Contacts */
+    public $contact;
     /**
      *
      */
@@ -23,9 +26,11 @@ class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
         $container = include( __DIR__ . '/../../../../vendor/wscore/dicontainer/scripts/instance.php' );
         $container->set( '\Pdo', self::$config );
         // set up persistence model
-        $this->friend = $container->get( '\WSTests\DataMapper\models\Friends' );
+        $this->friend  = $container->get( '\WSTests\DataMapper\models\Friends' );
+        $this->contact = $container->get( '\WSTests\DataMapper\models\Contacts' );
         class_exists( '\WScore\DataMapper\Entity\EntityAbstract' );
         class_exists( '\WSTests\DataMapper\entities\friend' );
+        class_exists( '\WSTests\DataMapper\entities\contact' );
     }
     // +----------------------------------------------------------------------+
     function test_new_friend()
@@ -85,5 +90,15 @@ class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
         
         $entity[ 'friend_name' ] = 'more value';
         $this->assertEquals( 'more value', $entity->friend_name );
+    }
+    // +----------------------------------------------------------------------+
+    function test_new_contact()
+    {
+        $entity = new contact( $this->contact, EntityInterface::_ID_TYPE_VIRTUAL );
+        $this->assertEquals( contact::getStaticModelName(), $entity->getModelName() );
+        $this->assertFalse( $entity->isIdPermanent() );
+        $this->assertEquals( $this->contact->getModelName(), $entity->getModelName() );
+        $this->assertEquals( $this->contact->getModelName(true), $entity->getModelName(true) );
+        $this->assertEquals( 'Contacts.0.7', $entity->getCenaId() );
     }
 }
