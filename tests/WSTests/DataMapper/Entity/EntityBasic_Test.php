@@ -4,7 +4,7 @@ namespace WSTests\DataMapper;
 use \WScore\DataMapper\Entity\EntityInterface;
 use \WSTests\DataMapper\entities\friend;
 
-require( __DIR__ . '/../../autoloader.php' );
+require( __DIR__ . '/../../../autoloader.php' );
 
 class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
     function setUp()
     {
         /** @var $container \WScore\DiContainer\Container */
-        $container = include( __DIR__ . '/../../../vendor/wscore/dicontainer/scripts/instance.php' );
+        $container = include( __DIR__ . '/../../../../vendor/wscore/dicontainer/scripts/instance.php' );
         $container->set( '\Pdo', self::$config );
         // set up persistence model
         $this->friend = $container->get( '\WSTests\DataMapper\models\Friends' );
