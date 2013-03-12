@@ -58,33 +58,4 @@ class HasOne extends RelationAbstract
         $this->source[ $sourceColumn ] = $value;
         $this->linked = true;
     }
-
-    /**
-     * adds relation between the source and the target entity.
-     * for Many-to-many relation, it will *add* relation.
-     *
-     * @param EntityInterface $target
-     * @return RelationInterface
-     */
-    public function add( $target )
-    {
-        return $this->set( $target );
-    }
-
-    /**
-     * deletes the relation between the source and the target entity.
-     *
-     * @param EntityInterface $target
-     * @return RelationInterface
-     */
-    public function del( $target = null )
-    {
-        if( !$target ) {
-            $name = $this->name;
-            $target = $this->source->$name;
-        }
-        if( empty( $target ) ) return $this;
-        $target[ $this->info[ 'targetColumn' ] ] = null;
-        return $this;
-    }
 }

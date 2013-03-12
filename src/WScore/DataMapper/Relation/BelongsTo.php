@@ -29,19 +29,14 @@ class BelongsTo extends RelationAbstract
         return $this;
     }
 
-    public function set( $target )
-    {
-
-    }
-
     /**
-     * adds relation between the source and the target entity.
-     * for Many-to-many relation, it will *add* relation.
+     * sets relation between the source and the target entity,
+     * i.e. replaces the existing relations.
      *
-     * @param EntityInterface|Collection $target
+     * @param EntityInterface $target
      * @return RelationInterface
      */
-    public function add( $target )
+    public function set( $target )
     {
         $name = $this->info[ 'target_hasOne' ];
         if( $target instanceof EntityInterface ) $target = array( $target );
@@ -50,6 +45,5 @@ class BelongsTo extends RelationAbstract
         }
         return $this;
     }
-
 
 }

@@ -14,6 +14,7 @@ class RelationAbstract implements RelationInterface
      * - source_column: column name of source. uses id if not set.
      * - target_type  : entity class name of target object.
      * - target_column: column name of target. uses id if not set.
+     * - target_hasOne: target's HasOne relation name.
      * - join_type    : entity class name of join table.
      *
      * @var array
@@ -79,6 +80,12 @@ class RelationAbstract implements RelationInterface
      */
     public function get() {}
 
+    /**
+     * a utility method for finding target entity object from EM.
+     * specify method, get or fetch, to use for retrieval.
+     *
+     * @param $by
+     */
     protected function findEntity( $by )
     {
         $entityClass = $this->info[ 'targetEntity' ];
@@ -96,21 +103,4 @@ class RelationAbstract implements RelationInterface
      * @return RelationInterface
      */
     public function set( $target ) {}
-
-    /**
-     * adds relation between the source and the target entity.
-     * for Many-to-many relation, it will *add* relation.
-     *
-     * @param EntityInterface|Collection $target
-     * @return RelationInterface
-     */
-    public function add( $target ) {}
-
-    /**
-     * deletes the relation between the source and the target entity.
-     *
-     * @param EntityInterface|Collection $target
-     * @return RelationInterface
-     */
-    public function del( $target = null ) {}
 }

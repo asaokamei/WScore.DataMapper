@@ -34,21 +34,4 @@ interface RelationInterface
      * @return RelationInterface
      */
     public function set( $target );
-
-    /**
-     * adds relation between the source and the target entity.
-     * for Many-to-many relation, it will *add* relation. 
-     * 
-     * @param EntityInterface|Collection $target
-     * @return RelationInterface
-     */
-    public function add( $target );
-
-    /**
-     * deletes the relation between the source and the target entity.
-     *
-     * @param EntityInterface|Collection $target
-     * @return RelationInterface
-     */
-    public function del( $target=null );
 }
