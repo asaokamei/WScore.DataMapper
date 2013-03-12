@@ -3,7 +3,7 @@ namespace WSTests\DataMapper\Model;
 
 class Property_AllTests extends \PHPUnit_Framework_TestCase
 {
-    /** @var \WScore\DataMapper\Model_Property */
+    /** @var \WScore\DataMapper\Model\Property */
     public $property;
     // +----------------------------------------------------------------------+
     function test_exists_method()
