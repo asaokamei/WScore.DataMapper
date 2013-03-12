@@ -43,6 +43,12 @@ class HasOne extends RelationAbstract
         return $this;
     }
 
+    /**
+     * sets a relationship between source and target by setting
+     * source column with target value.
+     *
+     * if the target's id is not permanent, sets linked flag to false. 
+     */
     private function setRelation()
     {
         $name = $this->name;
