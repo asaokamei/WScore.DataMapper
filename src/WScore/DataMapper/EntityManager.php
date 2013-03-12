@@ -21,8 +21,11 @@ class EntityManager
      */
     protected $collection;
 
-    /** @ var \WScore\DataMapper\Relation */
-    // protected $relation;
+    /**
+     * @Inject
+     * @var \WScore\DataMapper\RelationManager
+     */
+    protected $relation;
 
     // +----------------------------------------------------------------------+
     //  construction and managing objects. 
@@ -241,6 +244,8 @@ class EntityManager
      */
     public function relation( $source, $name )
     {
-        return /* $relation*/;
+        $model = $this->getModel( $source );
+        $info  = $model->getRelationInfo( $name );
+        return $this->relation->relation( $name, $source, $info );
     }
 }
