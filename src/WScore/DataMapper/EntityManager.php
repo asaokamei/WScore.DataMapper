@@ -114,9 +114,7 @@ class EntityManager
             return $entity;
         }
         /** @var Entity\EntityInterface */
-        if( $this->collection->exists( $entity ) ) {
-            $this->collection->add( $entity );
-        }
+        $this->collection->add( $entity );
         return $entity;
     }
 
