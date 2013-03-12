@@ -9,13 +9,14 @@ class RelationManager
     protected $relations = array();
 
     /**
+     * @param \WScore\DataMapper\EntityManager $em
      * @param string                 $name
      * @param Entity\EntityInterface $source
      * @param array                  $info
      * @throws \RuntimeException
      * @return Relation\RelationInterface
      */
-    public function relation( $name, $source, $info )
+    public function relation( $em, $name, $source, $info )
     {
         $cenaId = $source->getCenaId();
         if( !isset( $this->relations[ $cenaId ][ $name ] ) )
@@ -25,7 +26,7 @@ class RelationManager
             if( !class_exists( $class ) ) {
                 throw new \RuntimeException( "no relation class for $class" );
             }
-            $this->relations[ $cenaId ][ $name ] = new $class( $name, $source, $info );
+            $this->relations[ $cenaId ][ $name ] = new $class( $em, $name, $source, $info );
         }
         return $this->relations[ $cenaId ][ $name ];
     }

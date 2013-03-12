@@ -243,6 +243,6 @@ class EntityManager
     {
         $model = $this->getModel( $source );
         $info  = $model->getRelationInfo( $name );
-        return $this->relation->relation( $name, $source, $info );
+        return $this->relation->relation( $this, $name, $source, $info );
     }
 }

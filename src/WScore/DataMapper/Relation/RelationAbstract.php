@@ -35,23 +35,25 @@ class RelationAbstract implements RelationInterface
     protected $em;
 
     /**
+     * @param \WScore\DataMapper\EntityManager $em
      * @param string          $name
      * @param EntityInterface $source
      * @param array           $info
      * @throws \RuntimeException
      */
-    public function __construct( $name, $source, $info )
+    public function __construct( $em, $name, $source, $info )
     {
+        $this->em     = $em;
         $this->name   = $name;
         $this->source = $source;
 
         if( !isset( $info[ 'entity' ] ) ) {
             throw new \RuntimeException( 'target type not set. ' );
         }
-        if( !isset( $info[ 'source' ] ) ) {
+        if( !isset( $info[ 'source' ] ) || !$info[ 'source' ] ) {
             $info[ 'source' ] = $source->getIdName();
         }
-        if( !isset( $info[ 'target' ] ) ) {
+        if( !isset( $info[ 'target' ] ) || !$info[ 'target' ] ) {
             $info[ 'target' ] = $this->em->getIdName( $info[ 'entity' ] );
         }
         $this->info = $info;
