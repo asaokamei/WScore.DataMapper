@@ -44,8 +44,6 @@ class PropertyCsv extends PropertyAbstract
      */
     public $selectors  = array();
 
-    public $relations = array();
-
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances.
     // +----------------------------------------------------------------------+

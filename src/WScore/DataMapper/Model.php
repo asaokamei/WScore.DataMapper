@@ -186,8 +186,7 @@ class Model
      * @return array
      */
     public function getRelationInfo( $name=null ) {
-        if( $name ) return Model\Helper::arrGet( $this->relations, $name );
-        return $this->relations;
+        return $this->property->getRelationInfo( $name );
     }
 
     /**

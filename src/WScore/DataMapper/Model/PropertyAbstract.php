@@ -52,6 +52,8 @@ class PropertyAbstract
      */
     protected $validators = array();
 
+    public $relations = array();
+
     /**
      * @param string $table
      * @param string $id_name
@@ -161,6 +163,15 @@ class PropertyAbstract
             }
         }
         return $data;
+    }
+
+    /**
+     * @param null|string $name
+     * @return array
+     */
+    public function getRelationInfo( $name=null ) {
+        if( $name ) return Helper::arrGet( $this->relations, $name );
+        return $this->relations;
     }
 
 
