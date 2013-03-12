@@ -15,7 +15,7 @@ class BelongsTo extends RelationAbstract
      */
     public function set( $target )
     {
-        $name = $this->info[ 'target_hasOne' ];
+        $name = $this->info[ 'hasOne' ];
         if( $target instanceof EntityInterface ) $target = array( $target );
         foreach( $target as $t ) {
             $this->em->relation( $t, $name )->set( $this->source );

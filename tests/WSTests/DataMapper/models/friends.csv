@@ -39,5 +39,5 @@
 ,,,,,,,,
 ,,,,,,,,
 "#relation",,,,,,,,
-"id","type","source","target","model",,,,
+"id","type","source","target","entity",,,,
 "Tags","HasOne","tag_id",,"WSTests\DbAccess\Tags",,,,

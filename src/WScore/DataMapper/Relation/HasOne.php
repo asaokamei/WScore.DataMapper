@@ -35,8 +35,8 @@ class HasOne extends RelationAbstract
             $this->linked = false;
             return;
         }
-        $sourceColumn      = $this->info[ 'sourceColumn' ];
-        $targetColumn      = $this->info[ 'targetColumn' ];
+        $sourceColumn      = $this->info[ 'source' ];
+        $targetColumn      = $this->info[ 'target' ];
         $value = $target[ $targetColumn ];
         $this->source[ $sourceColumn ] = $value;
         $this->linked = true;

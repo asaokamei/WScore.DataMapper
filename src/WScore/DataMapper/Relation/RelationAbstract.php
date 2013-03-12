@@ -11,12 +11,12 @@ class RelationAbstract implements RelationInterface
 
     /**
      * information about the relationship.
-     * - relation_type: type of relation (HasOne, BelongsTo, etc.)
-     * - source_column: column name of source. uses id if not set.
-     * - target_type  : entity class name of target object.
-     * - target_column: column name of target. uses id if not set.
-     * - target_hasOne: target's HasOne relation name.
-     * - join_type    : entity class name of join table.
+     * - type   : type of relation (HasOne, BelongsTo, etc.)
+     * - source : column name of source. uses id if not set.
+     * - entity : entity class name of target object.
+     * - target : column name of target. uses id if not set.
+     * - hasOne : target's HasOne relation name.
+     * - joinBy : entity class name of join table.
      *
      * @var array
      */
@@ -45,14 +45,14 @@ class RelationAbstract implements RelationInterface
         $this->name   = $name;
         $this->source = $source;
 
-        if( !isset( $info[ 'target_type' ] ) ) {
+        if( !isset( $info[ 'entity' ] ) ) {
             throw new \RuntimeException( 'target type not set. ' );
         }
-        if( !isset( $info[ 'source_column' ] ) ) {
-            $info[ 'source_column' ] = $source->getIdName();
+        if( !isset( $info[ 'source' ] ) ) {
+            $info[ 'source' ] = $source->getIdName();
         }
-        if( !isset( $info[ 'target_column' ] ) ) {
-            $info[ 'target_column' ] = $this->em->getIdName( $info[ 'target_type' ] );
+        if( !isset( $info[ 'target' ] ) ) {
+            $info[ 'target' ] = $this->em->getIdName( $info[ 'entity' ] );
         }
         $this->info = $info;
     }
@@ -97,10 +97,10 @@ class RelationAbstract implements RelationInterface
      */
     protected function findEntity( $by )
     {
-        $entityClass = $this->info[ 'targetEntity' ];
-        $value       = $this->source[ $this->info[ 'sourceColumn' ] ];
-        $column      = $this->info[ 'targetColumn' ];
-        $target      = $this->em->$by( $entityClass, $value, $column );
+        $class  = $this->info[ 'entity' ];
+        $value  = $this->source[ $this->info[ 'source' ] ];
+        $column = $this->info[ 'target' ];
+        $target = $this->em->$by( $class, $value, $column );
         $this->source[ $this->name ] = $target;
     }
 
