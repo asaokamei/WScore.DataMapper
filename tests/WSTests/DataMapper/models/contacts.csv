@@ -32,4 +32,4 @@
 ,,,,,,,,
 "#relation",,,,,,,,
 "id","type","source","target","entity",,,,
-"friend","HasOne",,,"WSTests\DataMapper\entities\friends",,,,
+"friend","HasOne",,,"\WSTests\DataMapper\entities\friend",,,,
