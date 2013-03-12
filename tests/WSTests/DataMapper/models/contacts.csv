@@ -2,9 +2,10 @@
 "id","active","label","dbDef","notNull","default","required","extra","bindType"
 "contact_id",,"contact code","serial","TRUE",,,,
 "friend_id",,"friend link","int","TRUE",,"TRUE",,
-"contact_info",,"name","text",,"''","TRUE",,
-"new_dt_friend",,"created at","datetime","TRUE",,,"created_at",
-"mod_dt_friend",,"updated at","datetime","TRUE",,,"updated_at",
+"info",,"name","text",,"''","TRUE",,
+"type",,"name","text",,"''","TRUE",,
+"new_dt_contact",,"created at","datetime","TRUE",,,"created_at",
+"mod_dt_contact",,"updated at","datetime","TRUE",,,"updated_at",
 ,,,,,,,,
 ,,,,,,,,
 ,,,,,,,,

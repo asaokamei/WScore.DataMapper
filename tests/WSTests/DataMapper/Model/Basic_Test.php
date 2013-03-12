@@ -17,6 +17,9 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
 
     /** @var \WSTests\DataMapper\models\Friends */
     public $friend;
+
+    /** @var \WSTests\DataMapper\models\Contacts */
+    public $contact;
     // +----------------------------------------------------------------------+
     static function setUpBeforeClass()
     {
@@ -26,6 +29,9 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         /** @var $friend \WSTests\DataMapper\models\Friends */
         $friend = $container->get( '\WSTests\DataMapper\models\Friends' );
         $friend->setupTable();
+        /** @var $friend \WSTests\DataMapper\models\Contacts */
+        $contact = $container->get( '\WSTests\DataMapper\models\Contacts' );
+        $contact->setupTable();
     }
 
     /**
@@ -38,6 +44,7 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $container->set( '\Pdo', self::$config );
         // set up persistence model
         $this->friend = $container->get( '\WSTests\DataMapper\models\Friends' );
+        $this->contact = $container->get( '\WSTests\DataMapper\models\Contacts' );
     }
 
     /**
@@ -47,6 +54,15 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
     function getFriendData( $idx=1 )
     {
         return $this->friend->getFriendData( $idx );
+    }
+
+    /**
+     * @param int $idx
+     * @return array
+     */
+    function getContactData( $idx=1 )
+    {
+        return $this->contact->makeContact( $idx );
     }
     // +----------------------------------------------------------------------+
     //  test for persistence
@@ -64,6 +80,17 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $list = array( 'friend_name', 'gender', 'friend_bday', 'friend_tel' );
         foreach( $list as $key ) {
             $this->assertEquals( $data1[$key], $fetched[$key] );
+        }
+    }
+    function test_insert_and_fetch_using_contact()
+    {
+        $this->assertEquals( 'WSTests\DataMapper\models\Contacts', get_class( $this->contact ) );
+        $data = $this->getContactData(1);
+        $this->contact->insert( $data );
+        $stmt = $this->contact->fetch( '1' );
+        $fetched = $stmt->fetch();
+        foreach( $data as $key => $val ) {
+            $this->assertEquals( $val, $fetched[$key] );
         }
     }
     function test_fetch_with_condition()

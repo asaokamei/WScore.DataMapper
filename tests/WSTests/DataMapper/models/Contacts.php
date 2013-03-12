@@ -9,11 +9,20 @@ class Contacts extends Model
     
     protected $id_name = 'contact_id';
 
+    const TYPE_TELEPHONE  = '1';
+    const TYPE_EMAIL      = '2';
+    const TYPE_SOCIAL     = '3';
+
     public function __construct()
     {
         parent::__construct();
         $csv = file_get_contents( __DIR__ . '/contacts.csv' );
         $this->property->prepare( $csv );
+        $this->property->selectors[ 'type' ][ 'choice' ] = array(
+            array( self::TYPE_TELEPHONE, 'telephone' ),
+            array( self::TYPE_EMAIL,     'e-mails' ),
+            array( self::TYPE_SOCIAL,    'social' ),
+        );
     }
 
     public function setupTable()
@@ -25,7 +34,8 @@ class Contacts extends Model
             CREATE TABLE {$table} (
               contact_id       SERIAL,
               friend_id        int,
-              contact_info     text,
+              info     text,
+              type     text,
               new_dt_contact   datetime,
               mod_dt_contact   datetime,
               constraint contact_id PRIMARY KEY (
@@ -42,11 +52,14 @@ class Contacts extends Model
      */
     static function makeContact( $idx=0 )
     {
+        $type = array( '1', '2', '3' );
+        $type = $type[ $idx % 3 ];
         $values = array(
-            'contact_info' => 'my contact',
+            'info' => 'my contact',
+            'type' => $type,
         );
         if( $idx > 0 ) {
-            $values[ 'contact_info' ] .= '#' . $idx;
+            $values[ 'info' ] .= '#' . $idx;
         }
         return $values;
     }
