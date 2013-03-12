@@ -6,6 +6,24 @@ use \WScore\DataMapper\Entity\Collection;
 
 class HasOne extends RelationAbstract
 {
+    public function get()
+    {
+        parent::get();
+        $this->singleRelation();
+    }
+
+    public function fetch()
+    {
+        parent::fetch();
+        $this->singleRelation();
+    }
+    
+    private function singleRelation() {
+        $name = $this->name;
+        if( !is_array( $this->source->$name ) ) return;
+        $temp = $this->source->$name;
+        $this->source->$name = $temp[0];
+    }
     /**
      * sets relation between the source and the target entity,
      * i.e. replaces the existing relations.
