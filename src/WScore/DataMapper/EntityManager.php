@@ -61,7 +61,7 @@ class EntityManager
     //  Managing Entities and Models.
     // +----------------------------------------------------------------------+
     /**
-     * @param Entity\EntityInterface $entity
+     * @param Entity\EntityInterface|string $entity
      * @return \WScore\DataMapper\Model
      */
     public function getModel( $entity )
@@ -147,7 +147,7 @@ class EntityManager
     /**
      * fetches entity object from database using models. 
      * 
-     * @param Entity\EntityInterface       $entity
+     * @param Entity\EntityInterface|string       $entity
      * @param string       $value
      * @param null|string  $column
      * @param bool|string  $packed
@@ -167,7 +167,7 @@ class EntityManager
     /**
      * constructs a *new* entity to be inserted into database. 
      * 
-     * @param Entity\EntityInterface       $entity
+     * @param Entity\EntityInterface|string       $entity
      * @param array  $data
      * @return \WScore\DataMapper\Entity\EntityInterface
      */
