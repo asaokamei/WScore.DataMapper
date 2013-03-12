@@ -4,7 +4,7 @@ namespace WScore\DataMapper\Relation;
 use \WScore\DataMapper\Entity\EntityInterface;
 use \WScore\DataMapper\Entity\Collection;
 
-class HasOne implements RelationInterface
+class HasOne extends RelationAbstract
 {
     /** @var string */
     public $name;
@@ -20,20 +20,15 @@ class HasOne implements RelationInterface
      * @var \WScore\DataMapper\EntityManager
      */
     protected $em;
-    
-    public function __construct( $name, $info )
-    {
-        $this->name = $name;
-        $this->info = $info;
-    }
 
     /**
-     * @param EntityInterface $source
-     * @return mixed
+     * @param string                                    $name
+     * @param \WScore\DataMapper\Entity\EntityInterface $source
+     * @param array                                     $info
      */
-    public function setSource( $source )
+    public function __construct( $name, $source, $info )
     {
-        $this->source = $source;
+        parent::__construct( $name, $source, $info );
     }
 
     /**
@@ -59,15 +54,6 @@ class HasOne implements RelationInterface
         return $this;
     }
 
-    private function findEntity( $by )
-    {
-        $entityClass = $this->info[ 'targetEntity' ];
-        $value       = $this->source[ $this->info[ 'sourceColumn' ] ];
-        $column      = $this->info[ 'targetColumn' ];
-        $target      = $this->em->$by( $entityClass, $value, $column );
-        $this->source[ $this->name ] = $target;
-    }
-    
     /**
      * sets relation between the source and the target entity,
      * i.e. replaces the existing relations.
@@ -77,12 +63,25 @@ class HasOne implements RelationInterface
      */
     public function set( $target )
     {
+        $this->source[ $this->name ] = $target;
+        $this->setRelation();
+        return $this;
+    }
+
+    private function setRelation()
+    {
+        $name = $this->name;
+        /** @var $target EntityInterface */
+        $target = $this->source->$name;
+        if( !$target->isIdPermanent() ) {
+            $this->linked = false;
+            return;
+        }
         $sourceColumn      = $this->info[ 'sourceColumn' ];
         $targetColumn      = $this->info[ 'targetColumn' ];
         $value = $target[ $targetColumn ];
         $this->source[ $sourceColumn ] = $value;
-        $this->source[ $this->name ] = $target;
-        return $this;
+        $this->linked = true;
     }
 
     /**
@@ -105,8 +104,12 @@ class HasOne implements RelationInterface
      */
     public function del( $target = null )
     {
-        $targetColumn      = $this->info[ 'targetColumn' ];
-        $target[ $targetColumn ] = null;
+        if( !$target ) {
+            $name = $this->name;
+            $target = $this->source->$name;
+        }
+        if( empty( $target ) ) return $this;
+        $target[ $this->info[ 'targetColumn' ] ] = null;
         return $this;
     }
 }
