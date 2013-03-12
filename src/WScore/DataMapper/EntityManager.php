@@ -114,8 +114,7 @@ class EntityManager
             return $entity;
         }
         /** @var Entity\EntityInterface */
-        $cenaId = $entity->getCenaId();
-        if( !isset( $this->collection[ $cenaId ] ) ) {
+        if( $this->collection->exists( $entity ) ) {
             $this->collection->add( $entity );
         }
         return $entity;
@@ -191,8 +190,8 @@ class EntityManager
      */
     public function save()
     {
-        if( empty( $this->collection ) ) return;
-        foreach( $this->collection as $entity ) {
+        if( empty( $this->collection->entities ) ) return;
+        foreach( $this->collection->entities as $entity ) {
             $this->saveEntity( $entity );
         }
     }

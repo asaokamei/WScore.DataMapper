@@ -28,6 +28,14 @@ class Collection implements \ArrayAccess, \Countable
     }
 
     /**
+     * @param EntityInterface $entity
+     * @return bool
+     */
+    public function exists( $entity ) {
+        return array_key_exists( $entity->getCenaId(), $this->cenaIds );
+    }
+
+    /**
      * @param \WScore\DataMapper\Entity\EntityInterface $entity
      */
     public function add( $entity )
@@ -51,6 +59,7 @@ class Collection implements \ArrayAccess, \Countable
         unset( $this->entities[ $offset ] );
         unset( $this->cenaIds[ $cenaId ] );
     }
+
     /**
      * clears the collection.
      */
