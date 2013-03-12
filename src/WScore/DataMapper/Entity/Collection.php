@@ -1,16 +1,13 @@
 <?php
 namespace WScore\DataMapper\Entity;
 
-class Collection implements \ArrayAccess, \Iterator, \Countable
+class Collection implements \ArrayAccess, \Countable
 {
     /** @var EntityInterface[]  */
     public $entities = array();
 
     /** @var int[] */
     public $cenaIds = array();
-
-    /** @var array   $binds[ propertyName ] = $value */
-    public $binds = array();
 
     // +----------------------------------------------------------------------+
     public function __construct()
@@ -35,7 +32,6 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      */
     public function add( $entity )
     {
-        $this->bindEntity( $entity );
         $cenaId = $entity->getCenaId();
         if( !isset( $this->cenaIds[ $cenaId ] ) ) {
             $this->entities[] = $entity;
@@ -62,25 +58,6 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
         $this->entities = array();
         $this->cenaIds  = array();
     }
-
-    /**
-     * clean up entities.
-     * removes entities whose properties does not match with bind condition.
-     * they are likely modified elsewhere and should not belong to the collection.
-     */
-    public function cleanUpBind()
-    {
-        if( empty( $this->binds ) ) return;
-        if( empty( $this->entities ) ) return;
-        foreach( $this->binds as $prop => $val ) {
-            foreach( $this->entities as $key => $entity ) {
-                if( $entity[ $prop ] !== $val ) {
-                    $this->del( $key );
-                    break;
-                }
-            }
-        }
-    }
     // +----------------------------------------------------------------------+
     /**
      * @param string $name
@@ -91,32 +68,6 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
         if( empty( $this->entities ) ) return;
         foreach( $this->entities as $entity ) {
             $entity[ $name ] = $value;
-        }
-    }
-    /**
-     * specify bind condition.
-     *
-     * @param string $name
-     * @param string $value
-     */
-    public function bind( $name, $value )
-    {
-        $this->binds[ $name ] = $value;
-        foreach( $this->entities as $entity ) {
-            $this->bindEntity( $entity );
-        }
-    }
-
-    /**
-     * binds an entity. i.e. sets certain value for a property.
-     *
-     * @param \WScore\DataMapper\Entity\EntityInterface $entity
-     */
-    public function bindEntity( $entity )
-    {
-        if( empty( $this->binds ) ) return;
-        foreach( $this->binds as $prop => $val ) {
-            $entity[ $prop ] = $val;
         }
     }
 
@@ -172,7 +123,7 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
 
     // +----------------------------------------------------------------------+
     /**
-     * @param array $arr
+     * @param array|EntityInterface $arr
      * @param string $key
      * @param mixed $default
      * @return mixed
@@ -202,52 +153,6 @@ class Collection implements \ArrayAccess, \Iterator, \Countable
      */
     public function first() {
         return reset( $this->entities );
-    }
-
-    /**
-     * Return the current element
-     *
-     * @return EntityInterface   Can return any type.
-     */
-    public function current() {
-        return current( $this->entities );
-    }
-
-    /**
-     * Move forward to next element
-     *
-     * @return void Any returned value is ignored.
-     */
-    public function next() {
-        next( $this->entities );
-    }
-
-    /**
-     * Return the key of the current element
-     *
-     * @return mixed scalar on success, or null on failure.
-     */
-    public function key() {
-        return key( $this->entities );
-    }
-
-    /**
-     * Checks if current position is valid
-     *
-     * @return boolean
-     */
-    public function valid() {
-        $key = key( $this->entities );
-        return ( $key !== null && $key !== false );
-    }
-
-    /**
-     * Rewind the Iterator to the first element
-     *
-     * @return void Any returned value is ignored.
-     */
-    public function rewind() {
-        reset( $this->entities );
     }
 
     /**
