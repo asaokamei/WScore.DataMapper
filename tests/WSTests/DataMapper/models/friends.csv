@@ -40,5 +40,4 @@
 ,,,,,,,,
 "#relation",,,,,,,,
 "id","type","source","target","entity",,,,
-"Tags","HasOne","tag_id",,"WSTests\DbAccess\Tags",,,,
 "contacts","BelongsTo",,,"WSTests\DataMapper\entities\contacts",,,,
