@@ -70,9 +70,11 @@ class HasOneBasic_Tests extends \PHPUnit_Framework_TestCase
     // +----------------------------------------------------------------------+
     function test_new_entity_and_insert()
     {
-        $friend  = $this->em->newEntity( $this->friendEntity,  $this->getFriendData(1) );
-        $contact = $this->em->newEntity( $this->contactEntity, $this->getContactData(1) );
-        $relation = $this->em->relation( $contact, 'friend' );
+        $em = $this->em;
+        $friend  = $em->newEntity( $this->friendEntity,  $this->getFriendData(1) );
+        $contact = $em->newEntity( $this->contactEntity, $this->getContactData(1) );
+        $em->save();
+        $relation = $em->relation( $contact, 'friend' );
 
         // basic check. 
         $this->assertEquals( 'WScore\DataMapper\Relation\HasOne', get_class( $relation ) );
