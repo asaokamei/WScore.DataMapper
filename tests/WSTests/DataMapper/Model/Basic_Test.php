@@ -193,5 +193,16 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertEquals(  $sel1, $sel2 );
         $this->assertSame(    $sel1, $sel2 );
     }
+    function test_selector_choice()
+    {
+        $sel = $this->friend->getSelector( 'gender' );
+        $this->assertTrue( is_array( $sel->item_data ) );
+        $this->assertEquals( 2, count( $sel->item_data ) );
+
+        $this->friend->setGenderChoice( true );
+        $sel = $this->friend->getSelector( 'gender', true );
+        $this->assertTrue( is_array( $sel->item_data ) );
+        $this->assertEquals( 3, count( $sel->item_data ) );
+    }
     // +----------------------------------------------------------------------+
 }

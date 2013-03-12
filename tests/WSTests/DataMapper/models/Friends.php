@@ -8,12 +8,17 @@ class Friends extends Model
     protected $table = 'friend';
     
     protected $id_name = 'friend_id';
-    
+
+    const GENDER_MALE   = 'M';
+    const GENDER_FEMALE = 'F';
+    const GENDER_NONE   = 'N';
+
     public function __construct()
     {
         parent::__construct();
         $csv = file_get_contents( __DIR__ . '/friends.csv' );
         $this->property->prepare( $csv );
+        $this->setGenderChoice();
     }
 
     public function setupTable()
@@ -36,5 +41,16 @@ class Friends extends Model
             )
         ";
         $this->persistence->query()->dbAccess()->execSQL( $sql );
+    }
+
+    public function setGenderChoice( $all=false )
+    {
+        $this->property->selectors[ 'gender' ][ 'choice' ] = array(
+            array( self::GENDER_NONE, 'not sure' ),
+            array( self::GENDER_MALE, 'male' ),
+        );
+        if( $all ) {
+            $this->property->selectors[ 'gender' ][ 'choice' ][] = array( self::GENDER_FEMALE, 'female' );
+        }
     }
 }

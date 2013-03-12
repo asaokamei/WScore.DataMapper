@@ -17,7 +17,7 @@ class Property extends PropertyAbstract
      *
      * @var array
      */
-    protected $definition = array();
+    public $definition = array();
 
     /**
      * store data types for each properties as in
@@ -29,7 +29,7 @@ class Property extends PropertyAbstract
      *
      * @var array
      */
-    protected $dataTypes  = array();
+    public $dataTypes  = array();
 
     /**
      * for selector construction. to use with WScore\Html\Selector,
@@ -42,7 +42,7 @@ class Property extends PropertyAbstract
      *
      * @var array
      */
-    protected $selectors  = array();
+    public $selectors  = array();
 
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances.

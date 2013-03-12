@@ -17,7 +17,7 @@ class PropertyCsv extends PropertyAbstract
      *
      * @var array
      */
-    protected $definition = array();
+    public $definition = array();
 
     /**
      * store data types for each properties as in
@@ -29,7 +29,7 @@ class PropertyCsv extends PropertyAbstract
      *
      * @var array
      */
-    protected $dataTypes  = array();
+    public $dataTypes  = array();
 
     /**
      * for selector construction. to use with WScore\Html\Selector,
@@ -42,9 +42,9 @@ class PropertyCsv extends PropertyAbstract
      *
      * @var array
      */
-    protected $selectors  = array();
+    public $selectors  = array();
 
-    protected $relations = array();
+    public $relations = array();
 
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances.

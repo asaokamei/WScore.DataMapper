@@ -94,11 +94,12 @@ class Presentation
      * the object is pooled and will be reused for model/propName basis.
      *
      * @param string $name
+     * @param bool   $forge
      * @return null|object
      */
-    public function getSelector( $name )
+    public function getSelector( $name, $forge=false )
     {
-        if( isset( $this->selInstances[ $name ] ) ) {
+        if( !$forge && isset( $this->selInstances[ $name ] ) ) {
             return $this->selInstances[ $name ];
         }
         return $this->selInstances[ $name ] = $this->forgeSelector( $name );

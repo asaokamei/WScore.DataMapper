@@ -199,11 +199,12 @@ class Model
     }
 
     /**
-     * @param $name
+     * @param      $name
+     * @param bool $forge
      * @return null|object
      */
-    public function getSelector( $name ) {
-        return $this->presentation->getSelector( $name );
+    public function getSelector( $name, $forge=false ) {
+        return $this->presentation->getSelector( $name, $forge );
     }
 
 }
