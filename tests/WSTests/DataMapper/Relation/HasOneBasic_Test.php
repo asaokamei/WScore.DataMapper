@@ -78,5 +78,19 @@ class HasOneBasic_Tests extends \PHPUnit_Framework_TestCase
 
         // basic check. 
         $this->assertEquals( 'WScore\DataMapper\Relation\HasOne', get_class( $relation ) );
+        
+        $relation->set( $friend );
+        $this->assertEquals( $friend[ 'friend_id' ], $contact[ 'friend_id' ] );
+
+        $em->save();
+    }
+    function test_fetch_related_entity()
+    {
+        $em = $this->em;
+        $contact = $em->fetch( $this->contactEntity, '1' );
+        $contact = $contact[0];
+        $this->assertEquals( null, $contact[ 'friend' ] );
+        $em->relation( $contact, 'friend' )->fetch();
+        $this->assertEquals( null, $contact[ 'friend' ] );
     }
 }
