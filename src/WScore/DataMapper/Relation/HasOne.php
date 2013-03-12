@@ -58,4 +58,16 @@ class HasOne extends RelationAbstract
         $this->source[ $sourceColumn ] = $value;
         $this->linked = true;
     }
+
+    /**
+     * link the relation if relationship is not established.
+     *
+     * @return mixed
+     */
+    public function link()
+    {
+        if( !$this->linked ) {
+            $this->setRelation();
+        }
+    }
 }

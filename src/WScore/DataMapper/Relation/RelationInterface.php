@@ -34,4 +34,11 @@ interface RelationInterface
      * @return RelationInterface
      */
     public function set( $target );
+
+    /**
+     * link the relation if relationship is not established.
+     *
+     * @return mixed
+     */
+    public function link();
 }

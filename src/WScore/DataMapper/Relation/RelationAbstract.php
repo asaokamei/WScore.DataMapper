@@ -103,4 +103,11 @@ class RelationAbstract implements RelationInterface
      * @return RelationInterface
      */
     public function set( $target ) {}
+
+    /**
+     * nothing to do, except for HasOne relationship.
+     *
+     * @return void
+     */
+    public function link() {}
 }
