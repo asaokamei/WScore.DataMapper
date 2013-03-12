@@ -33,7 +33,7 @@ class HasOne extends RelationAbstract
      * sets relation between the source and the target entity,
      * i.e. replaces the existing relations.
      *
-     * @param EntityInterface|Collection $target
+     * @param EntityInterface $target
      * @return RelationInterface
      */
     public function set( $target )
@@ -63,7 +63,7 @@ class HasOne extends RelationAbstract
      * adds relation between the source and the target entity.
      * for Many-to-many relation, it will *add* relation.
      *
-     * @param EntityInterface|Collection $target
+     * @param EntityInterface $target
      * @return RelationInterface
      */
     public function add( $target )
@@ -74,7 +74,7 @@ class HasOne extends RelationAbstract
     /**
      * deletes the relation between the source and the target entity.
      *
-     * @param EntityInterface|Collection $target
+     * @param EntityInterface $target
      * @return RelationInterface
      */
     public function del( $target = null )
