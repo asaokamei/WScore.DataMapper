@@ -11,6 +11,7 @@ class RelationAbstract implements RelationInterface
 
     /**
      * information about the relationship.
+     * - relation_type: type of relation (HasOne, BelongsTo, etc.)
      * - source_column: column name of source. uses id if not set.
      * - target_type  : entity class name of target object.
      * - target_column: column name of target. uses id if not set.
@@ -64,7 +65,7 @@ class RelationAbstract implements RelationInterface
     {
         $this->source = $source;
     }
-    
+
     /**
      * fetches related entities from database.
      *
