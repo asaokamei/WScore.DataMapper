@@ -205,4 +205,21 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 3, count( $sel->item_data ) );
     }
     // +----------------------------------------------------------------------+
+    //  test for serialization
+    // +----------------------------------------------------------------------+
+    function test_serialize()
+    {
+        $ser = serialize( $this->friend );
+        $friend = unserialize( $ser );
+
+        $data = $this->getFriendData(5);
+        $friend->insert( $data );
+        $stmt = $friend->fetch( '5' );
+        $fetched = $stmt->fetch();
+        $list = array( 'friend_name', 'gender', 'friend_bday', 'friend_tel' );
+        foreach( $list as $key ) {
+            $this->assertEquals( $data[$key], $fetched[$key] );
+        }
+    }
+    // +----------------------------------------------------------------------+
 }
