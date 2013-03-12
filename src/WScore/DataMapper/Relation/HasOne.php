@@ -6,31 +6,6 @@ use \WScore\DataMapper\Entity\Collection;
 
 class HasOne extends RelationAbstract
 {
-    /** @var string */
-    public $name;
-    
-    /** @var array */
-    public $info;
-
-    /** @var EntityInterface */
-    public $source;
-    
-    /**
-     * @Inject
-     * @var \WScore\DataMapper\EntityManager
-     */
-    protected $em;
-
-    /**
-     * @param string                                    $name
-     * @param \WScore\DataMapper\Entity\EntityInterface $source
-     * @param array                                     $info
-     */
-    public function __construct( $name, $source, $info )
-    {
-        parent::__construct( $name, $source, $info );
-    }
-
     /**
      * fetches related entities from database.
      *
