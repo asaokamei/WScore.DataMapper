@@ -201,6 +201,7 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
     function test_serialize()
     {
         $ser = serialize( $this->friend );
+        /** @var $friend \WSTests\DataMapper\models\Friends */
         $friend = unserialize( $ser );
 
         $data = $this->getFriendData(5);
