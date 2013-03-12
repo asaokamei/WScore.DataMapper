@@ -22,36 +22,15 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
         /** @var $container \WScore\DiContainer\Container */
         $container = include( __DIR__ . '/../../../../vendor/wscore/dicontainer/scripts/instance.php' );
         $container->set( '\Pdo', self::$config );
-        $query = $container->get( '\WScore\DbAccess\Query' );
-        self::setupFriend( $query );
+        /** @var $friend \WSTests\DataMapper\models\Friends */
+        $friend = $container->get( '\WSTests\DataMapper\models\Friends' );
+        $friend->setupTable();
+        /** @var $friend \WSTests\DataMapper\models\Contacts */
+        $contact = $container->get( '\WSTests\DataMapper\models\Contacts' );
+        $contact->setupTable();
         class_exists( '\WScore\DataMapper\Entity\EntityAbstract' );
         class_exists( '\WSTests\DataMapper\models\Friends' );
         class_exists( '\WSTests\DataMapper\entities\friend' );
-    }
-    /**
-     * @param \WScore\DbAccess\Query $query
-     */
-    static function setupFriend( $query )
-    {
-        $table = self::$table;
-        $sql = "DROP TABLE IF EXISTS {$table}";
-        $query->dbAccess()->execSQL( $sql );
-        $sql = "
-            CREATE TABLE {$table} (
-              friend_id    SERIAL,
-              friend_name  text    NOT NULL,
-              gender       char(1) NOT NULL,
-              friend_bday  date,
-              friend_tel   text    NOT NULL,
-              tag_id       int, 
-              new_dt_friend   datetime,
-              mod_dt_friend   datetime,
-              constraint friend_pkey PRIMARY KEY (
-                friend_id
-              )
-            )
-        ";
-        $query->dbAccess()->execSQL( $sql );
     }
 
     /**
@@ -60,16 +39,9 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
      */
     function getFriendData( $idx=1 )
     {
-        $gender = array( 'M', 'F' );
-        $gender = $gender[ $idx % 2 ];
-        $day    = 10 + $idx;
-        $data = array(
-            'friend_name' => 'friend #' . $idx,
-            'gender'      => $gender,
-            'friend_bday' => '1989-02-' . $day,
-            'friend_tel'  => '03-123456-' . $idx,
-        );
-        return $data;
+        /** @var $model \WSTests\DataMapper\models\Friends */
+        $model = $this->em->getModel( $this->friendEntity );
+        return $model->getFriendData( $idx );
     }
 
     /**
