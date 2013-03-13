@@ -91,12 +91,14 @@ class BelongsTo_BasicTests extends \PHPUnit_Framework_TestCase
     {
         $em = $this->em;
         $friend   = $em->fetch( $this->friendEntity,  '1' );
+        /** @var $friend \WSTests\DataMapper\entities\friend */
         $friend   = $friend[0];
         // get related contacts.
         $relation = $em->relation( $friend, 'contacts' );
         $contacts = $relation->fetch();
         // test contacts are array and have 2 contacts from previous test.
         $this->asserttrue( is_array( $contacts ) );
+        $this->assertEquals( 2, count( $friend->contacts ) );
         $this->assertEquals( 2, count( $contacts ) );
         // and these contact's friend_id is the friend_id.
         $this->assertEquals( $friend[ 'friend_id' ], $contacts[0][ 'friend_id' ] );
@@ -105,6 +107,7 @@ class BelongsTo_BasicTests extends \PHPUnit_Framework_TestCase
         // now test set.
         $contact3 = $em->newEntity( $this->contactEntity, $this->getContactData(3) );
         $relation->set( $contact3 );
+        $this->assertEquals( 3, count( $friend->contacts ) );
         $em->save();
         $contacts = $em->relation( $friend, 'contacts' )->fetch();
         // test contacts are array and have 2 contacts from previous test.

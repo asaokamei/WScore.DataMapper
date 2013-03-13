@@ -43,7 +43,7 @@ class BelongsTo extends RelationAbstract
      */
     public function set( $target )
     {
-        $name = $this->info[ 'hasOne' ];
+        $name = $this->name;
         if( $target instanceof EntityInterface ) $target = array( $target );
         if( !isset( $this->source->$name ) ) $this->source->$name = array();
         foreach( $target as $t ) {
@@ -61,7 +61,7 @@ class BelongsTo extends RelationAbstract
      */
     protected function setRelation()
     {
-        $name = $this->info[ 'hasOne' ];
+        $name = $this->name;
         if( !isset( $this->source->$name ) || empty( $this->source->$name ) ) return;
         if( !$this->source->isIdPermanent() ) {
             $this->linked = false;
