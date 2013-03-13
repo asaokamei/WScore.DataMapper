@@ -133,8 +133,9 @@ class EntityManager
      */
     public function get( $entity, $value, $column=null, $packed=false )
     {
-        $class = $this->getClass( $entity );
-        $found = $this->collection->fetch( $class, $value, $column );
+        $model     = $this->getModel( $entity );
+        $modelName = $model->getModelName();
+        $found = $this->collection->fetch( $modelName, $value, $column );
         if( $packed ) {
             $found->pack( $packed );
         }
