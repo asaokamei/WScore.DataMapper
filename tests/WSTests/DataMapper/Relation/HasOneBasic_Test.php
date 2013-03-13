@@ -84,13 +84,43 @@ class HasOneBasic_Tests extends \PHPUnit_Framework_TestCase
 
         $em->save();
     }
+    function test_new_entity_and_insert2()
+    {
+        $em = $this->em;
+        $friend  = $em->newEntity( $this->friendEntity,  $this->getFriendData(2) );
+        $contact = $em->newEntity( $this->contactEntity, $this->getContactData(2) );
+        $em->save();
+        $relation = $em->relation( $contact, 'friend' );
+
+        $relation->set( $friend );
+        $this->assertEquals( $friend[ 'friend_id' ], $contact[ 'friend_id' ] );
+
+        $em->save();
+    }
     function test_fetch_related_entity()
     {
         $em = $this->em;
-        $contact = $em->fetch( $this->contactEntity, '1' );
-        $contact = $contact[0];
-        $this->assertEquals( null, $contact[ 'friend' ] );
-        $em->relation( $contact, 'friend' )->fetch();
-        $this->assertEquals( $this->friendEntity, '\\'.get_class( $contact[ 'friend' ] ) );
+        $contacts = $em->fetch( $this->contactEntity, array( '1', '2' ) );
+        /** @var $contact1 \WSTests\DataMapper\entities\contact */
+        /** @var $contact2 \WSTests\DataMapper\entities\contact */
+        $contact1 = $contacts[0];
+        $contact2 = $contacts[1];
+
+        // assert that the related entity (friend) is not set yet.
+        $this->assertEquals( null, $contact1[ 'friend' ] );
+        $this->assertEquals( null, $contact2[ 'friend' ] );
+
+        // relate with friends!
+        $friend1 = $em->relation( $contact1, 'friend' )->fetch();
+        $friend2 = $em->relation( $contact2, 'friend' )->fetch();
+        $this->assertEquals( $this->friendEntity, '\\'.get_class( $contact1[ 'friend' ] ) );
+        
+        // assert that the friend is really my friend (same id in this test).
+        $this->assertEquals( '1', $contact1->friend->friend_id );
+        $this->assertEquals( '2', $contact2->friend->friend_id );
+
+        // assert that related and fetched are truely the same friend.
+        $this->assertSame( $friend1[0], $contact1->friend );
+        $this->assertSame( $friend2[0], $contact2->friend );
     }
 }
