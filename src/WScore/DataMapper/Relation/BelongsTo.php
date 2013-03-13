@@ -18,10 +18,10 @@ class BelongsTo extends RelationAbstract
     {
         $name = $this->info[ 'hasOne' ];
         if( $target instanceof EntityInterface ) $target = array( $target );
+        if( !isset( $this->source->$name ) ) $this->source->$name = array();
         foreach( $target as $t ) {
             $this->em->relation( $t, $name )->set( $this->source );
-            $belongsTo = & $this->source->$name;
-            $belongsTo[] = $t;
+            array_push( $this->source->$name, $t );
         }
         return $this;
     }
