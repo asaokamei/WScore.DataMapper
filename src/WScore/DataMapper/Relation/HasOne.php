@@ -6,6 +6,33 @@ use \WScore\DataMapper\Entity\Collection;
 
 class HasOne extends RelationAbstract
 {
+
+    /**
+     * @param \WScore\DataMapper\EntityManager $em
+     * @param string                           $name
+     * @param EntityInterface                  $source
+     * @param array                            $info
+     * @throws \RuntimeException
+     * @return \WScore\DataMapper\Relation\HasOne
+     */
+    public function __construct( $em, $name, $source, $info )
+    {
+        $this->em     = $em;
+        $this->name   = $name;
+        $this->source = $source;
+
+        if( !isset( $info[ 'entity' ] ) ) {
+            throw new \RuntimeException( 'target type not set. ' );
+        }
+        if( !isset( $info[ 'source' ] ) || !$info[ 'source' ] ) {
+            $info[ 'source' ] = $this->em->getIdName( $info[ 'entity' ] );
+        }
+        if( !isset( $info[ 'target' ] ) || !$info[ 'target' ] ) {
+            $info[ 'target' ] = $info[ 'source' ];
+        }
+        $this->info = $info;
+    }
+    
     public function get()
     {
         $target = parent::get();
