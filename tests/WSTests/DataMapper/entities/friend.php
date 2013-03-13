@@ -15,4 +15,5 @@ class friend extends EntityAbstract
     public $tag_id;
     public $new_dt_friend;
     public $mod_dt_friend;
+    public $contacts;
 }
