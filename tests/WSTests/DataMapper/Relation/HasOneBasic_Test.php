@@ -138,4 +138,26 @@ class HasOneBasic_Tests extends \PHPUnit_Framework_TestCase
         $friend2 = $em->relation( $contacts[1], 'friend' )->get();
         $this->assertSame( $friends[1], $friend2[0] );
     }
+    function test_link()
+    {
+        $em = $this->em;
+        $friend   = $em->newEntity( $this->friendEntity,  $this->getFriendData(1) );
+        /** @var $contact \WSTests\DataMapper\entities\contact */
+        $contact  = $em->newEntity( $this->contactEntity, $this->getContactData(1) );
+        $relation = $em->relation( $contact, 'friend' )->set( $friend );
+        // check friend_id is not set yet, and relation is not linked. 
+        $this->assertEquals( null, $contact->friend_id );
+        $this->assertFalse( $relation->isLinked() );
+        
+        $em->save();
+        // still, friend_id is not set yet, and relation is not linked. 
+        $this->assertEquals( null, $contact->friend_id );
+        $this->assertFalse( $relation->isLinked() );
+        $relation->link();
+        
+        // check friend_id is not set yet, and relation is not linked. 
+        $this->assertEquals( '3', $contact->friend_id );
+        $this->assertTrue( $relation->isLinked() );
+        $em->save();
+    }
 }
