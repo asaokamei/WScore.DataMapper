@@ -16,6 +16,7 @@ class All_DataMapper_SuiteTests
         $suite->addTestFile( $folder . 'Model/Basic_Test.php' );
         $suite->addTestFile( $folder . 'Entity/EntityBasic_Test.php' );
         $suite->addTestFile( $folder . 'Entity/EmBasic_Test.php' );
+        $suite->addTestFile( $folder . 'Relation/HasOneBasic_Test.php' );
         return $suite;
     }
 }
