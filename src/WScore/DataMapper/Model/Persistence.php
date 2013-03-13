@@ -21,7 +21,7 @@ class Persistence
     protected $query;
 
     /**
-     * @var \WScore\DataMapper\Model_Property
+     * @var \WScore\DataMapper\Model\PropertyInterface
      */
     protected $property;
     
@@ -45,7 +45,7 @@ class Persistence
     }
 
     /**
-     * @param \WScore\DataMapper\Model_Property $property
+     * @param \WScore\DataMapper\Model\PropertyInterface $property
      */
     public function setProperty( $property )
     {
@@ -99,7 +99,7 @@ class Persistence
      *
      * @param array   $data
      * @param null                     $extra
-     * @return Model
+     * @return self
      */
     public function update( $data, $extra=null )
     {
@@ -145,7 +145,7 @@ class Persistence
     }
 
     /**
-     * @param Entity_Interface|array   $data
+     * @param array   $data
      * @return string                 id of the inserted data
      */
     public function insertId( $data )
