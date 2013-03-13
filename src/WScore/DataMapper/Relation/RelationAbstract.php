@@ -82,11 +82,12 @@ class RelationAbstract implements RelationInterface
     public function set( $target ) {}
 
     /**
-     * nothing to do, except for HasOne relationship.
-     *
-     * @return void
+     * @return bool
      */
-
+    public function isLinked() {
+        return $this->linked;
+    }
+    
     /**
      * link the relation if relationship is not established.
      *

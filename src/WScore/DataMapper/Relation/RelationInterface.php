@@ -31,6 +31,13 @@ interface RelationInterface
     public function set( $target );
 
     /**
+     * check if relation is already linked. 
+     * 
+     * @return bool
+     */
+    public function isLinked();
+    
+    /**
      * link the relation if relationship is not established.
      *
      * @return mixed
