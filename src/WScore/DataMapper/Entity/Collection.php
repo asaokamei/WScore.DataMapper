@@ -90,6 +90,7 @@ class Collection implements \ArrayAccess, \Countable
     {
         if( !is_array( $values ) ) $values = array( $values );
         $result = array();
+        if( substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
         foreach( $this->entities as $entity )
         {
             if( $model && $model !== $entity->getModelName() ) continue;
