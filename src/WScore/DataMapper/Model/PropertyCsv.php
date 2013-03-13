@@ -6,7 +6,7 @@ namespace WScore\DataMapper\Model;
  * a Table Data Gateway pattern.
  *
  */
-class PropertyCsv extends PropertyAbstract
+class PropertyCsv extends PropertyAbstract implements PropertyInterface
 {
     /**
      * define property and data type. from this data,
@@ -56,7 +56,7 @@ class PropertyCsv extends PropertyAbstract
     /**
      * prepares restricted properties.
      */
-    public function prepare( $csv_string )
+    public function prepare( $csv_string, $dummy=array() )
     {
         $this->definition = $csv_string;
         $return = Helper::analyzeCsv( $csv_string );
@@ -69,6 +69,7 @@ class PropertyCsv extends PropertyAbstract
         $this->extraTypes = $return[ 'extraTypes' ];
         $this->protected  = $return[ 'protected' ];
     }
+    public function present( $validation, $selector ) {}
     // +----------------------------------------------------------------------+
     //  Validation and Selector properties.
     // +----------------------------------------------------------------------+
