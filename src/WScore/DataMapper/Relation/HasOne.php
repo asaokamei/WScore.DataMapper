@@ -32,7 +32,10 @@ class HasOne extends RelationAbstract
         }
         $this->info = $info;
     }
-    
+
+    /**
+     * @return \WScore\DataMapper\Entity\EntityInterface[]
+     */
     public function get()
     {
         $target = parent::get();
@@ -40,13 +43,19 @@ class HasOne extends RelationAbstract
         return $target;
     }
 
+    /**
+     * @return \WScore\DataMapper\Entity\EntityInterface[]
+     */
     public function fetch()
     {
         $target = parent::fetch();
         $this->singleRelation();
         return $target;
     }
-    
+
+    /**
+     * HasOne sets a singular entity to relational property. 
+     */
     private function singleRelation()
     {
         $name = $this->name;
