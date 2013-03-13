@@ -84,7 +84,7 @@ class HasOne extends RelationAbstract
      *
      * if the target's id is not permanent, sets linked flag to false.
      */
-    private function setRelation()
+    protected function setRelation()
     {
         $name = $this->name;
         /** @var $target EntityInterface */

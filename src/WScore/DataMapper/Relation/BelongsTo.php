@@ -47,14 +47,31 @@ class BelongsTo extends RelationAbstract
         if( $target instanceof EntityInterface ) $target = array( $target );
         if( !isset( $this->source->$name ) ) $this->source->$name = array();
         foreach( $target as $t ) {
-            $this->em->relation( $t, $name )->set( $this->source );
-            $sourceColumn       = $this->info[ 'source' ];
-            $value              = $this->source[ $sourceColumn ];
-            $targetColumn       = $this->info[ 'target' ];
-            $t[ $targetColumn ] = $value;
             array_push( $this->source->$name, $t );
         }
+        $this->setRelation();
         return $this;
     }
 
+    /**
+     * sets a relationship between source and target by setting
+     * source column with target value.
+     *
+     * if the target's id is not permanent, sets linked flag to false.
+     */
+    protected function setRelation()
+    {
+        $name = $this->info[ 'hasOne' ];
+        if( !isset( $this->source->$name ) || empty( $this->source->$name ) ) return;
+        if( !$this->source->isIdPermanent() ) {
+            $this->linked = false;
+            return;
+        }
+        $sourceColumn       = $this->info[ 'source' ];
+        $value              = $this->source[ $sourceColumn ];
+        $targetColumn       = $this->info[ 'target' ];
+        foreach( $this->source->$name as $t ) {
+            $t[ $targetColumn ] = $value;
+        }
+    }
 }

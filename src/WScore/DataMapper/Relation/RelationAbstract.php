@@ -86,5 +86,18 @@ class RelationAbstract implements RelationInterface
      *
      * @return void
      */
-    public function link() {}
+
+    /**
+     * link the relation if relationship is not established.
+     *
+     * @return mixed
+     */
+    public function link()
+    {
+        if( !$this->linked ) {
+            $this->setRelation();
+        }
+    }
+    
+    protected function setRelation() {}
 }
