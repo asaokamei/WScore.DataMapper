@@ -8,22 +8,26 @@ class HasOne extends RelationAbstract
 {
     public function get()
     {
-        parent::get();
+        $target = parent::get();
         $this->singleRelation();
+        return $target;
     }
 
     public function fetch()
     {
-        parent::fetch();
+        $target = parent::fetch();
         $this->singleRelation();
+        return $target;
     }
     
-    private function singleRelation() {
+    private function singleRelation()
+    {
         $name = $this->name;
         if( !is_array( $this->source->$name ) ) return;
         $temp = $this->source->$name;
         $this->source->$name = $temp[0];
     }
+
     /**
      * sets relation between the source and the target entity,
      * i.e. replaces the existing relations.

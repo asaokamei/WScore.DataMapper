@@ -36,10 +36,11 @@ class RelationAbstract implements RelationInterface
 
     /**
      * @param \WScore\DataMapper\EntityManager $em
-     * @param string          $name
-     * @param EntityInterface $source
-     * @param array           $info
+     * @param string                           $name
+     * @param EntityInterface                  $source
+     * @param array                            $info
      * @throws \RuntimeException
+     * @return \WScore\DataMapper\Relation\RelationAbstract
      */
     public function __construct( $em, $name, $source, $info )
     {
@@ -60,35 +61,24 @@ class RelationAbstract implements RelationInterface
     }
 
     /**
-     * @param EntityInterface $source
-     * @return mixed
-     */
-    public function setSource( $source )
-    {
-        $this->source = $source;
-    }
-
-    /**
      * fetches related entities from database.
      *
-     * @return RelationInterface
+     * @return EntityInterface[]
      */
     public function fetch()
     {
-        $this->findEntity( 'fetch' );
-        return $this;
+        return $this->findEntity( 'fetch' );
     }
 
     /**
      * gets related entities from EntityManager's repository.
      * i.e. no database access.
      *
-     * @return Collection
+     * @return EntityInterface[]
      */
     public function get()
     {
-        $this->findEntity( 'get' );
-        return $this;
+        return $this->findEntity( 'get' );
     }
 
     /**
@@ -96,6 +86,7 @@ class RelationAbstract implements RelationInterface
      * specify method, get or fetch, to use for retrieval.
      *
      * @param $by
+     * @return EntityInterface[]
      */
     protected function findEntity( $by )
     {
@@ -104,6 +95,7 @@ class RelationAbstract implements RelationInterface
         $column = $this->info[ 'target' ];
         $target = $this->em->$by( $class, $value, $column );
         $this->source[ $this->name ] = $target;
+        return $target;
     }
 
     /**

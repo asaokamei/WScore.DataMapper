@@ -7,14 +7,9 @@ use \WScore\DataMapper\Entity\Collection;
 interface RelationInterface
 {
     /**
-     * @param EntityInterface $source
-     * @return mixed
-     */
-    public function setSource( $source );
-    /**
      * fetches related entities from database.
      *
-     * @return RelationInterface
+     * @return EntityInterface[]
      */
     public function fetch();
 
@@ -22,7 +17,7 @@ interface RelationInterface
      * gets related entities from EntityManager's repository.
      * i.e. no database access.
      * 
-     * @return Collection
+     * @return EntityInterface[]
      */
     public function get();
     
@@ -30,7 +25,7 @@ interface RelationInterface
      * sets relation between the source and the target entity, 
      * i.e. replaces the existing relations. 
      *
-     * @param EntityInterface|Collection $target
+     * @param EntityInterface|EntityInterface[] $target
      * @return RelationInterface
      */
     public function set( $target );
