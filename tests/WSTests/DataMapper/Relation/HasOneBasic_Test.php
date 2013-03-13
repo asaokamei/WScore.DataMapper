@@ -114,7 +114,7 @@ class HasOneBasic_Tests extends \PHPUnit_Framework_TestCase
         $friend1 = $em->relation( $contact1, 'friend' )->fetch();
         $friend2 = $em->relation( $contact2, 'friend' )->fetch();
         $this->assertEquals( $this->friendEntity, '\\'.get_class( $contact1[ 'friend' ] ) );
-        
+
         // assert that the friend is really my friend (same id in this test).
         $this->assertEquals( '1', $contact1->friend->friend_id );
         $this->assertEquals( '2', $contact2->friend->friend_id );
@@ -122,5 +122,20 @@ class HasOneBasic_Tests extends \PHPUnit_Framework_TestCase
         // assert that related and fetched are truely the same friend.
         $this->assertSame( $friend1[0], $contact1->friend );
         $this->assertSame( $friend2[0], $contact2->friend );
+    }
+    function test_get_related_entity()
+    {
+        $em = $this->em;
+        /** @var $friends \WSTests\DataMapper\entities\friend[] */
+        $friends  = $em->fetch( $this->friendEntity,  array( '1', '2' ) );
+        $contacts = $em->fetch( $this->contactEntity, array( '1', '2' ) );
+        foreach( $friends as $i => $f ) {
+            $f->friend_name = 'updated Name#'.$i;
+        }
+
+        $friend1 = $em->relation( $contacts[0], 'friend' )->get();
+        $this->assertSame( $friends[0], $friend1[0] );
+        $friend2 = $em->relation( $contacts[1], 'friend' )->get();
+        $this->assertSame( $friends[1], $friend2[0] );
     }
 }
