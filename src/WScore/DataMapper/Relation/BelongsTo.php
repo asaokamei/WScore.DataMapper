@@ -9,6 +9,7 @@ class BelongsTo extends RelationAbstract
     /**
      * sets relation between the source and the target entity,
      * i.e. replaces the existing relations.
+     * TODO: check for duplicated entities. 
      *
      * @param EntityInterface $target
      * @return RelationInterface
@@ -19,6 +20,8 @@ class BelongsTo extends RelationAbstract
         if( $target instanceof EntityInterface ) $target = array( $target );
         foreach( $target as $t ) {
             $this->em->relation( $t, $name )->set( $this->source );
+            $belongsTo = $this->source->$name;
+            $belongsTo[] = $t;
         }
         return $this;
     }
