@@ -13,4 +13,7 @@ interface PropertyInterface
     public function restrict( $data );
     public function protect( $data, $onlyTo=array() );
     public function getRelationInfo( $name=null );
+    public function getValidateInfo( $name );
+    public function isRequired( $name );
+    public function getSelectInfo( $name );
 }
