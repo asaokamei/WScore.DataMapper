@@ -4,7 +4,7 @@ namespace WScore\DataMapper\Relation;
 use \WScore\DataMapper\Entity\EntityInterface;
 use \WScore\DataMapper\Entity\Collection;
 
-class RelationAbstract implements RelationInterface
+abstract class RelationAbstract implements RelationInterface
 {
     /** @var string */
     public $name;
@@ -100,5 +100,5 @@ class RelationAbstract implements RelationInterface
         }
     }
     
-    protected function setRelation() {}
+    protected abstract function setRelation();
 }
