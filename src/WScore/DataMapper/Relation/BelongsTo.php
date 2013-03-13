@@ -73,5 +73,6 @@ class BelongsTo extends RelationAbstract
         foreach( $this->source->$name as $t ) {
             $t[ $targetColumn ] = $value;
         }
+        $this->linked = true;
     }
 }

@@ -114,4 +114,27 @@ class BelongsTo_BasicTests extends \PHPUnit_Framework_TestCase
         $this->asserttrue( is_array( $contacts ) );
         $this->assertEquals( 3, count( $contacts ) );
     }
+    function test_link()
+    {
+        $em = $this->em;
+        /** @var $friend \WSTests\DataMapper\entities\friend */
+        /** @var $contact \WSTests\DataMapper\entities\contact */
+        $friend   = $em->newEntity( $this->friendEntity,  $this->getFriendData(1) );
+        $contact  = $em->newEntity( $this->contactEntity, $this->getContactData(1) );
+        $relation = $em->relation( $friend, 'contacts' )->set( $contact );
+        // check friend_id is not set yet, and relation is not linked. 
+        $this->assertEquals( null, $contact->friend_id );
+        $this->assertFalse( $relation->isLinked() );
+
+        $em->save();
+        // still, friend_id is not set yet, and relation is not linked. 
+        $this->assertEquals( null, $contact->friend_id );
+        $this->assertFalse( $relation->isLinked() );
+        $relation->link();
+
+        // check friend_id is not set yet, and relation is not linked. 
+        $this->assertEquals( '2', $contact->friend_id );
+        $this->assertTrue( $relation->isLinked() );
+        $em->save();
+    }
 }
