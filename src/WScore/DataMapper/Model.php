@@ -20,23 +20,6 @@ class Model
     protected $id_name;
     
     /**
-     * define property and data type. from this data,
-     * properties, extraTypes and dataTypes are generated.
-     * definition = array(
-     *   column => [ name, data_type, extra_info ],
-     * )
-     *
-     * @var array
-     */
-    protected $definition = array();
-
-    /**
-     * relations settings
-     * @var array                           
-     */
-    protected $relations  = array();
-
-    /**
      * @Inject
      * @var \WScore\DataMapper\Model\Persistence
      */
