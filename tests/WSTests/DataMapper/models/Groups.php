@@ -3,9 +3,9 @@ namespace WSTests\DataMapper\models;
 
 use \WScore\DataMapper\Model;
 
-class Contacts extends Model
+class Groups extends Model
 {
-    protected $table = 'group';
+    protected $table = 'groups';
 
     protected $id_name = 'group_code';
 
@@ -23,10 +23,13 @@ class Contacts extends Model
         $this->persistence->query()->dbAccess()->execSQL( $sql );
         $sql = "
             CREATE TABLE {$table} (
-              group_code   varchar(64) PRIMARY KEY,
+              group_code   varchar(64) NOT NULL,
               name text NOT NULL DEFAULT '',
               created_at datetime,
-              updated_at datetime
+              updated_at datetime,
+              constraint groups_pkey PRIMARY KEY (
+                group_code
+              )
             )
         ";
         $this->persistence->query()->dbAccess()->execSQL( $sql );
@@ -36,11 +39,11 @@ class Contacts extends Model
      * @param int $idx
      * @return array
      */
-    static function makeContact( $idx=0 )
+    static function makeGroup( $idx=0 )
     {
         $groups = array(
             array( 'group_code' => 'demo', 'name' => 'demonstration'),
-            array( 'group_code' => 'test', 'name' => 'testing '),
+            array( 'group_code' => 'test', 'name' => 'testing'),
             array( 'group_code' => 'more', 'name' => 'more more more'),
         );
         if( isset( $groups[ $idx ] ) ) {
@@ -51,5 +54,14 @@ class Contacts extends Model
             $values[ 'name' ]       .= '#'.$idx;
         }
         return $values;
+    }
+
+    /**
+     * @param array $data
+     * @return string
+     */
+    public function insert( $data )
+    {
+        return $this->persistence->insertValue( $data );
     }
 }
