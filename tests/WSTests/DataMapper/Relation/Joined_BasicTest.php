@@ -5,7 +5,7 @@ use \WSTests\DataMapper\entities\friend;
 
 require( __DIR__ . '/../../../autoloader.php' );
 
-class BelongsTo_BasicTests extends \PHPUnit_Framework_TestCase
+class Joined_BasicTests extends \PHPUnit_Framework_TestCase
 {
     /** @var mixed */
     public static $config = 'dsn=mysql:dbname=test_WScore username=admin password=admin';
@@ -78,7 +78,7 @@ class BelongsTo_BasicTests extends \PHPUnit_Framework_TestCase
         $relation = $em->relation( $friend, 'contacts' );
 
         // basic check.
-        $this->assertEquals( 'WScore\DataMapper\Relation\BelongsTo', get_class( $relation ) );
+        $this->assertEquals( 'WScore\DataMapper\Relation\Joined', get_class( $relation ) );
 
         $relation->set( $contact1 );
         $relation->set( $contact2 );

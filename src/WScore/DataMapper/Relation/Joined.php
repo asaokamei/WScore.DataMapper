@@ -4,7 +4,7 @@ namespace WScore\DataMapper\Relation;
 use \WScore\DataMapper\Entity\EntityInterface;
 use \WScore\DataMapper\Entity\Collection;
 
-class BelongsTo extends RelationAbstract
+class Joined extends RelationAbstract
 {
 
     /**
@@ -13,7 +13,7 @@ class BelongsTo extends RelationAbstract
      * @param EntityInterface                  $source
      * @param array                            $info
      * @throws \RuntimeException
-     * @return \WScore\DataMapper\Relation\BelongsTo
+     * @return \WScore\DataMapper\Relation\Joined
      */
     public function __construct( $em, $name, $source, $info )
     {

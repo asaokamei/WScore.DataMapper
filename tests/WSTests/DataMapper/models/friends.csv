@@ -37,4 +37,4 @@
 ,,,,,,,,
 "#relation",,,,,,,,
 "id","type","source","target","entity","",,,
-"contacts","BelongsTo",,,"\WSTests\DataMapper\entities\contact","",,,
+"contacts","joined",,,"\WSTests\DataMapper\entities\contact","",,,
