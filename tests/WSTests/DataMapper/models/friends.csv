@@ -36,5 +36,6 @@
 ,,,,,,,,
 ,,,,,,,,
 "#relation",,,,,,,,
-"id","type","source","target","entity","",,,
-"contacts","joined",,,"\WSTests\DataMapper\entities\contact","",,,
+"id","type","source","target","entity","by","bySource","byTarget",
+"contacts","joined",,,"\WSTests\DataMapper\entities\contact",,,,
+"groups","joinBy",,,"\WSTests\DataMapper\entities\group","\WSTests\DataMapper\entities\fr2gr",,,
