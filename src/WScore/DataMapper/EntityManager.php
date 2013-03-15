@@ -43,10 +43,11 @@ class EntityManager
     }
 
     /**
+     * @param EntityInterface[] $entities
      * @return Entity\Collection
      */
-    public function emptyCollection() {
-        return $this->collection->collection();
+    public function newCollection( $entities=array() ) {
+        return $this->collection->collection( $entities );
     }
 
     /**
@@ -129,7 +130,7 @@ class EntityManager
      * @param string       $value
      * @param null|string  $column
      * @param bool|string  $packed
-     * @return \WScore\DataMapper\Entity\Collection
+     * @return \WScore\DataMapper\Entity\EntityInterface[]
      */
     public function get( $entity, $value, $column=null, $packed=false )
     {
