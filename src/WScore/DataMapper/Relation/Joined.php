@@ -62,6 +62,7 @@ class Joined extends RelationAbstract
     protected function setRelation()
     {
         $name = $this->name;
+        $this->linked = true;
         if( !isset( $this->source->$name ) || empty( $this->source->$name ) ) return;
         if( !$this->source->isIdPermanent() ) {
             $this->linked = false;
