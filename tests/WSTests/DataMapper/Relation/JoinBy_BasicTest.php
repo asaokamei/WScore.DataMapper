@@ -143,5 +143,15 @@ class JoinBy_BasicTests extends \PHPUnit_Framework_TestCase
         // check friend_id is not set yet, and relation is not linked. 
         $this->assertTrue( $relation->isLinked() );
         $em->save();
+        
+        // make sure that the friend and group are related. 
+        $friend2 = $em->fetch( $this->friendEntity, '2' );
+        $relation2 = $em->relation( $friend2[0], 'groups' );
+        $fetched = $relation2->fetch();
+        $group2 = $fetched[0];
+        $list = array( 'group_code', 'name' );
+        foreach( $list as $name ) {
+            $this->assertEquals( $group[ $name ], $group2[ $name ] );
+        }
     }
 }
