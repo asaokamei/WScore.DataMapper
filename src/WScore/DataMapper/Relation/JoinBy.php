@@ -8,6 +8,9 @@ class JoinBy extends RelationAbstract
 {
     /** @var bool */
     private $fetched = false;
+    
+    /** @var \WScore\DataMapper\Entity\Collection */
+    private $joiner;
 
     /**
      * @param \WScore\DataMapper\EntityManager $em
@@ -67,10 +70,11 @@ class JoinBy extends RelationAbstract
         // find entity for join.
         $class  = $this->info[ 'by' ];
         $value  = $this->source[ $this->info[ 'source' ] ];
-        $joiner = $this->em->$by( $class, $value, $this->info[ 'bySource' ] );
+        $joins  = $this->em->$by( $class, $value, $this->info[ 'bySource' ] );
+        $this->joiner = $this->em->newCollection( $joins );
         // extract the column for join. 
         $packed = array();
-        foreach( $joiner as $joins ) {
+        foreach( $this->joiner as $joins ) {
             $packed[] = $joins[ $this->info[ 'byTarget' ] ];
         }
         // get/fetch the target. 
@@ -131,17 +135,10 @@ class JoinBy extends RelationAbstract
             $this->linked  = false; // not linked, yet. 
             return $this;
         }
-        // get join entity
-        $value  = $this->source[ $this->info[ 'source' ] ];
-        $joiner = $this->em->get( $this->info[ 'by' ], $value, $this->info[ 'bySource' ] );
-        $joiner = $this->em->newCollection( $joiner );
-        
         // delete the join entity. 
-        $joiner->toDelete( true );
+        $this->joiner->toDelete( true );
         
         // loop target entities. 
-        $joinModel     = $this->em->getModel( $this->info[ 'by' ] );
-        $joinModelName = $joinModel->getModelName();
         foreach( $this->source->$name as $target ) 
         {
             /** @var $target EntityInterface */
@@ -149,26 +146,32 @@ class JoinBy extends RelationAbstract
                 $this->linked = false;
                 continue;
             }
-            $value = $target[ $this->info[ 'target' ] ];
-            if( $join = $joiner->fetch( $joinModelName, $value, $this->info[ 'byTarget' ] ) ) {
+            if( $join = $this->getJoin( $target ) ) {
                 // used in the join; mark the entity un-delete.
-                $join[0]->toDelete( false ); 
+                $join->toDelete( false ); 
             } else {
                 // create new join for new target.
-                $this->em->newEntity( $this->info[ 'by' ], array(
+                $join = $this->em->newEntity( $this->info[ 'by' ], array(
                     $this->info[ 'source' ] => $this->source[ $this->info[ 'source' ] ],
-                    $this->info[ 'target' ] => $value,
+                    $this->info[ 'target' ] => $target[ $this->info[ 'target' ] ],
                 ) );
+                $this->joiner->add( $join );
             }
         }
         return $this;
     }
-    
+
+    /**
+     * @param EntityInterface $target
+     * @return \WScore\DataMapper\Entity\EntityInterface|null
+     */
     public function getJoin( $target )
     {
         $joinModel     = $this->em->getModel( $this->info[ 'by' ] );
         $joinModelName = $joinModel->getModelName();
         $value = $target[ $this->info[ 'target' ] ];
-        $join = $this->em->fetch( $joinModelName, $value, $this->info[ 'byTarget' ] );
+        $join = $this->joiner->fetch( $joinModelName, $value, $this->info[ 'byTarget' ] );
+        if( $join ) return $join[0];
+        return null;
     }
 }
