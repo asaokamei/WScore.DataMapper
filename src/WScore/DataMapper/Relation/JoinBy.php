@@ -136,7 +136,11 @@ class JoinBy extends RelationAbstract
             return $this;
         }
         // delete the join entity. 
-        $this->joiner->toDelete( true );
+        if( isset( $this->joiner ) ) {
+            $this->joiner->toDelete( true );
+        } else {
+            $this->joiner = $this->em->newCollection();
+        }
         
         // loop target entities. 
         foreach( $this->source->$name as $target ) 
@@ -167,6 +171,7 @@ class JoinBy extends RelationAbstract
      */
     public function getJoin( $target )
     {
+        if( !isset( $this->joiner ) ) return null;
         $joinModel     = $this->em->getModel( $this->info[ 'by' ] );
         $joinModelName = $joinModel->getModelName();
         $value = $target[ $this->info[ 'target' ] ];
