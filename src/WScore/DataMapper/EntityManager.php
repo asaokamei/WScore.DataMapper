@@ -126,7 +126,7 @@ class EntityManager
     /**
      * get entity objects from EntityManager's repository.
      *
-     * @param Entity\EntityInterface       $entity
+     * @param Entity\EntityInterface|string       $entity
      * @param string       $value
      * @param null|string  $column
      * @param bool|string  $packed
@@ -138,7 +138,8 @@ class EntityManager
         $modelName = $model->getModelName();
         $found = $this->collection->fetch( $modelName, $value, $column );
         if( $packed ) {
-            $found->pack( $packed );
+            $found = $this->newCollection( $found );
+            $found = $found->pack( $packed );
         }
         return $found;
     }
