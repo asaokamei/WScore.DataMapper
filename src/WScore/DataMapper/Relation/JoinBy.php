@@ -33,10 +33,10 @@ class JoinBy extends RelationAbstract
             $info[ 'source' ] = $source->getIdName( $info[ 'entity' ] );
         }
         if( !isset( $info[ 'bySource' ] ) || !$info[ 'bySource' ] ) {
-            $info[ 'bySource' ] = $info[ 'entity' ];
+            $info[ 'bySource' ] = $info[ 'source' ];
         }
         if( !isset( $info[ 'target' ] ) || !$info[ 'target' ] ) {
-            $info[ 'target' ] = $info[ 'source' ];
+            $info[ 'target' ] = $this->em->getIdName( $info[ 'entity' ] );
         }
         if( !isset( $info[ 'byTarget' ] ) || !$info[ 'byTarget' ] ) {
             $info[ 'byTarget' ] = $info[ 'target' ];
@@ -74,8 +74,12 @@ class JoinBy extends RelationAbstract
             $packed[] = $joins[ $this->info[ 'byTarget' ] ];
         }
         // get/fetch the target. 
-        $class  = $this->info[ 'entity' ];
-        $target = $this->em->$by( $class, $packed, $this->info[ 'target' ] );
+        if( $packed && !empty( $packed ) ) {
+            $class  = $this->info[ 'entity' ];
+            $target = $this->em->$by( $class, $packed, $this->info[ 'target' ] );
+        } else {
+            $target = array();
+        }
         // found targets.
         $this->source[ $this->name ] = $target;
         return $target;
@@ -131,9 +135,13 @@ class JoinBy extends RelationAbstract
         $value  = $this->source[ $this->info[ 'source' ] ];
         $joiner = $this->em->get( $this->info[ 'by' ], $value, $this->info[ 'bySource' ] );
         $joiner = $this->em->newCollection( $joiner );
+        
         // delete the join entity. 
-        $joiner->toDelete( true );        
+        $joiner->toDelete( true );
+        
         // loop target entities. 
+        $joinModel     = $this->em->getModel( $this->info[ 'by' ] );
+        $joinModelName = $joinModel->getModelName();
         foreach( $this->source->$name as $target ) 
         {
             /** @var $target EntityInterface */
@@ -142,7 +150,7 @@ class JoinBy extends RelationAbstract
                 continue;
             }
             $value = $target[ $this->info[ 'target' ] ];
-            if( $join = $joiner->fetch( $this->info[ 'by' ], $value, $this->info[ 'byTarget' ] ) ) {
+            if( $join = $joiner->fetch( $joinModelName, $value, $this->info[ 'byTarget' ] ) ) {
                 // used in the join; mark the entity un-delete.
                 $join[0]->toDelete( false ); 
             } else {
@@ -154,5 +162,13 @@ class JoinBy extends RelationAbstract
             }
         }
         return $this;
+    }
+    
+    public function getJoin( $target )
+    {
+        $joinModel     = $this->em->getModel( $this->info[ 'by' ] );
+        $joinModelName = $joinModel->getModelName();
+        $value = $target[ $this->info[ 'target' ] ];
+        $join = $this->em->fetch( $joinModelName, $value, $this->info[ 'byTarget' ] );
     }
 }
