@@ -87,11 +87,19 @@ class JoinBy extends RelationAbstract
      * TODO: check for duplicated entities.
      *
      * @param EntityInterface $target
-     * @return RelationInterface
+     * @return \WScore\DataMapper\Relation\JoinBy
      */
     public function set( $target )
     {
         $name = $this->name;
+        // fetch target and join entities from database. 
+        if( !$this->source->isIdPermanent() ) {
+            // no need to fetch for new entity. there should be no join entity in the database. 
+            $this->fetched = true;
+        } elseif( !$this->fetched ) {
+            // if not fetched yet, fetch entities from database. 
+            $this->fetch();
+        }
         if( $target instanceof EntityInterface ) $target = array( $target );
         if( !isset( $this->source->$name ) ) $this->source->$name = array();
         foreach( $target as $t ) {
@@ -106,23 +114,45 @@ class JoinBy extends RelationAbstract
      * source column with target value.
      *
      * if the target's id is not permanent, sets linked flag to false.
+     *
+     * @return \WScore\DataMapper\Relation\JoinBy
      */
     protected function setRelation()
     {
         $name = $this->name;
         $this->linked = true;
-        if( !isset( $this->source->$name ) || empty( $this->source->$name ) ) return;
+        if( !isset( $this->source->$name ) || empty( $this->source->$name ) ) return $this;
         if( !$this->source->isIdPermanent() ) {
             // at least source has to have permanent id. 
-            $this->linked = false;
-            return;
+            $this->linked  = false; // not linked, yet. 
+            return $this;
         }
-        $sourceColumn       = $this->info[ 'source' ];
-        $value              = $this->source[ $sourceColumn ];
-        $targetColumn       = $this->info[ 'target' ];
-        foreach( $this->source->$name as $t ) {
-            // find join entities by get. 
+        // get join entity
+        $value  = $this->source[ $this->info[ 'source' ] ];
+        $joiner = $this->em->get( $this->info[ 'by' ], $value, $this->info[ 'bySource' ] );
+        $joiner = $this->em->newCollection( $joiner );
+        // delete the join entity. 
+        $joiner->toDelete( true );        
+        // loop target entities. 
+        foreach( $this->source->$name as $target ) 
+        {
+            /** @var $target EntityInterface */
+            if( !$target->isIdPermanent() ) {
+                $this->linked = false;
+                continue;
+            }
+            $value = $target[ $this->info[ 'target' ] ];
+            if( $join = $joiner->fetch( $this->info[ 'by' ], $value, $this->info[ 'byTarget' ] ) ) {
+                // used in the join; mark the entity un-delete.
+                $join[0]->toDelete( false ); 
+            } else {
+                // create new join for new target.
+                $this->em->newEntity( $this->info[ 'by' ], array(
+                    $this->info[ 'source' ] => $this->source[ $this->info[ 'source' ] ],
+                    $this->info[ 'target' ] => $value,
+                ) );
+            }
         }
-        $this->linked = true;
+        return $this;
     }
 }
