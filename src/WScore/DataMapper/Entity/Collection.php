@@ -20,7 +20,8 @@ class Collection implements \ArrayAccess, \Countable
      */
     public function collection( $entities = array() )
     {
-        $collection            = new static();
+        /** @var $collection Collection */
+        $collection = new static();
         foreach( $entities as $entity ) {
             $collection->add( $entity );
         }
@@ -51,7 +52,7 @@ class Collection implements \ArrayAccess, \Countable
     /**
      * @param \WScore\DataMapper\Entity\EntityInterface $entity
      */
-    public function del( $entity )
+    public function remove( $entity )
     {
         $cenaId = $entity->getCenaId();
         if( !isset( $this->cenaIds[ $cenaId ] ) ) return;
@@ -131,6 +132,14 @@ class Collection implements \ArrayAccess, \Countable
         return $result;
     }
 
+    /**
+     * @param bool $delete
+     */
+    public function toDelete( $delete=true ) {
+        foreach( $this->entities as $entity ) {
+            $entity->toDelete( $delete );
+        }
+    }
     // +----------------------------------------------------------------------+
     /**
      * @param array|EntityInterface $arr
