@@ -3,7 +3,7 @@ namespace WSTests\DataMapper\Relation;
 
 use \WSTests\DataMapper\entities\friend;
 
-class JoinBySetUp extends \PHPUnit_Framework_TestCase
+abstract class JoinBySetUp extends \PHPUnit_Framework_TestCase
 {
     /** @var mixed */
     public static $config = 'dsn=mysql:dbname=test_WScore username=admin password=admin';
