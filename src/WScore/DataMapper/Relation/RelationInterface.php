@@ -31,6 +31,15 @@ interface RelationInterface
     public function set( $target );
 
     /**
+     * adds relation. works just like set except for JoinBy; 
+     * it will simply adds target to the relation.
+     * 
+     * @param EntityInterface|EntityInterface[] $target
+     * @return mixed
+     */
+    public function add( $target );
+    
+    /**
      * check if relation is already linked. 
      * 
      * @return bool

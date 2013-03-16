@@ -82,6 +82,15 @@ abstract class RelationAbstract implements RelationInterface
     public function set( $target ) {}
 
     /**
+     * default behavior of add is the same as set. 
+     * 
+     * @param EntityInterface|\WScore\DataMapper\Entity\EntityInterface[] $target
+     * @return mixed|RelationInterface
+     */
+    public function add( $target ) {
+        return $this->set( $target );
+    }
+    /**
      * @return bool
      */
     public function isLinked() {
