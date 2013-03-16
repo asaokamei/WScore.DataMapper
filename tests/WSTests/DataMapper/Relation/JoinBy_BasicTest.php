@@ -20,8 +20,8 @@ class JoinBy_BasicTests extends JoinBySetUp
         // basic check.
         $this->assertEquals( 'WScore\DataMapper\Relation\JoinBy', get_class( $relation ) );
 
-        $relation->set( $group1 );
-        $relation->set( $group2 );
+        $relation->add( $group1 );
+        $relation->add( $group2 );
         $joiners = $this->em->get( $this->fr2grEntity, $friend->getId(), 'friend_id' );
         // there are 2 join entities, for group1 and group2. 
         $this->assertEquals( 2, count( $joiners ) );

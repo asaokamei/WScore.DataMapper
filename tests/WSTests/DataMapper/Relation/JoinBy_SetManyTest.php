@@ -16,8 +16,8 @@ class JoinBy_SetManyTest extends JoinBySetUp
         $group3 = $em->newEntity( $this->groupEntity,  $this->getGroupData(2) );
         $group4 = $em->newEntity( $this->groupEntity,  $this->getGroupData(3) );
         $relation = $em->relation( $friend, 'groups' );
-        $relation->set( $group1 );
-        $relation->set( $group3 );
+        $relation->add( $group1 );
+        $relation->add( $group3 );
         $em->save();
         $this->assertFalse( $relation->isLinked() );
         $relation->link();
