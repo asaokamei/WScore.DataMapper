@@ -109,6 +109,18 @@ class JoinBy extends RelationAbstract
             $this->fetch();
         }
         if( $target instanceof EntityInterface ) $target = array( $target );
+        $this->source->$name = array();
+        foreach( $target as $t ) {
+            array_push( $this->source->$name, $t );
+        }
+        $this->setRelation();
+        return $this;
+    }
+    
+    public function add( $target )
+    {
+        $name = $this->name;
+        if( $target instanceof EntityInterface ) $target = array( $target );
         if( !isset( $this->source->$name ) ) $this->source->$name = array();
         foreach( $target as $t ) {
             array_push( $this->source->$name, $t );
