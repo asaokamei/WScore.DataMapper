@@ -59,7 +59,7 @@ class HasOne extends RelationAbstract
     private function singleRelation()
     {
         $name = $this->name;
-        if( !is_array( $this->source->$name ) ) return;
+        if( !isset( $this->source->$name ) ) return;
         $temp = $this->source->$name;
         $this->source->$name = $temp[0];
     }

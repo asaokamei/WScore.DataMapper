@@ -45,9 +45,11 @@ class Joined extends RelationAbstract
     {
         $name = $this->name;
         if( $target instanceof EntityInterface ) $target = array( $target );
-        if( !isset( $this->source->$name ) ) $this->source->$name = array();
+        if( !isset( $this->source->$name ) ) $this->source->$name = $this->em->newCollection();
+        /** @var $collection Collection */
+        $collection = $this->source->$name;
         foreach( $target as $t ) {
-            array_push( $this->source->$name, $t );
+            $collection->add( $t );
         }
         $this->setRelation();
         return $this;
