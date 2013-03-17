@@ -204,6 +204,10 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
      * @return void
      */
     public function offsetSet( $offset, $value ) {
+        if( !$offset ) {
+            $this->add( $value );
+            return;
+        }
         $this->entities[ $offset ] = $value;
         $this->cenaIds[ $value->getCenaId() ] = $offset;
     }
@@ -216,9 +220,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function offsetUnset( $offset ) {
         if( !$this->offsetExists( $offset ) ) return;
-        $cenaId = $this->entities[ $offset ]->getCenaId();
-        unset( $this->cenaIds[ $cenaId ] );
-        unset( $this->entities[ $offset ] );
+        $this->remove( $this->entities[ $offset ] );
     }
 
     /**
