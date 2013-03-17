@@ -97,7 +97,6 @@ class Joined_BasicTests extends \PHPUnit_Framework_TestCase
         $relation = $em->relation( $friend, 'contacts' );
         $contacts = $relation->fetch();
         // test contacts are array and have 2 contacts from previous test.
-        $this->asserttrue( is_array( $contacts ) );
         $this->assertEquals( 2, count( $friend->contacts ) );
         $this->assertEquals( 2, count( $contacts ) );
         // and these contact's friend_id is the friend_id.
@@ -111,7 +110,6 @@ class Joined_BasicTests extends \PHPUnit_Framework_TestCase
         $em->save();
         $contacts = $em->relation( $friend, 'contacts' )->fetch();
         // test contacts are array and have 2 contacts from previous test.
-        $this->asserttrue( is_array( $contacts ) );
         $this->assertEquals( 3, count( $contacts ) );
     }
     function test_link()
