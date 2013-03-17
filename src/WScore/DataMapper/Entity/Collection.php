@@ -86,7 +86,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param array|string $values
      * @param string|null  $column
      * @param string|null  $model
-     * @return EntityInterface[]
+     * @return Collection
      */
 
     public function get( $values, $column=null, $model=null )
@@ -113,7 +113,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param string     $model
      * @param array|string $values
      * @param string|null $column
-     * @return EntityInterface[]
+     * @return Collection
      */
     public function fetch( $model, $values, $column=null )
     {
