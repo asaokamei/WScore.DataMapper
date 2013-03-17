@@ -163,20 +163,6 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     //  for ArrayAccess and Iterator. 
     // +----------------------------------------------------------------------+
     /**
-     * @return EntityInterface
-     */
-    public function getNext() {
-        return next( $this->entities );
-    }
-
-    /**
-     * @return EntityInterface
-     */
-    public function first() {
-        return reset( $this->entities );
-    }
-
-    /**
      * Whether a offset exists
      *
      * @param mixed $offset
