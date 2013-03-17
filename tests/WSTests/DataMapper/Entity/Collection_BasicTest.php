@@ -134,4 +134,59 @@ class Collection_BasicTest extends \PHPUnit_Framework_TestCase
             $this->assertSame( $set[$idx], $entity );
         }
     }
+    function test_unset()
+    {
+        // set up with 4 data. 
+        $set = $this->getFriendDataSet(4);
+        $col = $this->c->collection( $set );
+        $this->assertEquals( 4, $col->count() );
+        foreach( $col as $idx => $entity ) {
+            $this->assertSame( $set[$idx], $entity );
+        }
+        // removed #3, which is the last entity. 
+        unset( $col[3] );
+        $this->assertEquals( 3, $col->count() );
+        foreach( $col as $idx => $entity ) {
+            $this->assertSame( $set[$idx], $entity );
+        }
+        // removed #1, which is the second entity. 
+        unset( $col[1] );
+        $this->assertEquals( 2, $col->count() );
+        foreach( $col as $idx => $entity ) {
+            $this->assertSame( $set[$idx], $entity );
+        }
+        // removing #3 again won't have no effect. 
+        unset( $col[3] );
+        $this->assertEquals( 2, $col->count() );
+        foreach( $col as $idx => $entity ) {
+            $this->assertSame( $set[$idx], $entity );
+        }
+    }
+    function test_clear()
+    {
+        $set = $this->getFriendDataSet(4);
+        $col = $this->c->collection( $set );
+        $this->assertEquals( 4, $col->count() );
+        $this->assertEquals( $set[0], $col[0] );
+        $this->assertSame(   $set[0], $col[0] );
+        
+        $col->clear();
+        $col = $this->c->collection( $set );
+        $this->assertEquals( 4, $col->count() );
+        $this->assertEquals( $set[0], $col[0] );
+        $this->assertSame(   $set[0], $col[0] );
+    }
+    function test_offsetSet()
+    {
+        $set = $this->getFriendDataSet(3);
+        $col = $this->c->collection();
+        $col[] = $set[0];
+        $col[] = $set[1];
+        $col[4]= $set[2];
+        $this->assertEquals( 3, $col->count() );
+        foreach( $col as $idx => $entity ) {
+            if( $idx === 4 ) $idx = 2;
+            $this->assertSame( $set[$idx], $entity );
+        }
+    }
 }
