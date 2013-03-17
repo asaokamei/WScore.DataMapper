@@ -44,7 +44,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     public function add( $entity )
     {
         $cenaId = $entity->getCenaId();
-        if( !isset( $this->cenaIds[ $cenaId ] ) ) {
+        if( !$this->exists( $entity ) ) {
             $this->entities[] = $entity;
             end( $this->entities );
             $this->cenaIds[ $cenaId ] = key( $this->entities );
