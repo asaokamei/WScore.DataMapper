@@ -125,12 +125,14 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
             else {
                 $pack = array();
                 foreach( $select as $item ) {
-                    $pack[] = $this->arrGet( $rec, $item );
+                    $pack[ $item ] = $this->arrGet( $rec, $item );
                 }
                 $result[] = $pack;
             }
         }
-        $result = array_values( $result );
+        if( !is_array( $select ) ) {
+            $result = array_unique( $result );
+        }
         return $result;
     }
 
