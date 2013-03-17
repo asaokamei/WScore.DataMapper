@@ -130,7 +130,7 @@ class EntityManager
      * @param string       $value
      * @param null|string  $column
      * @param bool|string  $packed
-     * @return \WScore\DataMapper\Entity\EntityInterface[]
+     * @return \WScore\DataMapper\Entity\Collection
      */
     public function get( $entity, $value, $column=null, $packed=false )
     {
@@ -151,7 +151,7 @@ class EntityManager
      * @param string       $value
      * @param null|string  $column
      * @param bool|string  $packed
-     * @return EntityInterface[]
+     * @return \WScore\DataMapper\Entity\Collection
      */
     public function fetch( $entity, $value, $column=null, $packed=false )
     {
@@ -160,7 +160,8 @@ class EntityManager
         $stmt  = $model->fetch( $value, $column, $packed );
         $stmt->setFetchMode( \PDO::FETCH_CLASS, $class, array( $model ) );
         $fetched = $stmt->fetchAll();
-        $this->register( $fetched );
+        $fetched = $this->register( $fetched );
+        $fetched = $this->newCollection( $fetched );
         return $fetched;
     }
 
