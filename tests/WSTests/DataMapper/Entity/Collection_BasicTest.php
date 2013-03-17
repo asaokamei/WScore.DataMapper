@@ -189,4 +189,87 @@ class Collection_BasicTest extends \PHPUnit_Framework_TestCase
             $this->assertSame( $set[$idx], $entity );
         }
     }
+    // +----------------------------------------------------------------------+
+    function test_set()
+    {
+        $set = $this->getFriendDataSet(2);
+        $col = $this->c->collection( $set );
+        $this->assertEquals( 2, $col->count() );
+        $col->set( 'friend_name', 'set all' );
+        foreach( $col as $entity ) {
+            $this->assertEquals( 'set all', $entity->friend_name );
+        }
+    }
+    function test_fetch()
+    {
+        $set = $this->getFriendDataSet(4);
+        $col = $this->c->collection( $set );
+        $this->assertEquals( 4, $col->count() );
+
+        $model = $this->em->getModel( $this->friendEntity );
+        $female = $col->fetch( $model->getModelName(), 'F', 'gender' );
+        $this->assertTrue( is_array( $female ) );
+        $this->assertEquals( 2, count( $female ) );
+        foreach( $female as $entity ) {
+            $this->assertEquals( 'F', $entity[ 'gender' ] );
+        }
+    }
+    function test_pack()
+    {
+        $set = $this->getFriendDataSet(4);
+        $col = $this->c->collection( $set );
+        $this->assertEquals( 4, $col->count() );
+        // pack friend's name. 
+        $packed = $col->pack( 'friend_name' );
+        $this->assertEquals( 4, count( $packed ) );
+        foreach( $set as $friend ) {
+            $this->assertTrue( in_array( $friend->friend_name, $packed ) );
+        }
+        // pack gender. 
+        $packed = $col->pack( 'gender' );
+        $this->assertEquals( 2, count( $packed ) );
+        foreach( $set as $friend ) {
+            $this->assertTrue( in_array( $friend->gender, $packed ) );
+        }
+    }
+    function test_pack_array()
+    {
+        $set = $this->getFriendDataSet(4);
+        $col = $this->c->collection( $set );
+        $this->assertEquals( 4, $col->count() );
+        // pack friend's name. 
+        $packed = $col->pack( array( 'friend_name', 'gender' ) );
+        $this->assertEquals( 4, count( $packed ) );
+        $names = array();
+        $gender = array();
+        foreach( $packed as $data ) {
+            $names[] = $data[ 'friend_name' ];
+            $gender[] = $data[ 'gender' ];
+        }
+        foreach( $set as $friend ) {
+            $this->assertTrue( in_array( $friend->friend_name, $names ) );
+            $this->assertTrue( in_array( $friend->gender,      $gender ) );
+        }
+    }
+    function test_toDelete()
+    {
+        $set = $this->getFriendDataSet(2);
+        $col = $this->c->collection( $set );
+        $this->assertEquals( 2, $col->count() );
+        /** @var $entity EntityAbstract */
+        // check entities are not to be deleted. 
+        foreach( $col as $entity ) {
+            $this->assertFalse( $entity->toDelete() );
+        }
+        // mark them as delete.
+        $col->toDelete( true );
+        foreach( $col as $entity ) {
+            $this->assertTrue( $entity->toDelete() );
+        }
+        // mark them as un-delete.
+        $col->toDelete( false );
+        foreach( $col as $entity ) {
+            $this->assertFalse( $entity->toDelete() );
+        }
+    }
 }
