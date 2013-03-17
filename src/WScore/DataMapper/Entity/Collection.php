@@ -105,7 +105,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
             }
             if( in_array( $prop, $values ) ) $result[] = $entity;
         }
-        //$result = $this->collection( $result );
+        $result = $this->collection( $result );
         return $result;
     }
     

@@ -208,7 +208,7 @@ class Collection_BasicTest extends \PHPUnit_Framework_TestCase
 
         $model = $this->em->getModel( $this->friendEntity );
         $female = $col->fetch( $model->getModelName(), 'F', 'gender' );
-        $this->assertTrue( is_array( $female ) );
+        $this->assertEquals( 'WScore\DataMapper\Entity\Collection', get_class( $female ) );
         $this->assertEquals( 2, count( $female ) );
         foreach( $female as $entity ) {
             $this->assertEquals( 'F', $entity[ 'gender' ] );
@@ -221,7 +221,7 @@ class Collection_BasicTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 4, $col->count() );
 
         $female = $col->get( 'F', 'gender' );
-        $this->assertTrue( is_array( $female ) );
+        $this->assertEquals( 'WScore\DataMapper\Entity\Collection', get_class( $female ) );
         $this->assertEquals( 2, count( $female ) );
         foreach( $female as $entity ) {
             $this->assertEquals( 'F', $entity[ 'gender' ] );
