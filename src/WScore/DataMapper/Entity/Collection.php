@@ -82,18 +82,18 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
             $entity[ $name ] = $value;
         }
     }
-
     /**
-     * @param string     $model
      * @param array|string $values
-     * @param string|null $column
+     * @param string|null  $column
+     * @param string|null  $model
      * @return EntityInterface[]
      */
-    public function fetch( $model, $values, $column=null )
+
+    public function get( $values, $column=null, $model=null )
     {
         if( !is_array( $values ) ) $values = array( $values );
         $result = array();
-        if( substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
+        if( isset( $model ) && substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
         foreach( $this->entities as $entity )
         {
             if( $model && $model !== $entity->getModelName() ) continue;
@@ -105,7 +105,19 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
             }
             if( in_array( $prop, $values ) ) $result[] = $entity;
         }
+        //$result = $this->collection( $result );
         return $result;
+    }
+    
+    /**
+     * @param string     $model
+     * @param array|string $values
+     * @param string|null $column
+     * @return EntityInterface[]
+     */
+    public function fetch( $model, $values, $column=null )
+    {
+        return $this->get( $values, $column, $model );
     }
 
     /**

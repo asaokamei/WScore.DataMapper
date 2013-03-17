@@ -214,6 +214,19 @@ class Collection_BasicTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals( 'F', $entity[ 'gender' ] );
         }
     }
+    function test_get()
+    {
+        $set = $this->getFriendDataSet(4);
+        $col = $this->c->collection( $set );
+        $this->assertEquals( 4, $col->count() );
+
+        $female = $col->get( 'F', 'gender' );
+        $this->assertTrue( is_array( $female ) );
+        $this->assertEquals( 2, count( $female ) );
+        foreach( $female as $entity ) {
+            $this->assertEquals( 'F', $entity[ 'gender' ] );
+        }
+    }
     function test_pack()
     {
         $set = $this->getFriendDataSet(4);
