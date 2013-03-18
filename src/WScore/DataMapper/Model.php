@@ -1,6 +1,9 @@
 <?php
 namespace WScore\DataMapper;
 
+use \WScore\Selector\ElementAbstract;
+use \WScore\Selector\ElementItemizedAbstract;
+
 /**
  * Model that governs how entity should be mapped to database (persistence) and to final view (presentation).
  * 
@@ -187,7 +190,7 @@ class Model
     /**
      * @param      $name
      * @param bool $forge
-     * @return null|object
+     * @return ElementAbstract|ElementItemizedAbstract
      */
     public function getSelector( $name, $forge=false ) {
         return $this->presentation->getSelector( $name, $forge );

@@ -1,6 +1,9 @@
 <?php
 namespace WScore\DataMapper\Model;
 
+use \WScore\Selector\ElementAbstract;
+use \WScore\Selector\ElementItemizedAbstract;
+
 /**
  * base class for dao's for database tables.
  * a Table Data Gateway pattern.
@@ -98,7 +101,7 @@ class Presentation
      *
      * @param string $name
      * @param bool   $forge
-     * @return null|object
+     * @return ElementAbstract|ElementItemizedAbstract
      */
     public function getSelector( $name, $forge=false )
     {
@@ -115,7 +118,7 @@ class Presentation
      * TODO: simplify or move factory to Selector.
      *
      * @param string $name
-     * @return null|object
+     * @return ElementAbstract|ElementItemizedAbstract
      */
     public function forgeSelector( $name )
     {
