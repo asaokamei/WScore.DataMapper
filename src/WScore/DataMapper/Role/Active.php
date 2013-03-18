@@ -8,7 +8,7 @@ class Active extends RoleAbstract
 {
     /** 
      * @Inject
-     * @var EntityManager 
+     * @var \WScore\DataMapper\EntityManager
      */
     protected $em;
     // +----------------------------------------------------------------------+
@@ -32,6 +32,8 @@ class Active extends RoleAbstract
     }
 
     /**
+     * TODO: maybe add $all option to save all related entities as well.
+     *
      * @return Active
      */
     public function save()
