@@ -13,7 +13,7 @@ class DataIO extends RoleAbstract
 
     /**
      * @Inject
-     * @var EntityManager
+     * @var \WScore\DataMapper\EntityManager
      */
     protected $em;
 
@@ -134,6 +134,14 @@ class DataIO extends RoleAbstract
      */
     public function getError( $key ) {
         return $this->entity->getPropertyAttribute( $key, self::ERROR_NAME );
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    public function isError( $key ) {
+        return !!$this->entity->getPropertyAttribute( $key, self::ERROR_NAME );
     }
     // +----------------------------------------------------------------------+
 }

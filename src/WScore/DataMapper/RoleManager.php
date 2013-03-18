@@ -58,5 +58,13 @@ class RoleManager
     public function applyActive( $entity ) {
         return $this->applyRole( $entity, 'active' );
     }
+
+    /**
+     * @param EntityInterface|RoleInterface $entity
+     * @return \WScore\DataMapper\Role\DataIO
+     */
+    public function applyDataIO( $entity ) {
+        return $this->applyRole( $entity, 'dataIO' );
+    }
     // +----------------------------------------------------------------------+
 }
