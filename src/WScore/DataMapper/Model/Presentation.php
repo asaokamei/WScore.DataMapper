@@ -121,7 +121,7 @@ class Presentation
     {
         $selector = null;
         if( !$info = $this->property->getSelectInfo( $name ) ) {
-            // return input:text html elements if not set. 
+            // return input:text html elements if not set.
             return $this->selector->getInstance( 'text', $name );
         }
         $type   = Helper::arrGet( $info, 'type', null );
