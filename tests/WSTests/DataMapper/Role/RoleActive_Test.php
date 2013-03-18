@@ -81,6 +81,9 @@ class RoleActive_BasicTests extends \PHPUnit_Framework_TestCase
             $this->assertEquals( $val, $friend[$key] );
             $this->assertEquals( $val, $friend2[0][$key] );
         }
+
+        $this->assertEquals( '1', $role->getId() );
+        $this->assertEquals( 'friend_id', $role->getIdName() );
     }
     function test_basic_using_contact()
     {
