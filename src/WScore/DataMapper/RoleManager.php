@@ -27,8 +27,8 @@ class RoleManager
         if( $entity instanceof RoleInterface ) {
             $entity = $entity->retrieve();
         }
-        if( !$entity instanceof EntityInterface ) {
-            throw new \InvalidArgumentException( 'Can apply role to: ' . get_class( $entity ) );
+        if( !is_object( $entity ) || !$entity instanceof EntityInterface ) {
+            throw new \InvalidArgumentException( 'entity no an object or not EntityInterface. ' );
         }
         /** @var $role RoleInterface */
         $role = $this->forgeRole( $roleName );
