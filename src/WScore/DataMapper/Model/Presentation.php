@@ -68,7 +68,10 @@ class Presentation
     public function forgeRule( $name )
     {
         $validateInfo = $this->property->getValidateInfo( $name );
-        if( !$validateInfo ) return null;
+        if( !$validateInfo ) {
+            // return text rule if not defined.
+            return $this->rules->text();
+        }
         $type   = array_key_exists( 0, $validateInfo ) ? $validateInfo[0] : null ;
         $filter = array_key_exists( 1, $validateInfo ) ? $validateInfo[1] : '' ;
         if( $type ) {
@@ -117,7 +120,10 @@ class Presentation
     public function forgeSelector( $name )
     {
         $selector = null;
-        if( !$info = $this->property->getSelectInfo( $name ) ) return $selector;
+        if( !$info = $this->property->getSelectInfo( $name ) ) {
+            // return input:text html elements if not set. 
+            return $this->selector->getInstance( 'text', $name );
+        }
         $type   = Helper::arrGet( $info, 'type', null );
         $choice = Helper::arrGet( $info, 'choice',  array() );
         $extra  = Helper::arrGet( $info, 'extra', null );
