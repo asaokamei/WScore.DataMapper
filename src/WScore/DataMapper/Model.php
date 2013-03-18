@@ -115,6 +115,10 @@ class Model
     // +----------------------------------------------------------------------+
     //  Managing Validation and Properties. 
     // +----------------------------------------------------------------------+
+    public function protect( $data )
+    {
+        return $this->property->protect( $data );
+    }
     /**
      * returns name of property, if set.
      *
