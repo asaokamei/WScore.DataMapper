@@ -70,6 +70,7 @@ class Rm_BasicTests extends \PHPUnit_Framework_TestCase
 
         $retrieved= $role->retrieve();
         $this->assertEquals( 'WSTests\DataMapper\entities\friend', get_class( $retrieved ) );
+        $this->assertSame( $entity, $retrieved );
     }
 
     /**
