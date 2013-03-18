@@ -2,8 +2,9 @@
 namespace WScore\DataMapper\Role;
 
 use \WScore\DataMapper\EntityManager;
-use \WScore\DataMapper\Relation\RelationInterface;
 use \WScore\Validation\Validation;
+use \WScore\Selector\ElementAbstract;
+use \WScore\Selector\ElementItemizedAbstract;
 
 class DataIO extends RoleAbstract
 {
@@ -22,12 +23,17 @@ class DataIO extends RoleAbstract
      */
     protected $validation;
 
+    /** @var string */
+    public $htmlType = 'html';
+
+    // +----------------------------------------------------------------------+
+    //  presentation for HTML form elements.
     // +----------------------------------------------------------------------+
     /**
      * get html form elements (Selector objects).
      *
      * @param $key
-     * @return null|object
+     * @return ElementAbstract|ElementItemizedAbstract
      */
     public function form( $key )
     {
@@ -35,6 +41,31 @@ class DataIO extends RoleAbstract
         return $model->getSelector( $key );
     }
 
+    /**
+     * @param null|string $type
+     * @return string
+     */
+    public function setHtmlType( $type=null ) {
+        if( isset( $type ) ) $this->htmlType = $type;
+        return $this->htmlType;
+    }
+
+    /**
+     * @param string $key
+     * @param string|null $htmlType
+     * @return mixed
+     */
+    public function popHtml( $key, $htmlType=null )
+    {
+        if( !$htmlType ) $htmlType = $this->htmlType;
+        $form  = $this->form( $key );
+        $value = isset( $this->entity->$key ) ? $this->entity->$key: '';
+        return $form->popHtml( $htmlType, $value );
+    }
+
+    // +----------------------------------------------------------------------+
+    //  data manipulation and validation.
+    // +----------------------------------------------------------------------+
     /**
      * loads data into entity. default is $_POST is used to load data.
      *
@@ -104,4 +135,5 @@ class DataIO extends RoleAbstract
     public function getError( $key ) {
         return $this->entity->getPropertyAttribute( $key, self::ERROR_NAME );
     }
+    // +----------------------------------------------------------------------+
 }
