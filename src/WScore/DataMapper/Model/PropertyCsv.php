@@ -63,7 +63,7 @@ class PropertyCsv extends PropertyAbstract implements PropertyInterface
         $this->properties = $return[ 'properties' ];
         $this->selectors  = $return[ 'selector' ];
         $this->validators = $return[ 'validation' ];
-        $this->relations  = $return[ 'relation' ];
+        $this->relations  = isset( $return[ 'relation' ] ) ? $return[ 'relation' ] : array();
         $return = Helper::analyzeTypes( $this->properties, $this->relations, $this->id_name );
         $this->dataTypes  = $return[ 'dataTypes' ];
         $this->extraTypes = $return[ 'extraTypes' ];
