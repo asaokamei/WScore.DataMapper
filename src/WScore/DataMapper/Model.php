@@ -73,6 +73,19 @@ class Model
         $this->property->prepare( $csv );
     }
 
+    /**
+     * @return \WScore\DbAccess\Query
+     */
+    public function query() {
+        return $this->persistence->query();
+    }
+
+    /**
+     * @return \WScore\DbAccess\DbAccess
+     */
+    public function dbAccess() {
+        return $this->persistence->query()->dbAccess();
+    }
     // +----------------------------------------------------------------------+
     //  Persistence Methods.
     //  how about converting entity object to array here...
