@@ -88,14 +88,25 @@ class EntityManager
 
     /**
      * @param Entity\EntityInterface $entity
+     * @throws \RuntimeException
      * @return string
      */
-    private function getModelName( $entity ) {
+    private function getModelName( $entity ) 
+    {
         if( is_string( $entity ) ) {
             /** @var $entity Entity\EntityAbstract  */
+            if( !method_exists( $entity, 'getStaticModelName' ) ) {
+                throw new \RuntimeException( 'entity class not have getStaticModelName method' );
+            }
             $modelName = $entity::getStaticModelName();
         } else {
+            if( !$entity instanceof Entity\EntityAbstract ) {
+                throw new \RuntimeException( 'entity object is not an EntityAbstract' );
+            }
             $modelName = $entity->getModelName();
+        }
+        if( !$modelName ) {
+            throw new \RuntimeException( 'cannot find model name for an entity' );
         }
         return $modelName;
     }
@@ -157,7 +168,11 @@ class EntityManager
     {
         $model = $this->getModel( $entity );
         $class = $this->getClass( $entity );
-        $stmt  = $model->fetch( $value, $column, $packed );
+        if( $value instanceof \PDOStatement ) {
+            $stmt = $value;
+        } else {
+            $stmt  = $model->fetch( $value, $column, $packed );
+        }
         $stmt->setFetchMode( \PDO::FETCH_CLASS, $class, array( $model ) );
         $fetched = $stmt->fetchAll();
         $fetched = $this->register( $fetched );
