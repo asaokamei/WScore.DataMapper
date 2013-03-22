@@ -11,7 +11,7 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
     function setUp()
     {
         /** @var $container \WScore\DiContainer\Container */
-        $container = include( __DIR__ . '/../../../vendor/wscore/dicontainer/scripts/instance.php' );
+        $container = include( VENDOR_DIRECTORY . 'wscore/dicontainer/scripts/instance.php' );
 
         /** @var $selector \WScore\Selector\Selector */
         $this->selector = $container->get( '\WScore\Selector\Selector' );

@@ -19,7 +19,7 @@ class Rm_BasicTests extends \PHPUnit_Framework_TestCase
     function setUp()
     {
         /** @var $container \WScore\DiContainer\Container */
-        $container = include( __DIR__ . '/../../../../vendor/wscore/dicontainer/scripts/instance.php' );
+        $container = include( VENDOR_DIRECTORY . 'wscore/dicontainer/scripts/instance.php' );
         $container->set( 'ContainerInterface', $container );
         $container->set( '\Pdo', 'dsn=sqlite::memory:' );
         // set up persistence model
