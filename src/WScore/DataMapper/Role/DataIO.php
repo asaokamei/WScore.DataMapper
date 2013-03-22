@@ -30,6 +30,15 @@ class DataIO extends RoleAbstract
     //  presentation for HTML form elements.
     // +----------------------------------------------------------------------+
     /**
+     * @param string $key
+     * @return null|mixed
+     */
+    public function get( $key ) {
+        if( isset( $this->entity->$key ) ) return $this->entity->$key;
+        return null;
+    }
+
+    /**
      * get html form elements (Selector objects).
      *
      * @param $key
