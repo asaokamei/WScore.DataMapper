@@ -20,7 +20,7 @@ class RoleDataIO_BasicTests extends \PHPUnit_Framework_TestCase
     static function setUpBeforeClass()
     {
         /** @var $container \WScore\DiContainer\Container */
-        $container = include( __DIR__ . '/../../../../vendor/wscore/dicontainer/scripts/instance.php' );
+        $container = include( VENDOR_DIRECTORY . 'wscore/dicontainer/scripts/instance.php' );
         $container->set( '\Pdo', self::$config );
         /** @var $friend \WSTests\DataMapper\models\Friends */
         $friend = $container->get( '\WSTests\DataMapper\models\Friends' );
@@ -36,7 +36,7 @@ class RoleDataIO_BasicTests extends \PHPUnit_Framework_TestCase
     function setUp()
     {
         /** @var $container \WScore\DiContainer\Container */
-        $container = include( __DIR__ . '/../../../../vendor/wscore/dicontainer/scripts/instance.php' );
+        $container = include( VENDOR_DIRECTORY . 'wscore/dicontainer/scripts/instance.php' );
         $container->set( 'ContainerInterface', $container );
         $container->set( '\Pdo', self::$config );
         // set up persistence model

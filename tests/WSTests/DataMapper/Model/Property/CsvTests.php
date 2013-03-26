@@ -12,7 +12,7 @@ class Property_CsvTest extends Property_AllTests
     function setUp()
     {
         /** @var $container \WScore\DiContainer\Container */
-        $container = include( __DIR__ . '/../../../../../vendor/wscore/dicontainer/scripts/instance.php' );
+        $container = include( VENDOR_DIRECTORY . 'wscore/dicontainer/scripts/instance.php' );
         class_exists( '\WScore\DataMapper\Model\Helper' );
         $this->property = $container->get( '\WScore\DataMapper\Model\PropertyCsv' );
         $csv_file = __DIR__ . '/friends.csv';
