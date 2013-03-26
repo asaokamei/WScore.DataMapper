@@ -55,12 +55,16 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     /**
      * get static model name. 
      * model name does not have backslash at the beginning. 
-     * 
+     *
+     * @param bool $short
      * @return string
      */
-    public static final function getStaticModelName() {
+    public static final function getStaticModelName( $short=false ) {
         $model = static::$_modelName;
         if( substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
+        if( $short && strpos( $model, '\\' ) !== false ) {
+            $model = substr( $model, strrpos( $model, '\\' )+1 );
+        }
         return $model;
     }
     
