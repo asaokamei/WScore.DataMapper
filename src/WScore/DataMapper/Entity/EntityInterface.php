@@ -7,6 +7,8 @@ interface EntityInterface
     const _ID_TYPE_SYSTEM    = '1';   // id from system.
     const _ID_TYPE_EXTERNAL  = '2';   // id from external system.
 
+    public static function getStaticModelName( $short=false );
+
     /**
      * @return null|string
      */
