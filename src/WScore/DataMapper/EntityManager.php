@@ -181,18 +181,19 @@ class EntityManager
     }
 
     /**
-     * constructs a *new* entity to be inserted into database. 
-     * 
-     * @param Entity\EntityInterface|string       $entity
-     * @param array  $data
+     * constructs a *new* entity to be inserted into database.
+     *
+     * @param Entity\EntityInterface|string $entity
+     * @param array                         $data
+     * @param null|string                   $id
      * @return \WScore\DataMapper\Entity\EntityInterface
      */
-    public function newEntity( $entity, $data=array() )
+    public function newEntity( $entity, $data=array(), $id=null )
     {
         $model = $this->getModel( $entity );
         $class = $this->getClass( $entity );
-        /** @var $record \WScore\DataMapper\Entity\EntityInterface */
-        $record = new $class( $model, EntityInterface::_ID_TYPE_VIRTUAL );
+        /** @var $record \WScore\DataMapper\Entity\EntityAbstract */
+        $record = new $class( $model, EntityInterface::_ID_TYPE_VIRTUAL, $id );
         if( !empty( $data ) ) {
             foreach( $data as $key => $val ) {
                 $record->$key = $val;

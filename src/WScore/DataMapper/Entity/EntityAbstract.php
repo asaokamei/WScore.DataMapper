@@ -29,12 +29,13 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     
     /** @var int */
     static $_id_for_new = 1;
-    
+
     /**
-     * @param string $id_type
      * @param \WScore\DataMapper\Model $model
+     * @param string                   $id_type
+     * @param null|string              $identifier
      */
-    public function __construct( $model, $id_type=null )
+    public function __construct( $model, $id_type=null, $identifier=null )
     {
         $this->_model   = $model->getModelName();
         if( isset( $id_type ) ) {
@@ -43,7 +44,10 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
             $this->_id_type = EntityInterface::_ID_TYPE_SYSTEM;
         }
         $this->_id_name = $model->getIdName();
-        if( !$this->_identifier = $this->getId() ) {
+        if( !is_null( $identifier ) ) {
+            $this->_identifier = $identifier;
+        }
+        elseif( !$this->_identifier = $this->getId() ) {
             $this->_identifier = (string) self::$_id_for_new++;
         }
     }
@@ -79,7 +83,7 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
      * @param bool $short
      * @return string
      */
-    public function getModelName( $short=false ) 
+    public function getModelName( $short=false )
     {
         $model = $this->_model;
         if( $short && strpos( $model, '\\' ) !== false ) {
