@@ -4,6 +4,13 @@ namespace WScore\DataMapper;
 use \WScore\DiContainer\ContainerInterface;
 use \WScore\DataMapper\Entity\EntityInterface;
 
+/**
+ * Class EntityManager
+ *
+ * @package WScore\DataMapper
+ * 
+ * @singleton
+ */
 class EntityManager
 {
     /**
