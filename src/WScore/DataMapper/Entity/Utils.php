@@ -44,4 +44,15 @@ class Utils
         return $data;
     }
 
+    public function forge( $model, $class, $data, $id=null )
+    {
+        /** @var $entity \WScore\DataMapper\Entity\EntityAbstract */
+        $entity = new $class( $model, EntityInterface::_ID_TYPE_VIRTUAL, $id );
+        if( !empty( $data ) ) {
+            foreach( $data as $key => $val ) {
+                $entity->$key = $val;
+            }
+        }
+        return $entity;
+    }
 }

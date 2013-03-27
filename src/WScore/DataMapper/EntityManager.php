@@ -1,7 +1,6 @@
 <?php
 namespace WScore\DataMapper;
 
-use \WScore\DiContainer\ContainerInterface;
 use \WScore\DataMapper\Entity\EntityInterface;
 
 /**
@@ -101,6 +100,9 @@ class EntityManager
         return $entity;
     }
 
+    /**
+     * 
+     */
     public function clear() {
         $this->collection->clear();
     }
@@ -171,13 +173,7 @@ class EntityManager
     {
         $model = $this->getModel( $entity );
         $class = $this->getClass( $entity );
-        /** @var $record \WScore\DataMapper\Entity\EntityAbstract */
-        $record = new $class( $model, EntityInterface::_ID_TYPE_VIRTUAL, $id );
-        if( !empty( $data ) ) {
-            foreach( $data as $key => $val ) {
-                $record->$key = $val;
-            }
-        }
+        $record = $this->utils->forge( $model, $class, $data, $id );
         $this->register( $record );
         return $record;
     }
