@@ -112,6 +112,15 @@ class EntityManager
         }
         return $found;
     }
+
+    /**
+     * @param string $cenaId
+     * @return bool|EntityInterface
+     */
+    public function getByCenaId( $cenaId )
+    {
+        return $this->collection->getByCenaId( $cenaId );
+    }
     
     /**
      * fetches entity object from database using models. 

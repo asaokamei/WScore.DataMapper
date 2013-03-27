@@ -82,13 +82,25 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
             $entity[ $name ] = $value;
         }
     }
+
+    /**
+     * @param string $cenaId
+     * @return bool|EntityInterface
+     */
+    public function getByCenaId( $cenaId )
+    {
+        if( array_key_exists( $cenaId, $this->cenaIds ) ) {
+            return $this->entities[ $this->cenaIds[ $cenaId ] ];
+        }
+        return false;
+    }
+    
     /**
      * @param array|string $values
      * @param string|null  $column
      * @param string|null  $model
      * @return Collection
      */
-
     public function get( $values, $column=null, $model=null )
     {
         if( !is_array( $values ) ) $values = array( $values );

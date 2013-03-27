@@ -174,4 +174,15 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertEquals( '4', $friend->getId() );
         $this->assertEquals( '1', $contact->getId() );
     }
+    
+    function test_getByCenaId()
+    {
+        $data1   = $this->getFriendData(1);
+        $friend1 = $this->em->newEntity( $this->friendEntity, $data1 );
+        $this->em->register( $friend1 );
+        
+        $this->assertEquals( $friend1, $this->em->getByCenaId( $friend1->getCenaId() ) );
+        $this->assertEquals( $friend1, $this->em->getByCenaId( 'Friends.0.1' ) );
+        $this->assertFalse( $this->em->getByCenaId( 'Friends.0.2' ) );
+    }
 }
