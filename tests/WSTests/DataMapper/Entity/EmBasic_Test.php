@@ -2,6 +2,7 @@
 namespace WSTests\DataMapper;
 
 use \WSTests\DataMapper\entities\friend;
+use WScore\DataMapper\Entity\EntityAbstract;
 
 require( __DIR__ . '/../../../autoloader.php' );
 
@@ -181,8 +182,9 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
         $friend1 = $this->em->newEntity( $this->friendEntity, $data1 );
         $this->em->register( $friend1 );
         
+        $id = EntityAbstract::$_id_for_new-1;
         $this->assertEquals( $friend1, $this->em->getByCenaId( $friend1->getCenaId() ) );
-        $this->assertEquals( $friend1, $this->em->getByCenaId( 'Friends.0.1' ) );
+        $this->assertEquals( $friend1, $this->em->getByCenaId( 'Friends.0.'.$id ) );
         $this->assertFalse( $this->em->getByCenaId( 'Friends.0.2' ) );
     }
 }
