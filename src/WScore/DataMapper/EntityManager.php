@@ -27,6 +27,12 @@ class EntityManager
 
     /**
      * @Inject
+     * @var \WScore\DataMapper\Entity\Utils
+     */
+    protected $utils;
+    
+    /**
+     * @Inject
      * @var \WScore\DataMapper\RelationManager
      */
     protected $relation;
@@ -124,8 +130,7 @@ class EntityManager
      * @param string $cenaId
      * @return bool|EntityInterface
      */
-    public function getByCenaId( $cenaId )
-    {
+    public function getByCenaId( $cenaId ) {
         return $this->collection->getByCenaId( $cenaId );
     }
     
@@ -193,25 +198,9 @@ class EntityManager
      *
      * @param EntityInterface $entity
      */
-    public function saveEntity( $entity )
-    {
+    public function saveEntity( $entity ) {
         $model  = $this->getModel( $entity );
-        if( $entity->toDelete() ) {
-            if( $entity->isIdPermanent() ) { // i.e. entity is from db.
-                $model->delete( $entity->getId() );
-            }
-            // ignore if it is not permanent data; do not have to save. 
-        }
-        elseif( !$entity->isIdPermanent() ) { // i.e. entity is new. insert this.
-            $data = $this->entityToArray( $entity );
-            $id   = $model->insert( $data );
-            $entity->setSystemId( $id );
-        }
-        else {
-            $id   = $entity->getId();
-            $data = $this->entityToArray( $entity );
-            $model->update( $id, $data );
-        }
+        $this->utils->saveEntity( $model, $entity );
     }
 
     /**
@@ -219,13 +208,7 @@ class EntityManager
      * @return array
      */
     public function entityToArray( $entity ) {
-        $data = get_object_vars( $entity );
-        foreach( $data as $key => $val ) {
-            if( substr( $key, 0, 1 ) === '_' ) {
-                unset( $data[ $key ] );
-            }
-        }
-        return $data;
+        return $this->utils->entityToArray( $entity );
     }
 
     /**
