@@ -6,15 +6,12 @@ use \WScore\DataMapper\Entity\EntityInterface;
 
 class EntityManager
 {
-    /** @var \WScore\DataMapper\Model[] */
-    protected $models = array();
-
     /**
-     * @Inject 
-     * @var ContainerInterface
+     * @Inject
+     * @var \WScore\DataMapper\ModelManager
      */
-    protected $container;
-
+    protected $modelManager;
+    
     /** 
      * @Inject
      * @var \WScore\DataMapper\Entity\Collection 
@@ -33,13 +30,6 @@ class EntityManager
     /**
      */
     public function __construct() {
-    }
-
-    /**
-     * @return ContainerInterface
-     */
-    public function container() {
-        return $this->container;
     }
 
     /**
@@ -65,16 +55,8 @@ class EntityManager
      * @param Entity\EntityInterface|string $entity
      * @return \WScore\DataMapper\Model
      */
-    public function getModel( $entity )
-    {
-        $modelName = $this->getModelName( $entity );
-        $modelKey  = $modelName;
-        if( substr( $modelKey, 0, 1 ) == '\\' ) $modelKey = substr( $modelKey, 1 );
-        $modelKey = str_replace( '\\', '-', $modelKey );
-        if( !array_key_exists( $modelKey, $this->models ) ) {
-            $this->models[ $modelKey ] = $this->container->get( $modelName );
-        }
-        return $this->models[ $modelKey ];
+    public function getModel( $entity ) {
+        return $this->modelManager->getModel( $entity );
     }
 
     /**
@@ -86,30 +68,6 @@ class EntityManager
         return $class;
     }
 
-    /**
-     * @param Entity\EntityInterface $entity
-     * @throws \RuntimeException
-     * @return string
-     */
-    private function getModelName( $entity ) 
-    {
-        if( is_string( $entity ) ) {
-            /** @var $entity Entity\EntityAbstract  */
-            if( !method_exists( $entity, 'getStaticModelName' ) ) {
-                throw new \RuntimeException( 'entity class not have getStaticModelName method' );
-            }
-            $modelName = $entity::getStaticModelName();
-        } else {
-            if( !$entity instanceof Entity\EntityAbstract ) {
-                throw new \RuntimeException( 'entity object is not an EntityAbstract' );
-            }
-            $modelName = $entity->getModelName();
-        }
-        if( !$modelName ) {
-            throw new \RuntimeException( 'cannot find model name for an entity' );
-        }
-        return $modelName;
-    }
     // +----------------------------------------------------------------------+
     //  Methods for Entities. 
     // +----------------------------------------------------------------------+
