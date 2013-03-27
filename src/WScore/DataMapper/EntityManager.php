@@ -164,18 +164,18 @@ class EntityManager
     /**
      * constructs a *new* entity to be inserted into database.
      *
-     * @param Entity\EntityInterface|string $entity
+     * @param Entity\EntityInterface|string $class
      * @param array                         $data
      * @param null|string                   $id
      * @return \WScore\DataMapper\Entity\EntityInterface
      */
-    public function newEntity( $entity, $data=array(), $id=null )
+    public function newEntity( $class, $data=array(), $id=null )
     {
-        $model = $this->getModel( $entity );
-        $class = $this->getClass( $entity );
-        $record = $this->utils->forge( $model, $class, $data, $id );
-        $this->register( $record );
-        return $record;
+        $model = $this->getModel( $class );
+        $class = $this->getClass( $class );
+        $entity = $this->utils->forge( $model, $class, $data, $id );
+        $this->register( $entity );
+        return $entity;
     }
 
     /**
