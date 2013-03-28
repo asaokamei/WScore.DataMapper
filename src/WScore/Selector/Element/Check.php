@@ -12,13 +12,4 @@ class Element_Check extends ElementItemizedAbstract
         $this->style = 'check';
     }
 
-    /**
-     * @param $value
-     * @return \WScore\Html\Elements
-     */
-    public function makeForm( $value ) {
-        $form = $this->form;
-        return $form->checkList( $this->name, $this->item_data, $value, $this->attributes );
-    }
-
 }

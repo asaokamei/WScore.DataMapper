@@ -12,13 +12,4 @@ class Element_Radio extends ElementItemizedAbstract
         $this->style = 'radio';
     }
 
-    /**
-     * @param $value
-     * @return \WScore\Html\Elements
-     */
-    public function makeForm( $value ) {
-        $form = $this->form;
-        return $form->radioList( $this->name, $this->item_data, $value, $this->attributes );
-    }
-
 }

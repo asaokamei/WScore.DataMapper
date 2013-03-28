@@ -12,13 +12,4 @@ class Element_Select extends ElementItemizedAbstract
         $this->style = 'select';
     }
 
-    /**
-     * @param $value
-     * @return \WScore\Html\Elements
-     */
-    public function makeForm( $value ) {
-        $form = $this->form;
-        return $form->select( $this->name, $this->item_data, $value, $this->attributes );
-    }
-
 }

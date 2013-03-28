@@ -74,7 +74,15 @@ class ElementItemizedAbstract extends ElementAbstract
      * @param $value
      * @return \WScore\Html\Elements
      */
-    public function makeForm( $value ) {
+    public function makeForm( $value )
+    {
+        $form = $this->form;
+        if( $this->style === 'check' ) {
+            return $form->checkList( $this->name, $this->item_data, $value, $this->attributes );
+        }
+        if( $this->style === 'radio' ) {
+            return $form->radioList( $this->name, $this->item_data, $value, $this->attributes );
+        }
+        return $form->select( $this->name, $this->item_data, $value, $this->attributes );
     }
-
 }

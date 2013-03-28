@@ -19,7 +19,7 @@ class Element_SelectMultiple extends ElementItemizedAbstract
     public function makeForm( $value ) {
         $form = $this->form;
         $this->attributes[ 'multiple' ] = true;
-        return $form->select( $this->name, $this->item_data, $value, $this->attributes );
+        return parent::makeForm( $value );
     }
 
 }
