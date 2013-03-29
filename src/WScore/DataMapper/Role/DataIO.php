@@ -3,6 +3,7 @@ namespace WScore\DataMapper\Role;
 
 use \WScore\DataMapper\EntityManager;
 use \WScore\Validation\Validation;
+use \WScore\DataMapper\Entity\EntityInterface;
 use \WScore\Selector\ElementAbstract;
 use \WScore\Selector\ElementItemizedAbstract;
 
@@ -90,6 +91,16 @@ class DataIO extends RoleAbstract
             $this->entity[ $key ] = $value;
         }
         return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param EntityInterface|EntityInterface[] $targets
+     * @param string $method
+     */
+    public function relate( $name, $targets, $method='set' )
+    {
+        $this->em->relation( $this->entity, $name )->$method( $targets );
     }
 
     /**
