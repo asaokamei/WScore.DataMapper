@@ -70,6 +70,14 @@ class ElementAbstract
     }
 
     /**
+     * @param $value
+     * @return \WScore\Html\Elements
+     */
+    public function makeHidden( $value ) {
+        return $this->form->input( 'hidden', $this->name, $value );
+    }
+    
+    /**
      * makes RAW type of a value.
      * returns as is for single value, returns as 'div > nl > li' for arrays.
      *
