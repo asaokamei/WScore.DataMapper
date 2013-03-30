@@ -185,7 +185,6 @@ class EntityManager
     {
         if( empty( $this->collection->entities ) ) return;
         foreach( $this->collection->entities as $entity ) {
-            $this->relation->link( $entity->getCenaId() );
             $this->saveEntity( $entity );
         }
     }
@@ -194,10 +193,18 @@ class EntityManager
      * saves or delete an entity to/from database.
      *
      * @param EntityInterface $entity
+     * @return int
      */
-    public function saveEntity( $entity ) {
+    public function saveEntity( $entity ) 
+    {
+        $cenaID = $entity->getCenaId();
+        $unsavedCount = $this->relation->link( $cenaID );
         $model  = $this->getModel( $entity );
         $this->utils->saveEntity( $model, $entity );
+        if( $unsavedCount ) {
+            $unsavedCount = $this->relation->link( $cenaID );
+        }
+        return $unsavedCount;
     }
 
     /**
