@@ -35,12 +35,14 @@ class RelationManager
      * links unlinked relations.
      * returns number of unlinked relations.
      *
+     * @param null|string $saveId
      * @return int
      */
-    public function link()
+    public function link( $saveId=null )
     {
         $countUnLinked = 0;
         foreach( $this->relations as $cenaId => $list ) {
+            if( $saveId && $cenaId !== $saveId ) continue;
             foreach( $list as $name => $relation ) {
                 /** @var $relation Relation\RelationAbstract */
                 if( !$relation->linked ) {

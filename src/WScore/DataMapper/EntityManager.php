@@ -185,6 +185,7 @@ class EntityManager
     {
         if( empty( $this->collection->entities ) ) return;
         foreach( $this->collection->entities as $entity ) {
+            $this->relation->link( $entity->getCenaId() );
             $this->saveEntity( $entity );
         }
     }
