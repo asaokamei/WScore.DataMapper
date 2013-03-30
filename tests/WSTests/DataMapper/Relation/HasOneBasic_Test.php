@@ -150,12 +150,8 @@ class HasOneBasic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertFalse( $relation->isLinked() );
         
         $em->save();
-        // still, friend_id is not set yet, and relation is not linked. 
-        $this->assertEquals( null, $contact->friend_id );
-        $this->assertFalse( $relation->isLinked() );
-        $relation->link();
-        
-        // check friend_id is not set yet, and relation is not linked. 
+        // now all entities and relations are save at once. friend_id is not set yet, and relation is not linked. 
+        $this->assertNotEquals( null, $contact->friend_id );
         $this->assertEquals( '3', $contact->friend_id );
         $this->assertTrue( $relation->isLinked() );
         $em->save();

@@ -20,8 +20,7 @@ class JoinBy_SetManyTest extends JoinBySetUp
         $relation = $em->relation( $friend, 'groups' );
         $relation->set( $groups );
         $em->save();
-        $this->assertFalse( $relation->isLinked() );
-        $relation->link();
+        $this->assertTrue( $relation->isLinked() );
         $em->save();
     }
     function test_fetch_data()
