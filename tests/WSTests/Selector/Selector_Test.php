@@ -274,10 +274,10 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $text = $sel->popHtml( 'html', 'F' ); // should be female.
         $form = (string) $sel->popHtml( 'form', 'M' );
 
-        $this->assertEquals( '<div class="forms-DivList"><nl>
+        $this->assertEquals( '<div class="forms-DivList"><ul>
   <li><label><input type="radio" name="test" value="M" class="FormSelector" checked="checked" />male</label></li>
   <li><label><input type="radio" name="test" value="F" class="FormSelector" />female</label></li>
-</nl>
+</ul>
 </div>
 ', $form );
         $this->assertEquals( 'female', $text );
@@ -297,10 +297,10 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $text = $sel->popHtml( 'html', 'F' ); // should be female.
         $form = (string) $sel->popHtml( 'form', 'M' );
 
-        $this->assertEquals( '<div class="forms-DivList"><nl>
+        $this->assertEquals( '<div class="forms-DivList"><ul>
   <li><label><input type="checkbox" name="test[]" value="M" class="FormSelector" checked="checked" />male</label></li>
   <li><label><input type="checkbox" name="test[]" value="F" class="FormSelector" />female</label></li>
-</nl>
+</ul>
 </div>
 ', $form );
         $this->assertEquals( 'female', $text );
@@ -322,12 +322,12 @@ class Selector_Test extends \PHPUnit_Framework_TestCase
         $text = $sel->popHtml( 'html', array( 'F', 'U' ) ); // should be female.
         $form = (string) $sel->popHtml( 'form', array( 'M', 'U' ) );
 
-        $this->assertEquals( '<div class="forms-DivList"><nl>
+        $this->assertEquals( '<div class="forms-DivList"><ul>
   <li><label><input type="checkbox" name="test[]" value="M" class="FormSelector" checked="checked" />male</label></li>
   <li><label><input type="checkbox" name="test[]" value="F" class="FormSelector" />female</label></li>
   <li><label><input type="checkbox" name="test[]" value="U" class="FormSelector" checked="checked" />unknown</label></li>
   <li><label><input type="checkbox" name="test[]" value="N" class="FormSelector" />neutral</label></li>
-</nl>
+</ul>
 </div>
 ', $form );
         $this->assertEquals( 'female,unknown', $text );
