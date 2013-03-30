@@ -180,13 +180,38 @@ class EntityManager
 
     /**
      * saves or delete registered entities to/from database.
+     * tries to save all entities and relations based on 
+     * the number of unsaved entities and relations. 
      */
     public function save()
     {
-        if( empty( $this->collection->entities ) ) return;
-        foreach( $this->collection->entities as $entity ) {
-            $this->saveEntity( $entity );
+        $prevCount = $unsavedCount = $this->doSave();
+        while( $unsavedCount ) {
+            $unsavedCount = $this->doSave();
+            if( $unsavedCount === $prevCount ) {
+                throw new \RuntimeException( 'cannot save entity', 5001 );
+            }
         }
+    }
+
+    /**
+     * do save the entity. 
+     * returns number of unsaved relation and number of entities *increased* 
+     * during the save process (which may happen from many-to-many relation).
+     * 
+     * @return int
+     */
+    private function doSave()
+    {
+        $initEntityCount = $this->collection->count();
+        $unsavedCount = 0;
+        if( empty( $this->collection->entities ) ) return $unsavedCount;
+        foreach( $this->collection->entities as $entity ) {
+            $unsavedCount += $this->saveEntity( $entity );
+        }
+        $lastEntityCount = $this->collection->count();
+        $unsavedCount += $lastEntityCount - $initEntityCount;
+        return $unsavedCount;
     }
     
     /**
