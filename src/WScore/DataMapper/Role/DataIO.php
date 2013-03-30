@@ -115,6 +115,10 @@ class DataIO extends RoleAbstract
         // validate all the properties in the entity.
         $lists = get_object_vars( $this->entity );
         foreach( $lists as $key => $value ) {
+            // not to validate an object. 
+            // todo: fix this ugly code.
+            if( is_object( $value ) ) continue; 
+            if( is_array( $value ) && is_object( $value[0] ) ) continue;
             $rule = $model->getRule( $key );
             $this->validation->push( $key, $rule );
         }
