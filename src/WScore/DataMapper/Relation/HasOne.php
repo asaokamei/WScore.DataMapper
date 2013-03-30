@@ -89,6 +89,9 @@ class HasOne extends RelationAbstract
         $name = $this->name;
         /** @var $target EntityInterface */
         $target = $this->source->$name;
+        if( $target instanceof Collection || is_array( $target ) ) {
+            $target = $target[0];
+        }
         if( !$target->isIdPermanent() ) {
             $this->linked = false;
             return;
