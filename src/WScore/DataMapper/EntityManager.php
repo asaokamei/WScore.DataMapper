@@ -157,6 +157,7 @@ class EntityManager
         $stmt->setFetchMode( \PDO::FETCH_CLASS, $class, array( $model ) );
         $fetched = $stmt->fetchAll();
         $fetched = $this->register( $fetched );
+        $this->utils->preserveOriginalValue( $fetched );
         $fetched = $this->newCollection( $fetched );
         return $fetched;
     }
@@ -235,7 +236,9 @@ class EntityManager
         $cenaID = $entity->getCenaId();
         $unsavedCount = $this->relation->link( $cenaID );
         $model  = $this->getModel( $entity );
-        $this->utils->saveEntity( $model, $entity );
+        if( $this->utils->isModified( $entity ) ) {
+            $this->utils->saveEntity( $model, $entity );
+        }
         if( $unsavedCount ) {
             $unsavedCount = $this->relation->link( $cenaID );
         }

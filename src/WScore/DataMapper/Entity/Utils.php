@@ -45,6 +45,43 @@ class Utils
     }
 
     /**
+     * checks if entity is modified or not for save. 
+     * 
+     * @param EntityInterface $entity
+     * @return bool
+     */
+    public function isModified( $entity )
+    {
+        // new entity must be saved. 
+        if( !$entity->isIdPermanent() ) return true;
+        if( $entity->toDelete() ) return true;
+        $data = get_object_vars( $entity );
+        foreach( $data as $key => $val ) {
+            if( substr( $key, 0, 1 ) === '_' ) continue;
+            if( is_object( $val ) ) continue;
+            if( $val !== $entity->getPropertyAttribute( $key, 'original' ) ) return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param EntityInterface|EntityInterface[] $entity
+     */
+    public function preserveOriginalValue( $entity )
+    {
+        if( is_array( $entity ) ) {
+            foreach( $entity as $e ) {
+                $this->preserveOriginalValue( $e );
+            }
+            return;
+        }
+        $data = $this->entityToArray( $entity );
+        foreach( $data as $key => $val ) {
+            $entity->setPropertyAttribute( $key, 'original', $val );
+        }
+    }
+    
+    /**
      * @param \WScore\DataMapper\Model     $model
      * @param string    $class
      * @param array    $data
