@@ -17,6 +17,9 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
 
     /** @var string */
     private $_identifier;
+    
+    /** @var string */
+    private $_cena_id;
 
     /** @var bool */
     private $_toDelete = false;
@@ -50,6 +53,7 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
         elseif( !$this->_identifier = $this->getId() ) {
             $this->_identifier = (string) self::$_id_for_new++;
         }
+        $this->_cena_id = $this->getCenaId(true);
     }
 
     /**
@@ -97,10 +101,17 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     }
 
     /**
+     * returns cenaID. 
+     * set $current to true to get cenaID that reflect current state. 
+     * 
+     * @param bool $current
      * @return string
      */
-    public function getCenaId() 
+    public function getCenaId( $current=false ) 
     {
+        if( !$current ) {
+            return $this->_cena_id;
+        }
         $model = $this->getModelName( true );
         $type  = $this->_id_type;
         $id    = $this->_identifier;
