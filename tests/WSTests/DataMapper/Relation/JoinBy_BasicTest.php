@@ -65,13 +65,9 @@ class JoinBy_BasicTests extends JoinBySetUp
         $this->assertFalse( $relation->isLinked() );
 
         $em->save();
-        // still, friend_id is not set yet, and relation is not linked. 
-        $this->assertFalse( $relation->isLinked() );
-        $relation->link();
-
-        // check friend_id is not set yet, and relation is not linked. 
+        // save method will try to save as much as possible. 
         $this->assertTrue( $relation->isLinked() );
-        $em->save();
+        $this->assertTrue( $relation->isLinked() );
         
         // make sure that the friend and group are related. 
         $friend2 = $em->fetch( $this->friendEntity, '2' );
