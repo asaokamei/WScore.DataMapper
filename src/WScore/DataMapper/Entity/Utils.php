@@ -21,6 +21,7 @@ class Utils
             $data = $this->entityToArray( $entity );
             $id   = $model->insert( $data );
             $entity->setSystemId( $id );
+            $this->preserveOriginalValue( $entity, $model );
         }
         else {
             $id   = $entity->getId();
@@ -47,18 +48,18 @@ class Utils
     /**
      * checks if entity is modified or not for save. 
      * 
-     * @param EntityInterface $entity
+     * @param EntityInterface            $entity
+     * @param \WScore\DataMapper\Model   $model
      * @return bool
      */
-    public function isModified( $entity )
+    public function isModified( $entity, $model )
     {
         // new entity must be saved. 
         if( !$entity->isIdPermanent() ) return true;
         if( $entity->toDelete() ) return true;
-        $data = get_object_vars( $entity );
-        foreach( $data as $key => $val ) {
-            if( substr( $key, 0, 1 ) === '_' ) continue;
-            if( is_object( $val ) ) continue;
+        $list = $model->property();
+        foreach( $list as $key ) {
+            $val = isset( $entity->$key ) ? $entity->$key : null;
             if( $val !== $entity->getPropertyAttribute( $key, 'original' ) ) return true;
         }
         return false;
@@ -66,17 +67,20 @@ class Utils
 
     /**
      * @param EntityInterface|EntityInterface[] $entity
+     * @param \WScore\DataMapper\Model          $model
      */
-    public function preserveOriginalValue( $entity )
+    public function preserveOriginalValue( $entity, $model )
     {
         if( is_array( $entity ) ) {
             foreach( $entity as $e ) {
-                $this->preserveOriginalValue( $e );
+                $this->preserveOriginalValue( $e, $model );
             }
             return;
         }
+        $list = $model->property();
         $data = $this->entityToArray( $entity );
-        foreach( $data as $key => $val ) {
+        foreach( $list as $key ) {
+            $val = array_key_exists( $key, $data ) ? $data[$key] : null;
             $entity->setPropertyAttribute( $key, 'original', $val );
         }
     }
