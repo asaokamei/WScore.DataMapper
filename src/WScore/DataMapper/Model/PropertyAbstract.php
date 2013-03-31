@@ -67,6 +67,18 @@ class PropertyAbstract
     //  Managing Properties.
     // +----------------------------------------------------------------------+
     /**
+     * return list of properties, without primary key and relations. 
+     * 
+     * @return array
+     */
+    public function property()
+    {
+        $list = $this->protect( $this->properties );
+        $list = array_keys( $list );
+        return $list;
+    }
+    
+    /**
      * checks if $name property exists in the model.
      *
      * @param string $name
