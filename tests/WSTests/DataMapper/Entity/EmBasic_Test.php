@@ -187,4 +187,27 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $friend1, $this->em->getByCenaId( 'Friends.0.'.$id ) );
         $this->assertFalse( $this->em->getByCenaId( 'Friends.0.2' ) );
     }
+    
+    function test_not_saving_saved_entities()
+    {
+        $model   = $this->em->getModel( $this->friendEntity );
+        $profile1= $model->query()->dbAccess()->log->getProfile();
+
+        $data1   = $this->getFriendData(1);
+        /** @var $friend1 \WSTests\DataMapper\entities\friend */
+        $friend1 = $this->em->newEntity( $this->friendEntity, $data1 );
+        $this->em->save();
+        $profile2= $model->query()->dbAccess()->log->getProfile();
+        
+        $this->em->save();
+        $profile3= $model->query()->dbAccess()->log->getProfile();
+        
+        $friend1->friend_name = 'modified';
+        $this->em->save();
+        $profile4= $model->query()->dbAccess()->log->getProfile();
+        
+        $this->assertNotEquals( $profile1, $profile2 );
+        $this->assertEquals( $profile2, $profile3 );
+        $this->assertNotEquals( $profile3, $profile4 );
+    }
 }
