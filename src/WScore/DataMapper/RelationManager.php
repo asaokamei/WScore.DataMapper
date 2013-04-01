@@ -1,6 +1,12 @@
 <?php
 namespace WScore\DataMapper;
 
+/**
+ * Class RelationManager
+ * @package WScore\DataMapper
+ *
+ * @singleton
+ */
 class RelationManager
 {
     /**

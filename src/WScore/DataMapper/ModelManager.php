@@ -5,6 +5,12 @@ use \WScore\DiContainer\ContainerInterface;
 use \WScore\DataMapper\Entity\EntityInterface;
 use \WScore\DataMapper\Entity\EntityAbstract;
 
+/**
+ * Class ModelManager
+ * @package WScore\DataMapper
+ *
+ * @singleton
+ */
 class ModelManager
 {
     /** @var \WScore\DataMapper\Model[] */

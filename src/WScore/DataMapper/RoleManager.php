@@ -5,6 +5,12 @@ use \WScore\DiContainer\ContainerInterface;
 use \WScore\DataMapper\Entity\EntityInterface;
 use \WScore\DataMapper\Role\RoleInterface;
 
+/**
+ * Class RoleManager
+ * @package WScore\DataMapper
+ *
+ * @singleton
+ */
 class RoleManager
 {
     /** 
