@@ -42,7 +42,7 @@ class ModelManager
         if( is_string( $entity ) ) {
             /** @var $entity EntityAbstract  */
             if( !method_exists( $entity, 'getStaticModelName' ) ) {
-                throw new \RuntimeException( 'entity class not have getStaticModelName method' );
+                throw new \RuntimeException( 'entity class not have getStaticModelName method: ' . $entity );
             }
             $modelName = $entity::getStaticModelName();
         } else {
