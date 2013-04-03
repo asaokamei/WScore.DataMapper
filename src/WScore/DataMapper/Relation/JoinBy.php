@@ -111,7 +111,7 @@ class JoinBy extends RelationAbstract
         if( $target instanceof EntityInterface ) $target = array( $target );
         $this->source->$name = array();
         foreach( $target as $t ) {
-            array_push( $this->source->$name, $t );
+            if( $t ) array_push( $this->source->$name, $t );
         }
         $this->setRelation();
         return $this;
@@ -141,7 +141,6 @@ class JoinBy extends RelationAbstract
     {
         $name = $this->name;
         $this->linked = true;
-        if( !isset( $this->source->$name ) || empty( $this->source->$name ) ) return $this;
         if( !$this->source->isIdPermanent() ) {
             // at least source has to have permanent id. 
             $this->linked  = false; // not linked, yet. 
