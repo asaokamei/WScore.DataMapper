@@ -70,13 +70,11 @@ class JoinBy extends RelationAbstract
         // find entity for join.
         $class  = $this->info[ 'by' ];
         $value  = $this->source[ $this->info[ 'source' ] ];
-        $joins  = $this->em->$by( $class, $value, $this->info[ 'bySource' ] );
-        $this->joiner = $this->em->newCollection( $joins );
+        /** @var $join Collection */
+        $join = $this->em->$by( $class, $value, $this->info[ 'bySource' ] );
+        $this->joiner = $join;
         // extract the column for join. 
-        $packed = array();
-        foreach( $this->joiner as $joins ) {
-            $packed[] = $joins[ $this->info[ 'byTarget' ] ];
-        }
+        $packed = $join->pack( $this->info[ 'byTarget' ] );
         // get/fetch the target. 
         if( $packed && !empty( $packed ) ) {
             $class  = $this->info[ 'entity' ];
