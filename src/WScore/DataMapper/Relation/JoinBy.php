@@ -80,7 +80,7 @@ class JoinBy extends RelationAbstract
             $class  = $this->info[ 'entity' ];
             $target = $this->em->$by( $class, $packed, $this->info[ 'target' ] );
         } else {
-            $target = array();
+            $target = $this->em->newCollection();
         }
         // found targets.
         $this->source[ $this->name ] = $target;
@@ -107,10 +107,11 @@ class JoinBy extends RelationAbstract
             $this->fetch();
         }
         if( $target instanceof EntityInterface ) $target = array( $target );
-        $this->source->$name = array();
+        $linked = $this->em->newCollection();
         foreach( $target as $t ) {
-            if( $t ) array_push( $this->source->$name, $t );
+            if( $t ) $linked->add( $t );
         }
+        $this->source->$name = $linked;
         $this->setRelation();
         return $this;
     }
@@ -119,10 +120,15 @@ class JoinBy extends RelationAbstract
     {
         $name = $this->name;
         if( $target instanceof EntityInterface ) $target = array( $target );
-        if( !isset( $this->source->$name ) ) $this->source->$name = array();
-        foreach( $target as $t ) {
-            array_push( $this->source->$name, $t );
+        if( !isset( $this->source->$name ) ) {
+            $link = $this->em->newCollection();
+        } else {
+            $link = $this->source->$name;
         }
+        foreach( $target as $t ) {
+            if( $t ) $link->add( $t );
+        }
+        $this->source->$name = $link;
         $this->setRelation();
         return $this;
     }
