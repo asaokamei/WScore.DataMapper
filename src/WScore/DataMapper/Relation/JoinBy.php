@@ -90,7 +90,6 @@ class JoinBy extends RelationAbstract
     /**
      * sets relation between the source and the target entity,
      * i.e. replaces the existing relations.
-     * TODO: check for duplicated entities.
      *
      * @param EntityInterface $target
      * @return \WScore\DataMapper\Relation\JoinBy
