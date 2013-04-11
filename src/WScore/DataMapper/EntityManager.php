@@ -36,6 +36,9 @@ class EntityManager
      */
     protected $relation;
 
+    /** @var bool */
+    protected $fetchByGet = false;
+    
     // +----------------------------------------------------------------------+
     //  construction and managing objects. 
     // +----------------------------------------------------------------------+
@@ -107,6 +110,10 @@ class EntityManager
         $this->collection->clear();
     }
 
+    public function fetchByGet( $set=true ) {
+        $this->fetchByGet = $set;
+        return $this;
+    }
     /**
      * get entity objects from EntityManager's repository.
      *
@@ -147,6 +154,9 @@ class EntityManager
      */
     public function fetch( $entity, $value, $column=null, $packed=false )
     {
+        if( $this->fetchByGet ) {
+            return $this->get( $entity, $value, $column, $packed );
+        }
         $model = $this->getModel( $entity );
         $class = $this->getClass( $entity );
         if( $value instanceof \PDOStatement ) {

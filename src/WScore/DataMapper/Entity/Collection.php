@@ -109,6 +109,10 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
         foreach( $this->entities as $entity )
         {
             if( $model && $model !== $entity->getModelName() ) continue;
+            if( empty( $values ) ) {
+                $result[] = $entity;
+                continue;
+            }
             if( !$column ) {
                 $prop = $entity->getId();
             }
@@ -127,7 +131,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param string|null $column
      * @return Collection
      */
-    public function fetch( $model, $values, $column=null )
+    public function fetch( $model, $values=null, $column=null )
     {
         return $this->get( $values, $column, $model );
     }
