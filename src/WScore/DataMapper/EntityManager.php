@@ -159,6 +159,9 @@ class EntityManager
         }
         $model = $this->getModel( $entity );
         $class = $this->getClass( $entity );
+        if( !$value ) {
+            return $this->newCollection();
+        }
         if( $value instanceof \PDOStatement ) {
             $stmt = $value;
         } else {
