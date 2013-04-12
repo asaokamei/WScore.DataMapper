@@ -26,6 +26,12 @@ interface EntityInterface
     public function getModelName( $short=false );
 
     /**
+     * @param bool $short
+     * @return string
+     */
+    function getEntityName( $short=false );
+    
+    /**
      * @return string
      */
     public function getCenaId();

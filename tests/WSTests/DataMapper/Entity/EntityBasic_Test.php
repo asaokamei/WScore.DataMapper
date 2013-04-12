@@ -40,7 +40,7 @@ class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertFalse( $entity->isIdPermanent() );
         $this->assertEquals( $this->friend->getModelName(), $entity->getModelName() );
         $this->assertEquals( $this->friend->getModelName(true), $entity->getModelName(true) );
-        $this->assertEquals( 'Friends.0.1', $entity->getCenaId() );
+        $this->assertEquals( 'friend.0.1', $entity->getCenaId() );
     }
     function test_to_delete()
     {
@@ -99,6 +99,6 @@ class EntityBasic_Tests extends \PHPUnit_Framework_TestCase
         $this->assertFalse( $entity->isIdPermanent() );
         $this->assertEquals( $this->contact->getModelName(), $entity->getModelName() );
         $this->assertEquals( $this->contact->getModelName(true), $entity->getModelName(true) );
-        $this->assertEquals( 'Contacts.0.7', $entity->getCenaId() );
+        $this->assertEquals( 'contact.0.7', $entity->getCenaId() );
     }
 }

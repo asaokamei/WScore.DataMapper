@@ -101,6 +101,19 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     }
 
     /**
+     * @param bool $short
+     * @return string
+     */
+    public function getEntityName( $short=false )
+    {
+        $name = get_called_class();
+        if( $short && strpos( $name, '\\' ) !== false ) {
+            $name = substr( $name, strrpos( $name, '\\' )+1 );
+        }
+        return $name;
+    }
+
+    /**
      * returns cenaID. 
      * set $current to true to get cenaID that reflect current state. 
      * 
@@ -112,7 +125,7 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
         if( !$current ) {
             return $this->_cena_id;
         }
-        $model = $this->getModelName( true );
+        $model = $this->getEntityName( true );
         $type  = $this->_id_type;
         $id    = $this->_identifier;
         return "$model.$type.$id";

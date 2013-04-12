@@ -184,8 +184,9 @@ class EmBasic_Tests extends \PHPUnit_Framework_TestCase
         
         $id = EntityAbstract::$_id_for_new-1;
         $this->assertEquals( $friend1, $this->em->getByCenaId( $friend1->getCenaId() ) );
-        $this->assertEquals( $friend1, $this->em->getByCenaId( 'Friends.0.'.$id ) );
-        $this->assertFalse( $this->em->getByCenaId( 'Friends.0.2' ) );
+        $this->assertEquals( $friend1, $this->em->getByCenaId( 'friend.0.'.$id ) );
+        $this->assertFalse( $this->em->getByCenaId( 'Friends.0.1' ) );
+        $this->assertFalse( $this->em->getByCenaId( 'friend.0.2' ) );
     }
     
     function test_not_saving_saved_entities()
