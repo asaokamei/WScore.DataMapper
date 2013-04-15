@@ -103,12 +103,16 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function get( $values, $column=null, $model=null )
     {
-        if( !is_array( $values ) ) $values = array( $values );
+        if( !is_null( $values ) && !is_array( $values ) ) $values = array( $values );
         $result = array();
         if( isset( $model ) && substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
         foreach( $this->entities as $entity )
         {
             if( $model && $model !== $entity->getModelName() ) continue;
+            if( is_null( $values ) ) {
+                $result[] = $entity;
+                continue;
+            }
             if( empty( $values ) ) {
                 $result[] = $entity;
                 continue;
