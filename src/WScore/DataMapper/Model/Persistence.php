@@ -18,7 +18,7 @@ class Persistence
      * @Inject
      * @var \WScore\DbAccess\Query  
      */
-    protected $query;
+    public $query;
 
     /**
      * @var \WScore\DataMapper\Model\PropertyInterface

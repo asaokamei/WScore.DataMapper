@@ -32,7 +32,7 @@ abstract class RelationAbstract implements RelationInterface
      * @Inject
      * @var \WScore\DataMapper\EntityManager
      */
-    protected $em;
+    public $em;
 
     /**
      * fetches related entities from database.

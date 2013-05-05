@@ -16,13 +16,13 @@ class DataIO extends RoleAbstract
      * @Inject
      * @var \WScore\DataMapper\EntityManager
      */
-    protected $em;
+    public $em;
 
     /**
      * @Inject
      * @var \WScore\Validation\Validation
      */
-    protected $validation;
+    public $validation;
 
     /** @var string */
     public $htmlType = 'html';

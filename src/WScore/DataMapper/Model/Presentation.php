@@ -25,13 +25,13 @@ class Presentation
      * @Inject
      * @var \WScore\Selector\Selector
      */
-    protected $selector;
+    public $selector;
 
     /**
      * @Inject
      * @var \WScore\Validation\Rules
      */
-    protected $rules;
+    public $rules;
 
     /**
      * @var \WScore\DataMapper\Model\PropertyInterface

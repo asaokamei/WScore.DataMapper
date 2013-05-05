@@ -20,7 +20,7 @@ class ModelManager
      * @Inject
      * @var ContainerInterface
      */
-    protected $container;
+    public $container;
 
     /**
      * @param Entity\EntityInterface|string $entity

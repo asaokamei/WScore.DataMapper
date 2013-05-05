@@ -17,7 +17,7 @@ class RoleManager
      * @Inject
      * @var ContainerInterface 
      */
-    protected $container;
+    public $container;
 
     // +----------------------------------------------------------------------+
     public function __construct() {}

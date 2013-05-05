@@ -10,7 +10,7 @@ class Active extends RoleAbstract
      * @Inject
      * @var \WScore\DataMapper\EntityManager
      */
-    protected $em;
+    public $em;
     // +----------------------------------------------------------------------+
     /**
      * @param $name

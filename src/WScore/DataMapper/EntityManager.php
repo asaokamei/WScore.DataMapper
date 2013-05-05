@@ -16,25 +16,25 @@ class EntityManager
      * @Inject
      * @var \WScore\DataMapper\ModelManager
      */
-    protected $modelManager;
+    public $modelManager;
     
     /** 
      * @Inject
      * @var \WScore\DataMapper\Entity\Collection 
      */
-    protected $collection;
+    public $collection;
 
     /**
      * @Inject
      * @var \WScore\DataMapper\Entity\Utils
      */
-    protected $utils;
+    public $utils;
     
     /**
      * @Inject
      * @var \WScore\DataMapper\RelationManager
      */
-    protected $relation;
+    public $relation;
 
     /** @var bool */
     protected $fetchByGet = false;
