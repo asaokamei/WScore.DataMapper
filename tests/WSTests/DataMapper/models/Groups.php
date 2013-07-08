@@ -24,7 +24,7 @@ class Groups extends Model
         $sql = "
             CREATE TABLE {$table} (
               group_code   varchar(64) NOT NULL,
-              name text NOT NULL DEFAULT '',
+              name text NOT NULL,
               created_at datetime,
               updated_at datetime,
               constraint groups_pkey PRIMARY KEY (
