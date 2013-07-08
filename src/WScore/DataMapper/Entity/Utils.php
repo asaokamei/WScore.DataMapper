@@ -57,10 +57,10 @@ class Utils
         // new entity must be saved. 
         if( !$entity->isIdPermanent() ) return true;
         if( $entity->toDelete() ) return true;
-        $list = $model->property();
-        foreach( $list as $key ) {
+        $original = $entity->getEntityAttribute( 'originalValue' );
+        foreach( $original as $key => $oVal ) {
             $val = isset( $entity->$key ) ? $entity->$key : null;
-            if( $val !== $entity->getPropertyAttribute( $key, 'original' ) ) return true;
+            if( $val !== $oVal ) return true;
         }
         return false;
     }
@@ -77,12 +77,8 @@ class Utils
             }
             return;
         }
-        $list = $model->property();
-        $data = $this->entityToArray( $entity );
-        foreach( $list as $key ) {
-            $val = array_key_exists( $key, $data ) ? $data[$key] : null;
-            $entity->setPropertyAttribute( $key, 'original', $val );
-        }
+        $original = clone( $entity );
+        $entity->setEntityAttribute( 'originalValue', $original );
     }
     
     /**
