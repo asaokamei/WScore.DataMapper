@@ -1,5 +1,5 @@
 <?php
-namespace WScore\DataMapper\Model;
+namespace WScore\DataMapper\Filter;
 
 abstract class FilterAbstract implements FilterInterface
 {
