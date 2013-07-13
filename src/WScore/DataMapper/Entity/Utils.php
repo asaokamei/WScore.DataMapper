@@ -6,7 +6,7 @@ class Utils
     /**
      * saves or delete an entity to/from database.
      *
-     * @param \WScore\DataMapper\Model $model
+     * @param \WScore\DataMapper\Model\Model $model
      * @param EntityInterface $entity
      */
     public function saveEntity( $model, $entity )
@@ -49,7 +49,7 @@ class Utils
      * checks if entity is modified or not for save. 
      * 
      * @param EntityInterface            $entity
-     * @param \WScore\DataMapper\Model   $model
+     * @param \WScore\DataMapper\Model\Model   $model
      * @return bool
      */
     public function isModified( $entity, $model )
@@ -67,7 +67,7 @@ class Utils
 
     /**
      * @param EntityInterface|EntityInterface[] $entity
-     * @param \WScore\DataMapper\Model          $model
+     * @param \WScore\DataMapper\Model\Model          $model
      */
     public function preserveOriginalValue( $entity, $model )
     {
@@ -82,7 +82,7 @@ class Utils
     }
     
     /**
-     * @param \WScore\DataMapper\Model     $model
+     * @param \WScore\DataMapper\Model\Model     $model
      * @param string    $class
      * @param array    $data
      * @param null|string $id

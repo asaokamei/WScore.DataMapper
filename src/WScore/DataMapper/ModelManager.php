@@ -13,7 +13,7 @@ use \WScore\DataMapper\Entity\EntityAbstract;
  */
 class ModelManager
 {
-    /** @var \WScore\DataMapper\Model[] */
+    /** @var \WScore\DataMapper\Model\Model[] */
     protected $models = array();
 
     /**
@@ -24,7 +24,7 @@ class ModelManager
 
     /**
      * @param Entity\EntityInterface|string $entity
-     * @return \WScore\DataMapper\Model
+     * @return \WScore\DataMapper\Model\Model
      */
     public function getModel( $entity )
     {

@@ -1,7 +1,7 @@
 <?php
 namespace WSTests\DataMapper\models;
 
-use \WScore\DataMapper\Model;
+use \WScore\DataMapper\Model\Model;
 
 class Contacts extends Model
 {

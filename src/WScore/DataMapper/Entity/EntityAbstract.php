@@ -34,7 +34,7 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     static $_id_for_new = 1;
 
     /**
-     * @param \WScore\DataMapper\Model $model
+     * @param \WScore\DataMapper\Model\Model $model
      * @param string                   $id_type
      * @param null|string              $identifier
      */

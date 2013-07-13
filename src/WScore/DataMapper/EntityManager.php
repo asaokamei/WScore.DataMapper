@@ -68,7 +68,7 @@ class EntityManager
     // +----------------------------------------------------------------------+
     /**
      * @param Entity\EntityInterface|string $entity
-     * @return \WScore\DataMapper\Model
+     * @return \WScore\DataMapper\Model\Model
      */
     public function getModel( $entity ) {
         return $this->modelManager->getModel( $entity );
