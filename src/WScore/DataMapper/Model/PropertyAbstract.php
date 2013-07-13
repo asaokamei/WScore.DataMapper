@@ -6,7 +6,7 @@ namespace WScore\DataMapper\Model;
  * a Table Data Gateway pattern.
  *
  */
-class PropertyAbstract
+abstract class PropertyAbstract implements PropertyInterface
 {
     /**
      * name of database table
