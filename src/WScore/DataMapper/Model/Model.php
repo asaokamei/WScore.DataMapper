@@ -74,10 +74,14 @@ class Model
     }
 
     /**
+     * @param bool $resetQuery
      * @return \WScore\DbAccess\Query
      */
-    public function query() {
-        return $this->persistence->query();
+    public function query( $resetQuery=true ) {
+        if( $resetQuery ) {
+            return $this->persistence->query();
+        }
+        return $this->persistence->query;
     }
 
     /**
