@@ -98,6 +98,7 @@ class Model
      */
     public function fetch( $value, $column=null, $packed=false )
     {
+        $this->persistence->query();
         $stmt  = $this->persistence->fetch( $value, $column, $packed );
         return $stmt;
     }

@@ -66,6 +66,7 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
         $this->friend = $container->get( '\WScore\DataMapper\Model\Persistence' );
         $this->friend->setProperty( $property );
         $this->friend->setTable( self::$table, self::$id_name );
+        $this->friend->query();
     }
 
     /**
@@ -94,6 +95,7 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
         $this->friend->insertId( $this->getFriendData(2) );
         $this->friend->insertId( $this->getFriendData(3) );
         $this->friend->insertId( $this->getFriendData(4) );
+        $this->friend->query();
         $stmt = $this->friend->fetch( '1' );
         $fetched = $stmt->fetch();
         $list = array( 'friend_name', 'gender', 'friend_bday', 'friend_tel' );
@@ -117,6 +119,7 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
         $fetched[ 'friend_tel' ] = '999-9999-9999';
         $this->friend->update( $fetched );
 
+        $this->friend->query();
         $stmt = $this->friend->fetch( '2' );
         $fetched = $stmt->fetch();
         $this->assertEquals( '999-9999-9999', $fetched[ 'friend_tel' ] );
@@ -129,6 +132,7 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
         $vals = array( 'friend_tel' => '12345678' );
         $this->friend->update( '1', $vals );
 
+        $this->friend->query();
         $stmt = $this->friend->fetch( '1' );
         $updated = $stmt->fetch();
 
@@ -159,6 +163,7 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
         $id_to_delete = $fetched[0];
         $this->friend->delete( $id_to_delete );
 
+        $this->friend->query();
         $stmt = $this->friend->fetch( 'M', 'gender' );
         $fetched = $stmt->fetchAll();
         $this->assertEquals( 1, count( $fetched ) );

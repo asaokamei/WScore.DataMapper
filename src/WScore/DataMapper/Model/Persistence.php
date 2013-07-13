@@ -57,8 +57,7 @@ class Persistence
      */
     public function query() {
         // set fetch mode after query is cloned in table() method.
-        return $this->query
-            ->table( $this->table, $this->id_name );
+        return $this->query = $this->query->table( $this->table, $this->id_name );
     }
     // +----------------------------------------------------------------------+
     //  Basic DataBase Access.
@@ -79,7 +78,7 @@ class Persistence
      */
     public function fetch( $value, $column=null, $packed=false )
     {
-        $query = $this->query();
+        $query = $this->query;
         if( !$column         ) $column = $this->id_name;
         if( $packed === true ) $packed = $column;
         if( is_null( $value ) ) {
