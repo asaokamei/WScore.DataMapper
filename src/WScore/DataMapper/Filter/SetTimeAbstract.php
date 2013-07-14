@@ -36,7 +36,7 @@ abstract class SetTimeAbstract implements FilterInterface
     public function setTime( &$data ) 
     {
         $columns = $this->model->property->getExtraType( $this->column_name );
-        if( !$columns ) return;
+        if( !$columns ) return $data;
         $now = $this->getNow();
         foreach( $columns as $col ) {
             $data[ $col ] = $now;
