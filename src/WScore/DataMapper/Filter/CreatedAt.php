@@ -2,7 +2,6 @@
 namespace WScore\DataMapper\Filter;
 
 use WScore\DataMapper\Model\Helper;
-use WScore\DataMapper\Model\Model;
 use \DateTime as Now;
 
 /**
@@ -12,40 +11,18 @@ use \DateTime as Now;
  * 
  * @cacheable
  */
-class CreatedAt implements FilterInterface
+class CreatedAt extends SetTimeAbstract
 {
     /**
-     * @var Model
+     * @var string
      */
-    public $model;
-
-    /**
-     * @var Now
-     */
-    public $now;
+    public $column_name = 'created_at';
 
     /**
      * @param $data
      * @return void
      */
-    public function onInsert( &$data ) {
-        $columns = $this->model->property->getExtraType( 'created_at' );
-        if( !$columns ) return;
-        if( $this->now ) {
-            $now = $this->now;
-        } else {
-            $now = new \DateTime();
-        }
-        foreach( $columns as $col ) {
-            $data[ $col ] = $now;
-        }
-    }
-
-    /**
-     * @param Model $model
-     */
-    public function setModel( $model )
-    {
-        $this->model = $model;
+    public function __invoke( &$data ) {
+        $this->setTime( $data );
     }
 }

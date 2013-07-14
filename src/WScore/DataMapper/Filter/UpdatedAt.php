@@ -12,48 +12,18 @@ use \DateTime as Now;
  * 
  * @cacheable
  */
-class UpdatedAt implements FilterInterface
+class UpdatedAt extends SetTimeAbstract
 {
     /**
-     * @var Model
+     * @var string
      */
-    public $model;
-
-    /**
-     * @var Now
-     */
-    public $now;
-
-    /**
-     * @param $data
-     */
-    public function __invoke( &$data ) {
-        $this->onSave( $data );
-    }
+    public $column_name = 'updated_at';
 
     /**
      * @param $data
      * @return void
      */
-    public function onSave( &$data ) 
-    {
-        $columns = $this->model->property->getExtraType( 'updated_at' );
-        if( !$columns ) return;
-        if( $this->now ) {
-            $now = $this->now;
-        } else {
-            $now = new \DateTime();
-        }
-        foreach( $columns as $col ) {
-            $data[ $col ] = $now;
-        }
-    }
-
-    /**
-     * @param Model $model
-     */
-    public function setModel( $model )
-    {
-        $this->model = $model;
+    public function __invoke( &$data ) {
+        $this->setTime( $data );
     }
 }
