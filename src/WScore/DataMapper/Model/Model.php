@@ -1,12 +1,9 @@
 <?php
 namespace WScore\DataMapper\Model;
 
-use WScore\DataMapper\Filter\DateTime;
 use \WScore\Selector\ElementAbstract;
 use \WScore\Selector\ElementItemizedAbstract;
 use \WScore\DataMapper\Filter\FilterInterface;
-use WScore\DataMapper\Filter\CreatedAt;
-use WScore\DataMapper\Filter\UpdatedAt;
 
 /**
  * Model that governs how entity should be mapped to database (persistence) and to final view (presentation).
@@ -49,6 +46,24 @@ class Model
      */
     public $filters = array();
 
+    /** 
+     * @Inject
+     * @var \WScore\DataMapper\Filter\CreatedAt  
+     */
+    public $createdAt;
+
+    /**
+     * @Inject
+     * @var \WScore\DataMapper\Filter\UpdatedAt
+     */
+    public $updatedAt;
+    
+    /**
+     * @Inject
+     * @var \WScore\DataMapper\Filter\DateTime
+     */
+    public $dateTime;
+    
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
@@ -64,13 +79,10 @@ class Model
         $this->persistence->setTable( $this->table, $this->id_name );
         $this->presentation->setProperty( $this->property );
 
-        $created = new CreatedAt();
-        $updated = new UpdatedAt();
-        $datetime = new DateTime();
-        $this->addFilter( $created, 'insert' );
-        $this->addFilter( $updated, 'insert' );
-        $this->addFilter( $updated, 'update' );
-        $this->addFilter( $datetime, 'save' );
+        $this->addFilter( $this->createdAt, 'insert' );
+        $this->addFilter( $this->updatedAt, 'insert' );
+        $this->addFilter( $this->updatedAt, 'update' );
+        $this->addFilter( $this->dateTime,  'save' );
     }
 
     /**

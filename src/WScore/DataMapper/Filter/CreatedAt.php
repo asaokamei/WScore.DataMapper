@@ -5,6 +5,13 @@ use WScore\DataMapper\Model\Helper;
 use WScore\DataMapper\Model\Model;
 use \DateTime as Now;
 
+/**
+ * Class CreatedAt
+ *
+ * @package WScore\DataMapper\Filter
+ * 
+ * @cacheable
+ */
 class CreatedAt implements FilterInterface
 {
     /**
