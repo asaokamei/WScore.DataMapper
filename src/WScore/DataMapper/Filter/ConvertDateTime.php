@@ -12,7 +12,7 @@ use \DateTime as Now;
  * 
  * @cacheable
  */
-class DateTime implements FilterInterface
+class ConvertDateTime implements FilterInterface
 {
     /**
      * @var Model

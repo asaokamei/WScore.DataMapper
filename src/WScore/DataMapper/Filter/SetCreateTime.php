@@ -2,22 +2,20 @@
 namespace WScore\DataMapper\Filter;
 
 use WScore\DataMapper\Model\Helper;
-use WScore\DataMapper\Model\Model;
-use \DateTime as Now;
 
 /**
- * Class UpdatedAt
+ * Class CreatedAt
  *
  * @package WScore\DataMapper\Filter
  * 
  * @cacheable
  */
-class UpdatedAt extends SetTimeAbstract
+class SetCreateTime extends SetTimeAbstract
 {
     /**
      * @var string
      */
-    public $column_name = 'updated_at';
+    public $column_name = 'created_at';
 
     /**
      * @param array $data

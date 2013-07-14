@@ -48,19 +48,19 @@ class Model
 
     /** 
      * @Inject
-     * @var \WScore\DataMapper\Filter\CreatedAt  
+     * @var \WScore\DataMapper\Filter\SetCreateTime  
      */
     public $createdAt;
 
     /**
      * @Inject
-     * @var \WScore\DataMapper\Filter\UpdatedAt
+     * @var \WScore\DataMapper\Filter\SetUpdateTime
      */
     public $updatedAt;
     
     /**
      * @Inject
-     * @var \WScore\DataMapper\Filter\DateTime
+     * @var \WScore\DataMapper\Filter\ConvertDateTime
      */
     public $dateTime;
     
