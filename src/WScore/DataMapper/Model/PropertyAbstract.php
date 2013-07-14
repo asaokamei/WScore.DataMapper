@@ -114,6 +114,16 @@ abstract class PropertyAbstract implements PropertyInterface
     }
 
     /**
+     * get type of database column (i.e. bigint, datetime, etc. )
+     * @param $name
+     * @return null
+     */
+    public function getType( $name ) {
+        if( !$this->exists( $name ) ) return null;
+        return $this->properties[ $name ][ 'dbDef' ];
+    }
+    
+    /**
      * get label (property name for human readable form).
      *
      * @param $name

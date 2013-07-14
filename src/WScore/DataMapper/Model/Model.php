@@ -1,6 +1,7 @@
 <?php
 namespace WScore\DataMapper\Model;
 
+use WScore\DataMapper\Filter\DateTime;
 use \WScore\Selector\ElementAbstract;
 use \WScore\Selector\ElementItemizedAbstract;
 use \WScore\DataMapper\Filter\FilterInterface;
@@ -65,9 +66,11 @@ class Model
 
         $created = new CreatedAt();
         $updated = new UpdatedAt();
+        $datetime = new DateTime();
         $this->addFilter( $created, 'insert' );
         $this->addFilter( $updated, 'insert' );
         $this->addFilter( $updated, 'update' );
+        $this->addFilter( $datetime, 'save' );
     }
 
     /**

@@ -38,7 +38,7 @@ class UpdatedAt implements FilterInterface
             $now = new \DateTime();
         }
         foreach( $columns as $col ) {
-            $data[ $col ] = $now;
+            $data[ $col ] = $now->format( 'Y-m-d H:i:s' );
         }
     }
 
