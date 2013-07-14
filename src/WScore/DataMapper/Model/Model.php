@@ -4,6 +4,8 @@ namespace WScore\DataMapper\Model;
 use \WScore\Selector\ElementAbstract;
 use \WScore\Selector\ElementItemizedAbstract;
 use \WScore\DataMapper\Filter\FilterInterface;
+use WScore\DataMapper\Filter\CreatedAt;
+use WScore\DataMapper\Filter\UpdatedAt;
 
 /**
  * Model that governs how entity should be mapped to database (persistence) and to final view (presentation).
@@ -61,8 +63,11 @@ class Model
         $this->persistence->setTable( $this->table, $this->id_name );
         $this->presentation->setProperty( $this->property );
 
-        $this->addFilter( new \WScore\DataMapper\Filter\CreatedAt(), 'insert' );
-        $this->addFilter( new \WScore\DataMapper\Filter\UpdatedAt(), 'save' );
+        $created = new CreatedAt();
+        $updated = new UpdatedAt();
+        $this->addFilter( $created, 'insert' );
+        $this->addFilter( $updated, 'insert' );
+        $this->addFilter( $updated, 'update' );
     }
 
     /**
@@ -175,7 +180,8 @@ class Model
         } else {
             $id = $data[ $this->id_name ];
         }
-        $data = $this->filter( $data, 'save', 'update' );
+        $data = $this->filter( $data, 'update' );
+        $data = $this->filter( $data, 'save' );
         $this->persistence->update( $id, $data );
     }
 
@@ -185,7 +191,8 @@ class Model
      */
     public function insert( $data ) 
     {
-        $data = $this->filter( $data, 'save', 'insert' );
+        $data = $this->filter( $data, 'insert' );
+        $data = $this->filter( $data, 'save' );
         return $this->persistence->insertId( $data );
     }
 

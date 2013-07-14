@@ -19,6 +19,13 @@ class UpdatedAt implements FilterInterface
 
     /**
      * @param $data
+     */
+    public function __invoke( &$data ) {
+        $this->onSave( $data );
+    }
+
+    /**
+     * @param $data
      * @return void
      */
     public function onSave( &$data ) 
