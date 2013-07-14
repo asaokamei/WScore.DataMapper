@@ -3,6 +3,13 @@ namespace WScore\DataMapper\Filter;
 
 use WScore\DataMapper\Model\Model;
 
+/**
+ * Class ModelFilter
+ *
+ * @package WScore\DataMapper\Filter
+ * 
+ * @cacheable
+ */
 class ModelFilter 
 {
     /**
