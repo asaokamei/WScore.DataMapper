@@ -3,7 +3,6 @@ namespace WScore\DataMapper\Model;
 
 use \WScore\Selector\ElementAbstract;
 use \WScore\Selector\ElementItemizedAbstract;
-use \WScore\DataMapper\Filter\FilterInterface;
 
 /**
  * Model that governs how entity should be mapped to database (persistence) and to final view (presentation).
@@ -42,28 +41,11 @@ class Model
     public $property;
 
     /**
-     * @var FilterInterface[][]|\Closure[][]
+     * @Inject
+     * @var \WScore\DataMapper\Filter\ModelFilter
      */
-    public $filters = array();
+    public $filter;
 
-    /** 
-     * @Inject
-     * @var \WScore\DataMapper\Filter\SetCreateTime  
-     */
-    public $createdAt;
-
-    /**
-     * @Inject
-     * @var \WScore\DataMapper\Filter\SetUpdateTime
-     */
-    public $updatedAt;
-    
-    /**
-     * @Inject
-     * @var \WScore\DataMapper\Filter\ConvertDateTime
-     */
-    public $dateTime;
-    
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
@@ -79,10 +61,7 @@ class Model
         $this->persistence->setTable( $this->table, $this->id_name );
         $this->presentation->setProperty( $this->property );
 
-        $this->addFilter( $this->createdAt, 'insert' );
-        $this->addFilter( $this->updatedAt, 'insert' );
-        $this->addFilter( $this->updatedAt, 'update' );
-        $this->addFilter( $this->dateTime,  'save' );
+        $this->filter->setModel( $this );
     }
 
     /**
@@ -119,46 +98,6 @@ class Model
     public function dbAccess() {
         return $this->persistence->query()->dbAccess();
     }
-
-    /**
-     * @param FilterInterface|\Closure $filter
-     * @internal param $event
-     * @return $this
-     */
-    public function addFilter( $filter )
-    {
-        $events = func_get_args();
-        array_shift( $events );
-        foreach( $events as $event ) {
-            $this->filters[ $event ][] = $filter;
-        }
-        return $this;
-    }
-
-    /**
-     * @param array $data
-     * @param string $event
-     * @return array
-     * @internal param $event
-     */
-    public function filter( $data, $event )
-    {
-        if( !isset( $this->filters[ $event ] ) ) return $data;
-
-        $method = 'on' . ucwords( $event );
-        foreach( $this->filters[ $event ] as $filter ) {
-
-            if( $filter instanceof FilterInterface ) {
-                $filter->setModel( $this );
-            }
-            if( is_callable( $filter ) ) {
-                $data = $filter( $data );
-            } elseif( method_exists( $filter, $method ) ) {
-                $data = $filter->$method( $data );
-            }
-        }
-        return $data;
-    }
     // +----------------------------------------------------------------------+
     //  Persistence Methods.
     //  how about converting entity object to array here...
@@ -172,9 +111,9 @@ class Model
     public function fetch( $value, $column=null, $packed=false )
     {
         $this->persistence->query();
-        $this->filter( null, 'fetch' );
+        $this->filter->event( 'query', null );
         $stmt  = $this->persistence->fetch( $value, $column, $packed );
-        $stmt  = $this->filter( $stmt, 'retrieve' );
+        $stmt  = $this->filter->event( 'read', $stmt );
         return $stmt;
     }
 
@@ -190,8 +129,8 @@ class Model
         } else {
             $id = $data[ $this->id_name ];
         }
-        $data = $this->filter( $data, 'update' );
-        $data = $this->filter( $data, 'save' );
+        $data = $this->filter->event( 'update', $data );
+        $data = $this->filter->event( 'save',   $data );
         $this->persistence->update( $id, $data );
     }
 
@@ -201,8 +140,8 @@ class Model
      */
     public function insert( $data ) 
     {
-        $data = $this->filter( $data, 'insert' );
-        $data = $this->filter( $data, 'save' );
+        $data = $this->filter->event( 'insert', $data );
+        $data = $this->filter->event( 'save',   $data );
         return $this->persistence->insertId( $data );
     }
 
@@ -211,7 +150,7 @@ class Model
      */
     public function delete( $data )
     {
-        $this->filter( $data, 'delete' );
+        $this->filter->event( 'delete', $data );
         $id = is_array( $data ) ? $data[ $this->id_name ]: $data;
         $this->persistence->delete( $id );
     }
