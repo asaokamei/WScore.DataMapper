@@ -1,15 +1,23 @@
 <?php
 namespace WScore\DataMapper\Filter;
 
-use WScore\DataMapper\Entity\EntityInterface;
+use WScore\DataMapper\Model\Helper;
 use WScore\DataMapper\Model\Model;
 
-abstract class FilterAbstract implements FilterInterface
+class CreatedAt implements FilterInterface
 {
     /**
      * @var Model
      */
     public $model;
+
+    /**
+     * @param $data
+     * @return void
+     */
+    public function onInsert( &$data ) {
+        $data = $this->model->property->createdAt( $data );
+    }
 
     /**
      * @param Model $model

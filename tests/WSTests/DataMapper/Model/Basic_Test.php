@@ -266,5 +266,32 @@ class Basic_Tests extends \PHPUnit_Framework_TestCase
         $stmt = $this->contact->fetch( '3' );
         $this->assertEquals( 0, $stmt->rowCount() );
     }
+    function test_created_and_updated_on_insert()
+    {
+        $data = $this->getContactData(1);
+        $this->contact->insert( $data );
+        $stmt = $this->contact->fetch( '1' );
+        $fetched = $stmt->fetch();
+        $this->assertTrue( isset( $fetched[ 'new_dt_contact' ] ) );
+        $this->assertEquals( 1, preg_match( '/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $fetched[ 'new_dt_contact' ] ) );
+        $this->assertTrue( isset( $fetched[ 'mod_dt_contact' ] ) );
+        $this->assertEquals( 1, preg_match( '/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $fetched[ 'mod_dt_contact' ] ) );
+    }
+    function test_updated_at_on_update()
+    {
+        $data = $this->getContactData(1);
+        $this->contact->insert( $data );
+        $stmt = $this->contact->fetch( '1' );
+        $fetched = $stmt->fetch();
+        sleep(1); // awful...
+        $fetched[ 'info' ] = 'test updated_at on update';
+        $this->contact->update( $fetched );
+
+        $stmt = $this->contact->fetch( '1' );
+        $fetched = $stmt->fetch();
+        $this->assertTrue( isset( $fetched[ 'mod_dt_contact' ] ) );
+        $this->assertEquals( 1, preg_match( '/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $fetched[ 'mod_dt_contact' ] ) );
+        $this->assertNotEquals( $fetched[ 'new_dt_contact' ], $fetched[ 'mod_dt_contact' ] );
+    }
     // +----------------------------------------------------------------------+
 }

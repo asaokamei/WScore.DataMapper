@@ -3,6 +3,7 @@ namespace WScore\DataMapper\Model;
 
 use \WScore\Selector\ElementAbstract;
 use \WScore\Selector\ElementItemizedAbstract;
+use \WScore\DataMapper\Filter\FilterInterface;
 
 /**
  * Model that governs how entity should be mapped to database (persistence) and to final view (presentation).
@@ -39,7 +40,12 @@ class Model
      * @var \WScore\DataMapper\Model\PropertyCsv
      */
     public $property;
-    
+
+    /**
+     * @var FilterInterface[][]|\Closure[][]
+     */
+    public $filters = array();
+
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
@@ -54,6 +60,9 @@ class Model
         $this->persistence->setProperty( $this->property );
         $this->persistence->setTable( $this->table, $this->id_name );
         $this->presentation->setProperty( $this->property );
+
+        $this->addFilter( new \WScore\DataMapper\Filter\CreatedAt(), 'insert' );
+        $this->addFilter( new \WScore\DataMapper\Filter\UpdatedAt(), 'save' );
     }
 
     /**
@@ -90,6 +99,51 @@ class Model
     public function dbAccess() {
         return $this->persistence->query()->dbAccess();
     }
+
+    /**
+     * @param FilterInterface|\Closure $filter
+     * @internal param $event
+     * @return $this
+     */
+    public function addFilter( $filter )
+    {
+        $events = func_get_args();
+        array_shift( $events );
+        foreach( $events as $event ) {
+            $this->filters[ $event ][] = $filter;
+        }
+        return $this;
+    }
+    
+    /**
+     * @param array $data
+     * @return array
+     * @internal param $event
+     */
+    public function filter( $data )
+    {
+        $events = func_get_args();
+        array_shift( $events );
+        foreach( $events as $event ) {
+            
+            if( isset( $this->filters[ $event ] ) ) {
+                
+                $method = 'on' . ucwords( $event );
+                foreach( $this->filters[ $event ] as $filter ) {
+                    
+                    if( $filter instanceof FilterInterface ) {
+                        $filter->setModel( $this );
+                    }
+                    if( is_callable( $filter ) ) {
+                        $filter( $data );
+                    } elseif( method_exists( $filter, $method ) ) {
+                        $filter->$method( $data );
+                    }
+                }
+            }
+        }
+        return $data;
+    }
     // +----------------------------------------------------------------------+
     //  Persistence Methods.
     //  how about converting entity object to array here...
@@ -103,7 +157,9 @@ class Model
     public function fetch( $value, $column=null, $packed=false )
     {
         $this->persistence->query();
+        $this->filter( null, 'fetch' );
         $stmt  = $this->persistence->fetch( $value, $column, $packed );
+        $stmt  = $this->filter( $stmt, 'retrieve' );
         return $stmt;
     }
 
@@ -113,7 +169,14 @@ class Model
      */
     public function update( $data, $extra=null )
     {
-        $this->persistence->update( $data, $extra );
+        if( $extra ) {
+            $id   = $data;
+            $data = $extra;
+        } else {
+            $id = $data[ $this->id_name ];
+        }
+        $data = $this->filter( $data, 'save', 'update' );
+        $this->persistence->update( $id, $data );
     }
 
     /**
@@ -122,6 +185,7 @@ class Model
      */
     public function insert( $data ) 
     {
+        $data = $this->filter( $data, 'save', 'insert' );
         return $this->persistence->insertId( $data );
     }
 
@@ -130,6 +194,7 @@ class Model
      */
     public function delete( $data )
     {
+        $this->filter( $data, 'delete' );
         $id = is_array( $data ) ? $data[ $this->id_name ]: $data;
         $this->persistence->delete( $id );
     }
