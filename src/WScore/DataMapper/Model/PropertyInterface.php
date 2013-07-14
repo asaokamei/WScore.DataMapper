@@ -6,8 +6,6 @@ interface PropertyInterface
     public function setTable( $table, $id_name );
     public function exists( $name );
     public function isProtected( $name );
-    public function updatedAt( $data );
-    public function createdAt( $data );
     public function getLabel( $name );
     public function getPattern( $name );
     public function restrict( $data );

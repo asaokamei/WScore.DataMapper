@@ -101,19 +101,16 @@ abstract class PropertyAbstract implements PropertyInterface
     }
 
     /**
-     * @param array $data
+     * returns a list of column names for extra types, such as created_at. 
+     * 
+     * @param $extra
      * @return array
      */
-    public function updatedAt( $data ) {
-        return Helper::updatedAt( $data, $this->extraTypes );
-    }
-
-    /**
-     * @param $data
-     * @return array
-     */
-    public function createdAt( $data ) {
-        return Helper::createdAt( $data, $this->extraTypes );
+    public function getExtraType( $extra ) {
+        if( array_key_exists( $extra, $this->extraTypes ) ) {
+            return $this->extraTypes[ $extra ];
+        }
+        return array();
     }
 
     /**

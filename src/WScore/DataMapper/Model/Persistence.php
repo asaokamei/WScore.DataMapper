@@ -110,7 +110,6 @@ class Persistence
         }
         $data = $this->property->restrict( $data );
         unset( $data[ $this->id_name ] );
-        //$data = $this->property->updatedAt( $data );
         $this->query()->id( $id )->update( $data );
         return $this;
     }
@@ -124,8 +123,6 @@ class Persistence
     public function insertValue( $data )
     {
         $data = $this->property->restrict(  $data );
-        $data = $this->property->updatedAt( $data );
-        //$data = $this->property->createdAt( $data );
         $this->query()->insert( $data );
         $id = Helper::arrGet( $data, $this->id_name, true );
         return $id;

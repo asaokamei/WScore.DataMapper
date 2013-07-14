@@ -3,6 +3,7 @@ namespace WScore\DataMapper\Filter;
 
 use WScore\DataMapper\Model\Helper;
 use WScore\DataMapper\Model\Model;
+use \DateTime as Now;
 
 class CreatedAt implements FilterInterface
 {
@@ -12,11 +13,25 @@ class CreatedAt implements FilterInterface
     public $model;
 
     /**
+     * @var Now
+     */
+    public $now;
+
+    /**
      * @param $data
      * @return void
      */
     public function onInsert( &$data ) {
-        $data = $this->model->property->createdAt( $data );
+        $columns = $this->model->property->getExtraType( 'created_at' );
+        if( !$columns ) return;
+        if( $this->now ) {
+            $now = $this->now;
+        } else {
+            $now = new \DateTime();
+        }
+        foreach( $columns as $col ) {
+            $data[ $col ] = $now->format( 'Y-m-d H:i:s' );
+        }
     }
 
     /**

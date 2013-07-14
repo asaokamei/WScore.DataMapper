@@ -24,36 +24,6 @@ class Helper
         return $now->format( $fmt );
     }
 
-    /**
-     * @param array $values
-     * @param array $extra
-     * @return array
-     */
-    public static function updatedAt( $values, $extra )
-    {
-        if( isset( $extra[ 'updated_at' ] ) ) {
-            foreach( $extra[ 'updated_at' ] as $column ) {
-                $values[ $column ] = self::getCurrent();
-            }
-        }
-        return $values;
-    }
-
-    /**
-     * @param array $values
-     * @param array $extra
-     * @return array
-     */
-    public static function createdAt( $values, $extra )
-    {
-        if( isset( $extra[ 'created_at' ] ) ) {
-            foreach( $extra[ 'created_at' ] as $column ) {
-                $values[ $column ] = self::getCurrent();
-            }
-        }
-        return $values;
-    }
-
     // +----------------------------------------------------------------------+
     /**
      * @param string $csv_string
