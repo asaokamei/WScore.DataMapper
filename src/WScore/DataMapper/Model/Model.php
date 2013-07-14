@@ -134,32 +134,27 @@ class Model
         }
         return $this;
     }
-    
+
     /**
      * @param array $data
+     * @param string $event
      * @return array
      * @internal param $event
      */
-    public function filter( $data )
+    public function filter( $data, $event )
     {
-        $events = func_get_args();
-        array_shift( $events );
-        foreach( $events as $event ) {
-            
-            if( isset( $this->filters[ $event ] ) ) {
-                
-                $method = 'on' . ucwords( $event );
-                foreach( $this->filters[ $event ] as $filter ) {
-                    
-                    if( $filter instanceof FilterInterface ) {
-                        $filter->setModel( $this );
-                    }
-                    if( is_callable( $filter ) ) {
-                        $filter( $data );
-                    } elseif( method_exists( $filter, $method ) ) {
-                        $filter->$method( $data );
-                    }
-                }
+        if( !isset( $this->filters[ $event ] ) ) return $data;
+
+        $method = 'on' . ucwords( $event );
+        foreach( $this->filters[ $event ] as $filter ) {
+
+            if( $filter instanceof FilterInterface ) {
+                $filter->setModel( $this );
+            }
+            if( is_callable( $filter ) ) {
+                $data = $filter( $data );
+            } elseif( method_exists( $filter, $method ) ) {
+                $data = $filter->$method( $data );
             }
         }
         return $data;

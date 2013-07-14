@@ -21,16 +21,18 @@ class DateTime implements FilterInterface
 
     /**
      * @param $data
+     * @return array
      */
-    public function __invoke( &$data ) {
-        $this->convert( $data );
+    public function __invoke( $data ) {
+        $data = $this->convert( $data );
+        return $data;
     }
 
     /**
      * @param $data
-     * @return void
+     * @return array
      */
-    public function convert( &$data ) 
+    public function convert( $data ) 
     {
         foreach( $data as $key => $val ) {
             
@@ -40,6 +42,7 @@ class DateTime implements FilterInterface
                 $data[ $key ] = $val->format( 'Y-m-d H:i:s' );
             }
         }
+        return $data;
     }
 
     /**

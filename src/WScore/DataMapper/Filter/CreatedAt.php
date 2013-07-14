@@ -19,10 +19,11 @@ class CreatedAt extends SetTimeAbstract
     public $column_name = 'created_at';
 
     /**
-     * @param $data
-     * @return void
+     * @param array $data
+     * @return array
      */
-    public function __invoke( &$data ) {
-        $this->setTime( $data );
+    public function __invoke( $data ) {
+        $data = $this->setTime( $data );
+        return $data;
     }
 }
