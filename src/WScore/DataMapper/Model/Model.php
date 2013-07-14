@@ -111,7 +111,7 @@ class Model
     public function fetch( $value, $column=null, $packed=false )
     {
         $this->persistence->query();
-        $this->filter->event( 'query', null );
+        $this->filter->event( 'query', $this->persistence->query );
         $stmt  = $this->persistence->fetch( $value, $column, $packed );
         $stmt  = $this->filter->event( 'read', $stmt );
         return $stmt;
