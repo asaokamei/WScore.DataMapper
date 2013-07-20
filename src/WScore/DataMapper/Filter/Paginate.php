@@ -8,6 +8,8 @@ namespace WScore\DataMapper\Filter;
  * @package WScore\DataMapper\Filter
  * 
  * @method setOptions
+ *
+ * @cacheable
  */
 class Paginate implements FilterInterface
 {
