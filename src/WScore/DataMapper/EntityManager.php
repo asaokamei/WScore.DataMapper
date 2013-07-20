@@ -63,6 +63,14 @@ class EntityManager
         $model = $this->getModel( $entity );
         return $model->getIdName();
     }
+
+    /**
+     * @param string $entity
+     * @return EntityQuery
+     */
+    public function query( $entity ) {
+        return new EntityQuery( $this, $entity );
+    }
     // +----------------------------------------------------------------------+
     //  Managing Entities and Models.
     // +----------------------------------------------------------------------+
