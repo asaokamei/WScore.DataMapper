@@ -63,4 +63,26 @@ class ModelManager
         return $modelName;
     }
 
+    /**
+     * @param string $event
+     * @param Filter\FilterInterface $filter
+     */
+    public function addFilter( $event, $filter )
+    {
+        if( empty( $this->models ) ) return;
+        foreach( $this->models as $model ) {
+            $model->filter()->addFilter( $event, $filter );
+        }
+    }
+
+    /**
+     * @param Filter\FilterInterface $rule
+     */
+    public function addRule( $rule )
+    {
+        if( empty( $this->models ) ) return;
+        foreach( $this->models as $model ) {
+            $model->filter()->addRule( $rule );
+        }
+    }
 }
