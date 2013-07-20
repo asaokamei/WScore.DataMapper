@@ -98,6 +98,13 @@ class Model
     public function dbAccess() {
         return $this->persistence->query()->dbAccess();
     }
+
+    /**
+     * @return \WScore\DataMapper\Filter\ModelFilter
+     */
+    public function filter() {
+        return $this->filter;
+    }
     // +----------------------------------------------------------------------+
     //  Persistence Methods.
     //  how about converting entity object to array here...
