@@ -4,7 +4,7 @@ namespace WScore\DataMapper\Filter;
 use WScore\DataMapper\Entity\EntityInterface;
 use WScore\DataMapper\Model\Model;
 
-abstract class FilterAbstract implements FilterInterface
+abstract class RuleAbstract implements FilterInterface
 {
     /**
      * @var Model
