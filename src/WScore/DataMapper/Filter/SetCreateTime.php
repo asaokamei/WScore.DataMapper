@@ -21,7 +21,7 @@ class SetCreateTime extends SetTimeAbstract
      * @param array $data
      * @return array
      */
-    public function __invoke( $data ) {
+    public function onInsert( $data ) {
         $data = $this->setTime( $data );
         return $data;
     }
