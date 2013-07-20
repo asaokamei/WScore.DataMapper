@@ -48,6 +48,13 @@ class EntityManager
     }
 
     /**
+     * @return ModelManager
+     */
+    public function mm() {
+        return $this->modelManager;
+    }
+
+    /**
      * @param EntityInterface[] $entities
      * @return Entity\Collection
      */
