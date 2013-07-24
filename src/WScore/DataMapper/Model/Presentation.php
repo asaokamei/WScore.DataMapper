@@ -55,46 +55,6 @@ class Presentation
         $this->property = $property;
     }
 
-    // +----------------------------------------------------------------------+
-    //  Validator for input validation.
-    // +----------------------------------------------------------------------+
-    public function getRule( $name ) {
-        if( isset( $this->ruleInstances[ $name ] ) ) {
-            return $this->ruleInstances[ $name ];
-        }
-        return $this->ruleInstances[ $name ] = $this->forgeRule( $name );
-    }
-    /**
-     * @param string $name
-     * @return \WScore\Validation\Rules
-     */
-    public function forgeRule( $name )
-    {
-        $validateInfo = $this->property->getValidateInfo( $name );
-        if( !$validateInfo ) {
-            // return text rule if not defined.
-            return $this->rules->text();
-        }
-        $type   = array_key_exists( 0, $validateInfo ) ? $validateInfo[0] : null ;
-        $filter = array_key_exists( 1, $validateInfo ) ? $validateInfo[1] : '' ;
-        if( $type ) {
-            $rule = $this->rules->$type( $filter );
-        }
-        else {
-            $rule = $this->rules->text( $filter );
-        }
-        if( $this->property->isRequired( $name ) ) {
-            $rule[ 'required' ] = true;
-        }
-        if( $pattern = $this->property->getPattern( $name ) ) {
-            $rule[ 'pattern' ] = $pattern;
-        }
-        return $rule;
-    }
-
-    // +----------------------------------------------------------------------+
-    //  Selector for HTML form elements.
-    // +----------------------------------------------------------------------+
     /**
      * returns form element object for property name.
      * the object is pooled and will be reused for model/propName basis.

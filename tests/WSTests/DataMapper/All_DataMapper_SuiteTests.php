@@ -13,6 +13,7 @@ class All_DataMapper_SuiteTests
         $suite->addTestFile( $folder . 'Model/Property/CsvTests.php' );
         $suite->addTestFile( $folder . 'Model/Presentation/Test.php' );
         $suite->addTestFile( $folder . 'Model/Persistence/BasicMysql_Tests.php' );
+        $suite->addTestFile( $folder . 'Model/Validation_Test.php' );
         $suite->addTestFile( $folder . 'Model/Basic_Test.php' );
         $suite->addTestFile( $folder . 'Model/BasicCode_Test.php' );
         $suite->addTestFile( $folder . 'Entity/EntityBasic_Test.php' );

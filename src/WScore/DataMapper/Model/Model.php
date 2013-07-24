@@ -36,6 +36,12 @@ class Model
 
     /**
      * @Inject
+     * @var \WScore\DataMapper\Model\Validation
+     */
+    public $validation;
+    
+    /**
+     * @Inject
      * @var \WScore\DataMapper\Model\PropertyCsv
      */
     public $property;
@@ -60,6 +66,7 @@ class Model
         $this->persistence->setProperty( $this->property );
         $this->persistence->setTable( $this->table, $this->id_name );
         $this->presentation->setProperty( $this->property );
+        $this->validation->setProperty( $this->property );
 
         $this->filter->setModel( $this );
     }
@@ -233,7 +240,7 @@ class Model
      * @return \WScore\Validation\Rules
      */
     public function getRule( $name ) {
-        return $this->presentation->getRule( $name );
+        return $this->validation->getRule( $name );
     }
 
     /**

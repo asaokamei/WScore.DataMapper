@@ -21,30 +21,6 @@ class Presentation_Test extends \PHPUnit_Framework_TestCase
         $this->presentation->setProperty( $this->property );
     }
     // +----------------------------------------------------------------------+
-    function test_forgeRule()
-    {
-        $rule = $this->presentation->forgeRule( 'friend_name' );
-        $this->assertEquals( 'WScore\Validation\Rules', get_class( $rule ) );
-        $this->assertEquals( 'text', $rule->getType() );
-        $this->assertTrue( $rule[ 'required' ] );
-
-        $rule = $this->presentation->forgeRule( 'friend_tel' );
-        $this->assertEquals( 'WScore\Validation\Rules', get_class( $rule ) );
-        $this->assertEquals( 'tel', $rule->getType() );
-        $this->assertFalse( $rule[ 'required' ] );
-        $this->assertEquals( '[-0-9]*', $rule[ 'pattern' ] );
-    }
-    function test_getRule()
-    {
-        $rule1 = $this->presentation->getRule( 'friend_name' );
-        $rule2 = $this->presentation->getRule( 'friend_name' );
-        $rule3 = $this->presentation->forgeRule( 'friend_name' );
-        $this->assertEquals(  $rule1, $rule2 );
-        $this->assertEquals(  $rule2, $rule3 );
-        $this->assertSame(    $rule1, $rule2 );
-        $this->assertNotSame( $rule2, $rule3 );
-    }
-    // +----------------------------------------------------------------------+
     function test_forgeSelector()
     {
         $sel = $this->presentation->forgeSelector( 'friend_name' );
