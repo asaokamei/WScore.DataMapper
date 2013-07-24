@@ -102,3 +102,106 @@ defines how entity is related to other entities.
 Available relations are: HasOne, Joined, and JoinBy. 
 
 Some relation, such as isJoined, requires models to be defined. 
+
+
+Model/CSV for Property
+----------------------
+
+experimental. 
+
+###Current Model/CSV for Property
+
+*   id
+    database column name. 
+    -> rename to column. 
+
+*   active
+    not really used. 
+
+*   label
+    column for human readable name for a column. 
+    -> rename to title. 
+
+*   dbDef
+    database definition. 
+
+*   notNull
+
+*   default
+    set default value if any. 
+
+*   required
+    set to true/1 if some value is required. space is considered as a value. 
+
+*   extra
+    currently, specify created_at and updated_at. 
+
+*   bindType
+    used for PDO's bind type. 
+
+should be:
+
+*   column:
+    database column name. 
+
+*   title:
+    human readable name for the column. 
+
+*   type:
+    type of the column; string, number, char (i.e. only ascii code), datetime, date, time, 
+    created_at (i.e. datetime), updated_at (i.e. datetime), etc. 
+
+*   dbDef:
+    database definition. 
+
+*   notNull:
+
+*   default:
+
+*   required:
+
+*   protected:
+
+
+###Current Model/CSV for Presentation
+
+*   id
+    column name. must be the same as Model/CSV for Property. 
+
+*   selector
+    set Selector. Or class name. 
+
+*   type
+    Selector type, such as mail, date, time, text, etc. 
+    -> guess from Property/type if type is not set. 
+
+*   choice
+    possible choices. for checks and multiSelect. 
+
+*   extra
+    specify presentational extra option for Selector, such as placeholder. 
+
+###Current Model/CSV for Validation
+
+*   id
+    column name. must be the same as Model/CSV for Property. 
+
+*   type
+    validation type such as mail, text, code, number, etc. 
+    -> guess from Property/type if type is not set. 
+
+*   extra
+    another option for validation. 
+
+*   pattern
+    regular expression
+
+*   (required)
+    error if value is not present. 
+
+*   (default): 
+    default value if not set. 
+
+*   (choice):
+    used to validate. 
+
