@@ -93,7 +93,7 @@ class RoleDataIO_BasicTests extends \PHPUnit_Framework_TestCase
         $this->assertFalse( $role->isError( 'friend_name' ) );
         $this->assertTrue(  $role->isError( 'friend_bday' ) );
         $this->assertEquals( '', $role->getError( 'friend_name' ) );
-        $this->assertEquals( 'invalid pattern with [0-9]{4}-[0-9]{2}-[0-9]{2}', $role->getError( 'friend_bday' ) );
+        $this->assertEquals( 'invalid pattern with [0-9]{4}-[0-9]{1,2}-[0-9]{1,2}', $role->getError( 'friend_bday' ) );
 
         // test resetValid as well
         $role->resetValid();
