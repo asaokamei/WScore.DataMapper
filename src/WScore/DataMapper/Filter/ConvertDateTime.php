@@ -36,8 +36,8 @@ class ConvertDateTime implements FilterInterface
         foreach( $data as $key => $val ) {
             
             if( !$val instanceof \DateTime ) continue;
-            $type = strtolower( $this->model->property->getType( $key ) );
-            if( $type === 'datetime' ) {
+            $type = strtolower( $this->model->property->getProperty( $key, 'type' ) );
+            if( in_array( $type, array( 'datetime', 'created_at', 'updated_at' ) ) ) {
                 $data[ $key ] = $val->format( 'Y-m-d H:i:s' );
             }
         }

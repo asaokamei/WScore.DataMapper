@@ -1,6 +1,7 @@
 <?php
 namespace WScore\DataMapper\Model;
 
+use \WScore\DataMapper\Model\Helper;
 use \WScore\Selector\ElementAbstract;
 use \WScore\Selector\ElementItemizedAbstract;
 
