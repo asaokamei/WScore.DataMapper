@@ -6,18 +6,18 @@ class PropertySet
     protected $property = array();
     protected $relation = array();
 
-    public function setCsv( $csv )
+    public function setupCsv( $csv )
     {
         $return = Helper::analyzeCsv( $csv );
         foreach( $return as $type => $data ) {
-            $this->setProperty( $data );
+            $this->setupProperty( $data );
         }
     }
     
     /**
      * @param array $property
      */
-    public function setProperty( $property )
+    public function setupProperty( $property )
     {
         if( empty( $property ) ) return;
         foreach( $property as $column => $values ) {
@@ -92,6 +92,10 @@ class PropertySet
         return Helper::arrGet( $property, $key );
     }
 
+    public function setProperty( $column, $key, $value ) {
+        if( !$this->exists( $column ) ) return;
+        $this->property[ $column ][ $key ] = $value;
+    }
     /**
      * @param string $column
      * @return bool
@@ -155,5 +159,14 @@ class PropertySet
     public function getRelation( $column = null )
     {
         return Helper::arrGet( $this->relation, $column );
+    }
+    
+    public function getByType( $type ) {
+        $type = strtolower( $type );
+        $found = array();
+        foreach( $this->property as $column => $info ) {
+            if( strtolower( $info[ 'type' ] == $type ) ) $found[] = $column;
+        }
+        return $found;
     }
 }
