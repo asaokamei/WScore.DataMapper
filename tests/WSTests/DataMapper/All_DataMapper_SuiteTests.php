@@ -9,7 +9,6 @@ class All_DataMapper_SuiteTests
     {
         $suite = new \PHPUnit_Framework_TestSuite( 'all tests for WScore\'s DbAccess' );
         $folder = dirname( __FILE__ ) . '/';
-        $suite->addTestFile( $folder . 'Model/Property/OrigTest.php' );
         $suite->addTestFile( $folder . 'Model/Property/SetTest.php' );
         $suite->addTestFile( $folder . 'Model/Property/CsvTests.php' );
         $suite->addTestFile( $folder . 'Model/Presentation/Test.php' );

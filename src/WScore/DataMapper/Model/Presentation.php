@@ -24,7 +24,7 @@ class Presentation
     public $selector;
 
     /**
-     * @var \WScore\DataMapper\Model\PropertyInterface
+     * @var \WScore\DataMapper\Model\PropertySet
      */
     protected $property;
 
@@ -43,7 +43,7 @@ class Presentation
     }
 
     /**
-     * @param \WScore\DataMapper\Model\PropertyInterface $property
+     * @param \WScore\DataMapper\Model\PropertySet $property
      */
     public function setProperty( $property )
     {
