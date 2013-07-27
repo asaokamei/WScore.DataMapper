@@ -215,7 +215,9 @@ class Model
      * @return array
      */
     public function getRelationInfo( $name=null ) {
-        return $this->property->getRelation( $name );
+        $info = $this->property->getRelation( $name );
+        $info[ 'type' ] = $info[ 'relation' ];
+        return $info;
     }
 
     /**
