@@ -17,7 +17,7 @@ class Friends extends Model
     {
         parent::__construct();
         $csv = file_get_contents( __DIR__ . '/friends.csv' );
-        $this->property->prepare( $csv );
+        $this->property->setupCsv( $csv );
         $this->setGenderChoice();
     }
 
@@ -63,12 +63,14 @@ class Friends extends Model
 
     public function setGenderChoice( $all=false )
     {
-        $this->property->selectors[ 'gender' ][ 'choice' ] = array(
+        $this->property->setProperty( 'gender', 'choice', array(
             array( self::GENDER_NONE, 'not sure' ),
             array( self::GENDER_MALE, 'male' ),
-        );
+        ) );
         if( $all ) {
-            $this->property->selectors[ 'gender' ][ 'choice' ][] = array( self::GENDER_FEMALE, 'female' );
+            $choice = $this->property->getProperty( 'gender', 'choice' );
+            $choice[] = array( self::GENDER_FEMALE, 'female' );
+            $this->property->setProperty( 'gender', 'choice', $choice );
         }
     }
 }

@@ -61,8 +61,8 @@ class Persistence_BasicMySql_Tests extends \PHPUnit_Framework_TestCase
         $container->set( '\Pdo', self::$config );
         // set up persistence model
         $csv = __DIR__ . '/../Property/friends.csv';
-        $property = new \WScore\DataMapper\Model\PropertyCsv();
-        $property->prepare( file_get_contents( $csv ) );
+        $property = new \WScore\DataMapper\Model\PropertySet();
+        $property->setupCsv( file_get_contents( $csv ) );
         $this->friend = $container->get( '\WScore\DataMapper\Model\Persistence' );
         $this->friend->setProperty( $property );
         $this->friend->setTable( self::$table, self::$id_name );
