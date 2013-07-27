@@ -15,12 +15,23 @@ class PropertySet
         foreach( $property as $column => $values ) {
             if( !$type = Helper::arrGet( $values, 'type' ) ) continue;
             if( $type === 'relation' ) {
-                $this->relation[ $column ] = $values;
+                $this->relation = $this->addProperty( $this->relation, $column, $values );
             } else {
-                $this->property[ $column ] = $values;
+                $this->property = $this->addProperty( $this->property, $column, $values );
             }
         }
         $this->setupProtection();
+    }
+    
+    protected function addProperty( $array, $column, $values )
+    {
+        if( !is_array( $values ) ) $values = array( $values );
+        if( array_key_exists( $column, $array ) ) {
+            $array[ $column ] = array_merge( $array[ $column ], $values );
+        } else {
+            $array[ $column ] = $values;
+        }
+        return $array;
     }
 
     /**
