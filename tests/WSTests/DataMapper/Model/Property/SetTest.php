@@ -113,7 +113,9 @@ class SetTest extends \PHPUnit_Framework_TestCase
     function test_property_returns_about_column()
     {
         $info = $this->property->getProperty( 'friend_name' );
-        $this->assertEquals( $this->definitions[ 'friend_name' ], $info );
+        $this->assertEquals( 'string', $info[ 'type' ] );
+        $this->assertEquals( 'name', $info[ 'title' ] );
+        $this->assertEquals( true, $info[ 'required' ] );
     }
 }
 

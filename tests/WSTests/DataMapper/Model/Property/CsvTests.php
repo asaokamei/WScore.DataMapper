@@ -1,27 +1,35 @@
 <?php
 namespace WSTests\DataMapper\Model;
 
+use WScore\DataMapper\Model\PropertySet;
+
 require( __DIR__ . '/../../../../autoloader.php' );
 
-class Property_CsvTest extends Property_AllTests
+class Property_CsvTest extends Property\SetTest
 {
-    /** @var \WScore\DataMapper\Model\Property */
+    /** @var PropertySet */
     public $property;
     public $csv;
     // +----------------------------------------------------------------------+
     function setUp()
     {
+        parent::setup();
         /** @var $container \WScore\DiContainer\Container */
         $container = include( VENDOR_DIRECTORY . 'wscore/dicontainer/scripts/instance.php' );
-        class_exists( '\WScore\DataMapper\Model\Helper' );
-        $this->property = $container->get( '\WScore\DataMapper\Model\PropertyCsv' );
+        $this->property = $container->get( '\WScore\DataMapper\Model\PropertySet' );
         $csv_file = __DIR__ . '/friends.csv';
         $this->csv = file_get_contents( $csv_file );
         /** @var $helper \WScore\DataMapper\Model\Helper */
-        $this->property->setTable( 'friend', 'friend_id' );
-        $this->property->prepare( $this->csv );
+        $this->property->setCsv( $this->csv );
+    }
 
-        \WScore\DataMapper\Model\Helper::setCurrent();
+    function test_property_returns_about_column()
+    {
+        $info = $this->property->getProperty( 'friend_name' );
+        $this->assertEquals( 'friend_name', $info[ 'column' ] );
+        $this->assertEquals( 'string', $info[ 'type' ] );
+        $this->assertEquals( 'name', $info[ 'title' ] );
+        $this->assertEquals( true, $info[ 'required' ] );
     }
 
 }

@@ -50,7 +50,7 @@ class Helper
             }
             if( $section ) {
                 $merged = self::mergeCsvWithHeader( $header, $csv );
-                $id = $merged[ 'id' ];
+                $id = $merged[ 'column' ];
                 $result[ $section ][ $id ] = $merged;
             }
         }

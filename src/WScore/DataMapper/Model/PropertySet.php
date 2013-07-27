@@ -6,6 +6,14 @@ class PropertySet
     protected $property = array();
     protected $relation = array();
 
+    public function setCsv( $csv )
+    {
+        $return = Helper::analyzeCsv( $csv );
+        foreach( $return as $type => $data ) {
+            $this->setProperty( $data );
+        }
+    }
+    
     /**
      * @param array $property
      */
@@ -13,7 +21,10 @@ class PropertySet
     {
         if( empty( $property ) ) return;
         foreach( $property as $column => $values ) {
-            if( !$type = Helper::arrGet( $values, 'type' ) ) continue;
+            if( !$type = Helper::arrGet( $values, 'type' ) ) {
+                $type = $this->getProperty( $column, 'type' );
+            };
+            if( !$type ) continue;
             if( $type === 'relation' ) {
                 $this->relation = $this->addProperty( $this->relation, $column, $values );
             } else {
