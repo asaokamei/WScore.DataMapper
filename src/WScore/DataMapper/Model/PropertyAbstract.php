@@ -193,5 +193,16 @@ abstract class PropertyAbstract implements PropertyInterface
         return $this->relations;
     }
 
+    public function getProperty( $column=null, $key=null )
+    {
+        if( !$column ) {
+            return $this->properties;
+        }
+        $property = Helper::arrGet( $this->properties, $column );
+        if( !$key ) {
+            return $property;
+        }
+        return Helper::arrGet( $property, $key );
+    }
 
 }

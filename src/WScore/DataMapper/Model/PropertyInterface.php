@@ -14,4 +14,5 @@ interface PropertyInterface
     public function getValidateInfo( $name );
     public function isRequired( $name );
     public function getSelectInfo( $name );
+    public function getProperty( $name=null, $key=null );
 }
