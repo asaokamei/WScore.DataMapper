@@ -63,8 +63,15 @@ class Helper
         foreach( $header as $idx => $key ) {
             if( !$key ) continue;
             $val = $csv[ $idx ];
-            if( strtolower( $val ) === 'true'  ) $val = true;
-            if( strtolower( $val ) === 'false' ) $val = false;
+            if( strtolower( $val ) === 'true'  ) {
+                $val = true;
+            }
+            elseif( strtolower( $val ) === 'false' ) {
+                $val = false;
+            }
+            else {
+                $val = self::parseArray( $val );
+            }
             $merged[ $key ] = $val;
         }
         return $merged;
@@ -184,5 +191,22 @@ class Helper
         }
         $packed = array_values( $packed );
         return $packed;
+    }
+    
+    public static function parseArray( $string )
+    {
+        if( strlen( $string ) < 2 ) return $string;
+        $check = substr( $string, 0, 1 ) . substr( $string, -1 );
+        if( $check != '[]' ) return $string;
+        $string = substr( $string, 1, -1 );
+        $list   = explode( ',', $string );
+        $string = array();
+        foreach( $list as $value ) {
+            list( $k, $v ) = explode( ':', $value, 2 );
+            $k = trim( $k );
+            $v = trim( $v );
+            $string[ $k ] = $v;
+        }
+        return $string;
     }
 }
