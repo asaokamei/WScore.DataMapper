@@ -26,6 +26,12 @@ class Validation
      * @var \WScore\DataMapper\Model\PropertyInterface
      */
     protected $property;
+    
+    protected $convert = array(
+        'string' => 'text',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    );
 
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
@@ -77,6 +83,20 @@ class Validation
             $rule[ 'pattern' ] = $pattern;
         }
         return $rule;
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    protected function getValidationType( $name )
+    {
+        if( !$type = $this->property->getProperty( $name, 'evaluateAs' ) ) {
+            $type = $this->property->getProperty( $name, 'type' );
+        }
+        if( !$type ) $type = 'text';
+        $type = Helper::arrGet( $this->convert, $type, $type );
+        return $type;
     }
 }
 

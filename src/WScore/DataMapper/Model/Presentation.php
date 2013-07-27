@@ -17,27 +17,21 @@ class Presentation
     private $selInstances = array();
 
     /**
-     * @var array
-     */
-    private $ruleInstances = array();
-    
-    /**
      * @Inject
      * @var \WScore\Selector\Selector
      */
     public $selector;
 
     /**
-     * @Inject
-     * @var \WScore\Validation\Rules
-     */
-    public $rules;
-
-    /**
      * @var \WScore\DataMapper\Model\PropertyInterface
      */
     protected $property;
 
+    protected $convert = array(
+        'string' => 'text',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    );
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
@@ -100,6 +94,19 @@ class Presentation
             $selector = new $class( $name, $extra, $choice );
         }
         return $selector;
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    protected function getSelectorType( $name )
+    {
+        if( !$type = $this->property->getProperty( $name, 'presentAs' ) ) {
+            $type  = $this->property->getProperty( $name, 'type' );
+        }
+        $type = Helper::arrGet( $this->convert, $type, $type );
+        return $type;
     }
     // +----------------------------------------------------------------------+
 }
