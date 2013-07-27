@@ -42,7 +42,7 @@ class Model
     
     /**
      * @Inject
-     * @var \WScore\DataMapper\Model\PropertyCsv
+     * @var \WScore\DataMapper\Model\PropertySet
      */
     public $property;
 
@@ -69,23 +69,6 @@ class Model
         $this->validation->setProperty( $this->property );
 
         $this->filter->setModel( $this );
-    }
-
-    /**
-     * prepares restricted properties.
-     */
-    public function prepareByDefinition( $definition, $relation )
-    {
-        $this->property->setTable( $this->table, $this->id_name );
-        $this->property->prepare( $definition, $relation );
-    }
-
-    /**
-     * @param string $csv
-     */
-    public function prepareByCsv( $csv )
-    {
-        $this->property->prepare( $csv );
     }
 
     /**
@@ -172,7 +155,7 @@ class Model
     //  Managing Validation and Properties. 
     // +----------------------------------------------------------------------+
     public function property() {
-        return $this->property->property();
+        return $this->property->getProperty();
     }
     public function protect( $data )
     {
@@ -185,7 +168,7 @@ class Model
      * @return null
      */
     public function propertyName( $name ) {
-        return $this->property->getLabel( $name );
+        return $this->property->getProperty( $name, 'title' );
     }
 
     /**
@@ -232,7 +215,7 @@ class Model
      * @return array
      */
     public function getRelationInfo( $name=null ) {
-        return $this->property->getRelationInfo( $name );
+        return $this->property->getRelation( $name );
     }
 
     /**
