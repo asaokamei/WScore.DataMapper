@@ -77,21 +77,14 @@ class Presentation
     public function forgeSelector( $name )
     {
         $selector = null;
-        if( !$info = $this->property->getSelectInfo( $name ) ) {
-            // return input:text html elements if not set.
-            return $this->selector->getInstance( 'text', $name );
-        }
-        $type   = Helper::arrGet( $info, 'type', null );
-        $choice = Helper::arrGet( $info, 'choice',  array() );
-        $extra  = Helper::arrGet( $info, 'extra', null );
-        if( $info[0] == 'Selector' )
-        {
+        $select = $this->property->getProperty( $name, 'selector' );
+        $type   = $this->getSelectorType( $name );
+        $choice = $this->property->getProperty( $name, 'choice' );
+        $extra  = $this->property->getProperty( $name, 'style' );
+        if( !$select ) {
             $selector = $this->selector->getInstance( $type, $name, $extra, $choice );
-        }
-        else
-        {
-            $class = $info[0];
-            $selector = new $class( $name, $extra, $choice );
+        } else {
+            $selector = new $select( $name, $extra, $choice );
         }
         return $selector;
     }

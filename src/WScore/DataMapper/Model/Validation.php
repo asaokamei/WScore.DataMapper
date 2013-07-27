@@ -63,23 +63,14 @@ class Validation
      */
     public function forgeRule( $name )
     {
-        $validateInfo = $this->property->getValidateInfo( $name );
-        if( !$validateInfo ) {
-            // return text rule if not defined.
-            return $this->rules->text();
-        }
-        $type   = array_key_exists( 0, $validateInfo ) ? $validateInfo[0] : null ;
-        $filter = array_key_exists( 1, $validateInfo ) ? $validateInfo[1] : '' ;
-        if( $type ) {
-            $rule = $this->rules->$type( $filter );
-        }
-        else {
-            $rule = $this->rules->text( $filter );
-        }
-        if( $this->property->isRequired( $name ) ) {
+        $type   = $this->getValidationType( $name );
+        $filter = $this->property->getProperty( $name, 'rule' );
+        $rule = $this->rules->$type( $filter );
+        
+        if( $this->property->getProperty( $name, 'required' ) ) {
             $rule[ 'required' ] = true;
         }
-        if( $pattern = $this->property->getPattern( $name ) ) {
+        if( $pattern = $this->property->getProperty( $name, 'pattern' ) ) {
             $rule[ 'pattern' ] = $pattern;
         }
         return $rule;
@@ -91,7 +82,7 @@ class Validation
      */
     protected function getValidationType( $name )
     {
-        if( !$type = $this->property->getProperty( $name, 'evaluateAs' ) ) {
+        if( !$type = $this->property->getProperty( $name, 'validateAs' ) ) {
             $type = $this->property->getProperty( $name, 'type' );
         }
         if( !$type ) $type = 'text';

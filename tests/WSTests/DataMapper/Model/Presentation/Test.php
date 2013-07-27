@@ -5,7 +5,7 @@ require( __DIR__ . '/../../../../autoloader.php' );
 
 class Presentation_Test extends \PHPUnit_Framework_TestCase
 {
-    /** @var \WScore\DataMapper\Model\Property */
+    /** @var \WScore\DataMapper\Model\PropertySet */
     public $property;
     
     /** @var \WScore\DataMapper\Model\Presentation */
@@ -15,8 +15,8 @@ class Presentation_Test extends \PHPUnit_Framework_TestCase
     {
         /** @var $container \WScore\DiContainer\Container */
         $container = include( VENDOR_DIRECTORY . 'wscore/dicontainer/scripts/instance.php' );
-        $this->property = $container->get( '\WScore\DataMapper\Model\PropertyCsv' );
-        $this->property->prepare( file_get_contents( __DIR__.'/../Property/friends.csv' ) );
+        $this->property = $container->get( '\WScore\DataMapper\Model\PropertySet' );
+        $this->property->setCsv( file_get_contents( __DIR__.'/../Property/friends.csv' ) );
         $this->presentation = $container->get( '\WScore\DataMapper\Model\Presentation' );
         $this->presentation->setProperty( $this->property );
     }
