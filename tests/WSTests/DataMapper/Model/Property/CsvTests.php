@@ -20,7 +20,7 @@ class Property_CsvTest extends Property\SetTest
         $csv_file = __DIR__ . '/friends.csv';
         $this->csv = file_get_contents( $csv_file );
         /** @var $helper \WScore\DataMapper\Model\Helper */
-        $this->property->setCsv( $this->csv );
+        $this->property->setupCsv( $this->csv );
     }
 
     function test_property_returns_about_column()

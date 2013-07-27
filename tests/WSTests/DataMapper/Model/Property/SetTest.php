@@ -46,7 +46,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
                 'type' => 'relation', 'relation' => 'HasOne', 'source' => 'tag_id', 'entity' => 'WSTests\DbAccess\Tags',
             ),
         );
-        $this->property->setProperty( $this->definitions );
+        $this->property->setupProperty( $this->definitions );
     }
     
     function test0()

@@ -16,7 +16,7 @@ class Validation_Test extends \PHPUnit_Framework_TestCase
         /** @var $container \WScore\DiContainer\Container */
         $container = include( VENDOR_DIRECTORY . 'wscore/dicontainer/scripts/instance.php' );
         $this->property = $container->get( '\WScore\DataMapper\Model\PropertySet' );
-        $this->property->setCsv( file_get_contents( __DIR__.'/Property/friends.csv' ) );
+        $this->property->setupCsv( file_get_contents( __DIR__.'/Property/friends.csv' ) );
         $this->validation = $container->get( '\WScore\DataMapper\Model\Validation' );
         $this->validation->setProperty( $this->property );
     }

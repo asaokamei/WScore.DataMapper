@@ -13,7 +13,7 @@ class Fr2gr extends Model
     {
         parent::__construct();
         $csv = file_get_contents( __DIR__ . '/fr2gr.csv' );
-        $this->property->prepare( $csv );
+        $this->property->setupCsv( $csv );
     }
 
     public function setupTable()

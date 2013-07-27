@@ -13,7 +13,7 @@ class Groups extends Model
     {
         parent::__construct();
         $csv = file_get_contents( __DIR__ . '/groups.csv' );
-        $this->property->prepare( $csv );
+        $this->property->setupCsv( $csv );
     }
 
     public function setupTable()
