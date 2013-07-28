@@ -1,5 +1,5 @@
 <?php
-namespace WScore\DataMapper\Filter;
+namespace WScore\DataMapper\Model;
 
 use WScore\DataMapper\FilterManager;
 

@@ -48,7 +48,7 @@ class Model
 
     /**
      * @Inject
-     * @var \WScore\DataMapper\Filter\ModelFilter
+     * @var \WScore\DataMapper\Model\ModelFilter
      */
     public $filter;
 
@@ -90,7 +90,7 @@ class Model
     }
 
     /**
-     * @return \WScore\DataMapper\Filter\ModelFilter
+     * @return \WScore\DataMapper\Model\ModelFilter
      */
     public function filter() {
         return $this->filter;
