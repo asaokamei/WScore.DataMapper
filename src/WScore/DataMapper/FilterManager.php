@@ -2,7 +2,7 @@
 
 namespace WScore\DataMapper;
 
-class Filters
+class FilterManager
 {
     /**
      * @var Model\Model

@@ -1,7 +1,7 @@
 <?php
 namespace WScore\DataMapper\Filter;
 
-use WScore\DataMapper\Filters;
+use WScore\DataMapper\FilterManager;
 
 /**
  * Class ModelFilter
@@ -10,7 +10,7 @@ use WScore\DataMapper\Filters;
  * 
  * @cacheable
  */
-class ModelFilter extends Filters
+class ModelFilter extends FilterManager
 {
     /**
      * @Inject
