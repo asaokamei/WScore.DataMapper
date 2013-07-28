@@ -1,5 +1,4 @@
 <?php
-
 namespace WScore\DataMapper\Filter;
 
 /**
@@ -11,7 +10,7 @@ namespace WScore\DataMapper\Filter;
  *
  * @cacheable
  */
-class Paginate implements FilterInterface
+class Paginate extends FilterAbstract
 {
     /**
      * @Inject

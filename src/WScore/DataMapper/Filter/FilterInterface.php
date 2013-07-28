@@ -16,4 +16,6 @@ namespace WScore\DataMapper\Filter;
  */
 interface FilterInterface
 {
+    public function setModel( $model );
+    public function apply( $event, $data );
 }

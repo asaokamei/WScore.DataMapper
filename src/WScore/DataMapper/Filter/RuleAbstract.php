@@ -4,13 +4,8 @@ namespace WScore\DataMapper\Filter;
 use WScore\DataMapper\Entity\EntityInterface;
 use WScore\DataMapper\Model\Model;
 
-abstract class RuleAbstract implements FilterInterface
+abstract class RuleAbstract extends FilterAbstract
 {
-    /**
-     * @var Model
-     */
-    public $model;
-
     /**
      * @var string
      */
@@ -38,14 +33,6 @@ abstract class RuleAbstract implements FilterInterface
         $this->operator = $operator;
     }
 
-    /**
-     * @param Model $model
-     */
-    public function setModel( $model )
-    {
-        $this->model = $model;
-    }
-    
     public function assignData( $data )
     {
         if( $this->operator === 'eq' ) {

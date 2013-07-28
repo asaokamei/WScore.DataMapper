@@ -2,7 +2,6 @@
 namespace WScore\DataMapper\Filter;
 
 use WScore\DataMapper\Model\Helper;
-use WScore\DataMapper\Model\Model;
 
 /**
  * Class DateTime
@@ -11,18 +10,13 @@ use WScore\DataMapper\Model\Model;
  * 
  * @cacheable
  */
-class ConvertDateTime implements FilterInterface
+class ConvertDateTime extends FilterAbstract
 {
-    /**
-     * @var Model
-     */
-    public $model;
-
     /**
      * @param $data
      * @return array
      */
-    public function __invoke( $data ) {
+    public function onSave( $data ) {
         $data = $this->convert( $data );
         return $data;
     }
@@ -42,13 +36,5 @@ class ConvertDateTime implements FilterInterface
             }
         }
         return $data;
-    }
-
-    /**
-     * @param Model $model
-     */
-    public function setModel( $model )
-    {
-        $this->model = $model;
     }
 }

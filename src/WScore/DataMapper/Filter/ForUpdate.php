@@ -2,7 +2,7 @@
 
 namespace WScore\DataMapper\Filter;
 
-class ForUpdate implements FilterInterface
+class ForUpdate extends FilterAbstract
 {
     /**
      * @param \WScore\DbAccess\Query $query

@@ -12,7 +12,7 @@ use \DateTime as Now;
  *
  * @cacheable
  */
-abstract class SetTimeAbstract implements FilterInterface
+abstract class SetTimeAbstract extends FilterAbstract
 {
     /**
      * @var Model

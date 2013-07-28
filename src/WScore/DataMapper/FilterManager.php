@@ -2,6 +2,8 @@
 
 namespace WScore\DataMapper;
 
+use Closure;
+
 class FilterManager
 {
     /**
@@ -15,14 +17,14 @@ class FilterManager
     public $filters = array();
 
     /**
-     * @var Filter\FilterInterface[]|\Closure[]
+     * @var Filter\FilterInterface[]|Closure[]
      */
     public $rules = array();
 
 
     /**
-     * @param string                   $event
-     * @param Filter\FilterInterface|\Closure $filter
+     * @param string                 $event
+     * @param Filter\FilterInterface $filter
      * @return $this
      */
     public function addFilter( $event, $filter )
@@ -67,32 +69,25 @@ class FilterManager
      */
     public function event( $event, $data )
     {
+        $data   = $this->apply( $this->rules, $event, $data );
         if( !isset( $this->filters[ $event ] ) ) return $data;
-        $method = 'on' . ucwords( $event );
-        $data   = $this->apply( $this->filters[ $event ], $method, $data );
+        $data   = $this->apply( $this->filters[ $event ], $event, $data );
         
         return $data;
     }
 
     /**
-     * @param Filter\FilterInterface[]|\Closure[] $filters
-     * @param                                    $method
-     * @param                                    $data
+     * @param Filter\FilterInterface[] $filters
+     * @param                          $event
+     * @param                          $data
      */
-    private function apply( $filters, $method, $data )
+    private function apply( $filters, $event, $data )
     {
         if( !$filters || empty( $filters ) ) return $data;
         foreach( $filters as $filter ) {
-
             if( !$filter instanceof Filter\FilterInterface ) continue;
-            if( method_exists( $filter, 'setModel' ) ) {
-                $filter->setModel( $this->model );
-            }
-            if( is_callable( $filter ) ) {
-                $data = $filter( $data );
-            } elseif( method_exists( $filter, $method ) ) {
-                $data = $filter->$method( $data );
-            }
+            $filter->setModel( $this->model );
+            $data = $filter->apply( $event, $data );
         }
         return $data;
     }
