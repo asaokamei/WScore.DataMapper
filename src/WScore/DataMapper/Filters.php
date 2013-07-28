@@ -75,7 +75,7 @@ class Filters
     }
 
     /**
-     * @param Filter\FilterInterface[]|\Closer[] $filters
+     * @param Filter\FilterInterface[]|\Closure[] $filters
      * @param                                    $method
      * @param                                    $data
      */
