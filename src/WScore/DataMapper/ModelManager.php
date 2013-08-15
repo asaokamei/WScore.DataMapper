@@ -13,7 +13,9 @@ use \WScore\DataMapper\Entity\EntityAbstract;
  */
 class ModelManager
 {
-    /** @var \WScore\DataMapper\Model\Model[] */
+    /**
+     * @var \WScore\DataMapper\Model\Model[]
+     */
     protected $models = array();
 
     /**

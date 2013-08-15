@@ -36,7 +36,9 @@ class EntityManager
      */
     public $relation;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $fetchByGet = false;
     
     // +----------------------------------------------------------------------+
@@ -118,17 +120,23 @@ class EntityManager
         return $entity;
     }
 
-    /**
-     * 
+    /** clears the entities collected in this entity manager.
      */
     public function clear() {
         $this->collection->clear();
     }
 
+    /**
+     * fetch only from the collection inside entity manager.
+     *
+     * @param bool $set
+     * @return $this
+     */
     public function fetchByGet( $set=true ) {
         $this->fetchByGet = $set;
         return $this;
     }
+
     /**
      * get entity objects from EntityManager's repository.
      *
@@ -218,8 +226,8 @@ class EntityManager
      */
     public function save( $throw=true )
     {
-        list( $prevLink, $prevEntity ) = $this->doSave();
-        list( $togoLink, $togoEntity ) = array( $prevLink, $prevEntity );
+        list( $togoLink, $togoEntity ) = list( $prevLink, $prevEntity ) = $this->doSave();
+         array( $prevLink, $prevEntity );
         
         while( $togoLink || $togoEntity ) {
             
