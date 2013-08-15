@@ -40,7 +40,12 @@ class EntityManager
      * @var bool
      */
     protected $fetchByGet = false;
-    
+
+    /**
+     * @var null|string
+     */
+    protected $entityNamespace = null;
+
     // +----------------------------------------------------------------------+
     //  construction and managing objects. 
     // +----------------------------------------------------------------------+
@@ -80,6 +85,18 @@ class EntityManager
     public function query( $entity ) {
         return new EntityQuery( $this, $entity );
     }
+
+    /**
+     * @param string $namespace
+     * @return $this
+     */
+    public function setNamespace( $namespace )
+    {
+        $this->mm()->setNamespace( $namespace );
+        if( substr( $namespace, -1 ) !== '\\' ) $namespace .= '\\';
+        $this->entityNamespace = $namespace;
+        return $this;
+    }
     // +----------------------------------------------------------------------+
     //  Managing Entities and Models.
     // +----------------------------------------------------------------------+
@@ -93,11 +110,21 @@ class EntityManager
 
     /**
      * @param Entity\EntityInterface $entity
+     * @throws \RuntimeException
      * @return string
      */
-    private function getClass( $entity ) {
-        $class = is_string( $entity ) ? $entity : get_class( $entity );
-        return $class;
+    private function getClass( $entity )
+    {
+        if( is_string( $entity ) ) {
+            if( $this->entityNamespace && strpos( $entity, '\\' ) === false ) {
+                $entity = $this->entityNamespace . $entity;
+            }
+            return $entity;
+        }
+        if( is_object( $entity ) ) {
+            return get_class( $entity );
+        }
+        throw new \RuntimeException( 'entity is not a class nor object. ' );
     }
 
     // +----------------------------------------------------------------------+
@@ -227,8 +254,7 @@ class EntityManager
     public function save( $throw=true )
     {
         list( $togoLink, $togoEntity ) = list( $prevLink, $prevEntity ) = $this->doSave();
-         array( $prevLink, $prevEntity );
-        
+
         while( $togoLink || $togoEntity ) {
             
             list( $togoLink, $togoEntity ) = $this->doSave();

@@ -19,10 +19,26 @@ class ModelManager
     protected $models = array();
 
     /**
+     * entities' default namespace to use.
+     *
+     * @var null|string
+     */
+    protected $entityNamespace = null;
+
+    /**
      * @Inject
      * @var ContainerInterface
      */
     public $container;
+
+    /**
+     * @param string $namespace
+     */
+    public function setNamespace( $namespace )
+    {
+        if( substr( $namespace, -1 ) !== '\\' ) $namespace .= '\\';
+        $this->entityNamespace = $namespace;
+    }
 
     /**
      * @param Entity\EntityInterface|string $entity
@@ -48,6 +64,9 @@ class ModelManager
     private function getModelName( $entity )
     {
         if( is_string( $entity ) ) {
+            if( $this->entityNamespace && strpos( $entity, '\\' ) === false ) {
+                $entity = $this->entityNamespace . $entity;
+            }
             /** @var $entity EntityAbstract  */
             if( !method_exists( $entity, 'getStaticModelName' ) ) {
                 throw new \RuntimeException( 'entity class not have getStaticModelName method: ' . $entity );
