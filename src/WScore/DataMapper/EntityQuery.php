@@ -35,6 +35,7 @@ class EntityQuery
     /**
      * @param EntityManager $em
      * @param string        $entity
+     * @return \WScore\DataMapper\EntityQuery
      */
     public function __construct( $em, $entity )
     {
@@ -76,13 +77,14 @@ class EntityQuery
 
     /**
      * @param Filter\FilterInterface $rule
-     * @return $this
+     * @return $this|\WScore\DbAccess\Query
      */
     public function rule( $rule )
     {
         if( $rule instanceof FilterInterface && method_exists( $rule, 'onQuery' ) ) {
-            $rule->onQuery( $this );
+            $rule->apply( 'query', $this );
         }
         return $this;
     }
+
 }

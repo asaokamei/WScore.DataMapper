@@ -80,7 +80,7 @@ class EntityManager
 
     /**
      * @param string $entity
-     * @return EntityQuery
+     * @return EntityQuery|\WScore\DbAccess\QueryInterface
      */
     public function query( $entity ) {
         return new EntityQuery( $this, $entity );
