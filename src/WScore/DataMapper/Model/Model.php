@@ -137,8 +137,18 @@ class Model
         if( is_array( $entity ) ) {
             return $entity;
         }
-        if( $entity instanceof EntityInterface ) {
-            return $this->utils->entityToArray( $entity );
+        if( $entity instanceof EntityInterface )
+        {
+            $original = $entity->getEntityAttribute( 'originalValue' );
+            $list = $this->property->getProperty();
+            $list = array_keys( $list );
+            $data = array();
+            foreach( $list as $property ) {
+                if( !$original || $entity[$property] !== $original[$property] ) {
+                    $data[ $property ] = $entity->$property;
+                }
+            }
+            return $data;
         }
         throw new \RuntimeException( 'entity not instance of EntityInterface nor an array. ' );
     }
@@ -157,8 +167,9 @@ class Model
         }
         $entity = $this->filter->event( 'update', $entity );
         $entity = $this->filter->event( 'save',   $entity );
-        $data = $this->convert( $entity );
-        $this->persistence->update( $id, $data );
+        if( $data = $this->convert( $entity ) ) {
+            $this->persistence->update( $id, $data );
+        }
     }
 
     /**

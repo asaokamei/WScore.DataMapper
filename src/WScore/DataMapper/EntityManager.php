@@ -308,14 +308,6 @@ class EntityManager
     }
 
     /**
-     * @param EntityInterface $entity
-     * @return array
-     */
-    public function entityToArray( $entity ) {
-        return $this->utils->entityToArray( $entity );
-    }
-
-    /**
      * @param EntityInterface $source
      * @param string $name
      * @return Relation\RelationInterface
