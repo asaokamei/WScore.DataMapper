@@ -189,7 +189,7 @@ class PropertySet
 
     /**
      * get list of columns for a given $type.
-     * 
+     *
      * @param $type
      * @return array
      */

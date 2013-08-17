@@ -136,6 +136,7 @@ class Model
     {
         if( is_array( $entity ) ) {
             $data = $entity;
+            $data = $this->property->restrict( $data );
         }
         elseif( $entity instanceof EntityInterface )
         {
@@ -158,8 +159,6 @@ class Model
         else {
             throw new \RuntimeException( 'entity not instance of EntityInterface nor an array. ' );
         }
-        // allow only columns defined in the model's property.
-        $data = $this->property->restrict( $data );
         return $data;
     }
 
@@ -219,6 +218,9 @@ class Model
     }
 
     /**
+     * remove protected data from $data, such as created_at column.
+     * $data = array( column => value );
+     *
      * @param $data
      * @return mixed
      */
