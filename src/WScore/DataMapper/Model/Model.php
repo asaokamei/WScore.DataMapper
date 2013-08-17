@@ -135,9 +135,9 @@ class Model
     public function convert( $entity )
     {
         if( is_array( $entity ) ) {
-            return $entity;
+            $data = $entity;
         }
-        if( $entity instanceof EntityInterface )
+        elseif( $entity instanceof EntityInterface )
         {
             $modified = false;
             $original = $entity->getEntityAttribute( 'originalValue' );
@@ -153,10 +153,14 @@ class Model
                     }
                 }
             }
-            if( $modified ) return $data;
-            return array();
+            if( !$modified ) $data = array();
         }
-        throw new \RuntimeException( 'entity not instance of EntityInterface nor an array. ' );
+        else {
+            throw new \RuntimeException( 'entity not instance of EntityInterface nor an array. ' );
+        }
+        // allow only columns defined in the model's property.
+        $data = $this->property->restrict( $data );
+        return $data;
     }
 
     /**
