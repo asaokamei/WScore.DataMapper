@@ -59,7 +59,12 @@ class Model
      */
     public $utils;
 
+    /**
+     * specify insert method to use, insertId or insertValue, in Persistence model.
+     * @var string
+     */
     protected $insertMethod = 'insertId';
+
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
@@ -150,9 +155,9 @@ class Model
         } else {
             $id = $entity[ $this->id_name ];
         }
+        $entity = $this->filter->event( 'update', $entity );
+        $entity = $this->filter->event( 'save',   $entity );
         $data = $this->convert( $entity );
-        $data = $this->filter->event( 'update', $data );
-        $data = $this->filter->event( 'save',   $data );
         $this->persistence->update( $id, $data );
     }
 
@@ -162,9 +167,9 @@ class Model
      */
     public function insert( $entity )
     {
+        $entity = $this->filter->event( 'insert', $entity );
+        $entity = $this->filter->event( 'save',   $entity );
         $data = $this->convert( $entity );
-        $data = $this->filter->event( 'insert', $data );
-        $data = $this->filter->event( 'save',   $data );
         $method = $this->insertMethod;
         return $this->persistence->$method( $data );
     }
