@@ -15,11 +15,6 @@ use \DateTime as Now;
 abstract class SetTimeAbstract extends FilterAbstract
 {
     /**
-     * @var Model
-     */
-    public $model;
-
-    /**
      * @var Now
      */
     public $now;
