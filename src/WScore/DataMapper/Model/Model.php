@@ -139,6 +139,7 @@ class Model
         }
         if( $entity instanceof EntityInterface )
         {
+            $modified = false;
             $original = $entity->getEntityAttribute( 'originalValue' );
             $list = $this->property->getProperty();
             $list = array_keys( $list );
@@ -146,9 +147,14 @@ class Model
             foreach( $list as $property ) {
                 if( !$original || $entity[$property] !== $original[$property] ) {
                     $data[ $property ] = $entity->$property;
+                    $type = $this->property( $property, 'type' );
+                    if( !in_array( $type, [ 'updated_at', 'created_at' ] ) ) {
+                        $modified = true;
+                    }
                 }
             }
-            return $data;
+            if( $modified ) return $data;
+            return array();
         }
         throw new \RuntimeException( 'entity not instance of EntityInterface nor an array. ' );
     }
@@ -197,9 +203,21 @@ class Model
     // +----------------------------------------------------------------------+
     //  Managing Validation and Properties. 
     // +----------------------------------------------------------------------+
-    public function property() {
-        return $this->property->getProperty();
+    /**
+     * get various properties of given $column.
+     *
+     * @param null|string $column
+     * @param null|string $key
+     * @return array|bool
+     */
+    public function property( $column=null, $key=null ) {
+        return $this->property->getProperty( $column, $key );
     }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function protect( $data )
     {
         return $this->property->protect( $data );
