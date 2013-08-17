@@ -6,6 +6,11 @@ class PropertySet
     protected $property = array();
     protected $relation = array();
 
+    /**
+     * set up properties from csv data.
+     *
+     * @param string $csv
+     */
     public function setupCsv( $csv )
     {
         $return = Helper::analyzeCsv( $csv );
@@ -15,6 +20,14 @@ class PropertySet
     }
     
     /**
+     * set property to $property or $relation.
+     * $property = array(
+     *    'column' => [ 'type' => 'relation', ... ],
+     * );
+     *
+     * 'type' must be present in the $property.
+     * the property is used as relation if 'type' is 'relation', else use as property.
+     *
      * @param array $property
      */
     public function setupProperty( $property )
@@ -33,7 +46,13 @@ class PropertySet
         }
         $this->setupProtection();
     }
-    
+
+    /**
+     * @param $array
+     * @param $column
+     * @param $values
+     * @return mixed
+     */
     protected function addProperty( $array, $column, $values )
     {
         if( !is_array( $values ) ) $values = array( $values );
@@ -46,7 +65,7 @@ class PropertySet
     }
 
     /**
-     * 
+     * sets protection for updated_at, created_at, primaryKey, and HasOne relation's column.
      */
     protected function setupProtection()
     {
@@ -92,10 +111,17 @@ class PropertySet
         return Helper::arrGet( $property, $key );
     }
 
-    public function setProperty( $column, $key, $value ) {
+    /**
+     * @param $column
+     * @param $key
+     * @param $value
+     */
+    public function setProperty( $column, $key, $value )
+    {
         if( !$this->exists( $column ) ) return;
         $this->property[ $column ][ $key ] = $value;
     }
+
     /**
      * @param string $column
      * @return bool
@@ -160,8 +186,15 @@ class PropertySet
     {
         return Helper::arrGet( $this->relation, $column );
     }
-    
-    public function getByType( $type ) {
+
+    /**
+     * get list of columns for a given $type.
+     * 
+     * @param $type
+     * @return array
+     */
+    public function getByType( $type )
+    {
         $type = strtolower( $type );
         $found = array();
         foreach( $this->property as $column => $info ) {
