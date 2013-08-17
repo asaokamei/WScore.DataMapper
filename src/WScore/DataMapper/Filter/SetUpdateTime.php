@@ -6,6 +6,8 @@ use WScore\DataMapper\Model\Helper;
 /**
  * Class UpdatedAt
  *
+ * set updated_at timestamp for an entity.
+ *
  * @package WScore\DataMapper\Filter
  * 
  * @cacheable

@@ -6,7 +6,7 @@ use WScore\DataMapper\Model\Model;
 use \DateTime as Now;
 
 /**
- * Class CreatedAt
+ * an abstract class to set datetime in entity.
  *
  * @package WScore\DataMapper\Filter
  *
