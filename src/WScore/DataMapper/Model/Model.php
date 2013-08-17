@@ -1,6 +1,7 @@
 <?php
 namespace WScore\DataMapper\Model;
 
+use WScore\DataMapper\Entity\EntityInterface;
 use \WScore\Selector\ElementAbstract;
 use \WScore\Selector\ElementItemizedAbstract;
 
@@ -52,6 +53,13 @@ class Model
      */
     public $filter;
 
+    /**
+     * @Inject
+     * @var \WScore\DataMapper\Entity\Utils
+     */
+    public $utils;
+
+    protected $insertMethod = 'insertId';
     // +----------------------------------------------------------------------+
     //  Managing Object and Instances. 
     // +----------------------------------------------------------------------+
@@ -115,31 +123,50 @@ class Model
     }
 
     /**
-     * @param array   $data
+     * @param array|EntityInterface $entity
+     * @return array
+     * @throws \RuntimeException
+     */
+    public function convert( $entity )
+    {
+        if( is_array( $entity ) ) {
+            return $entity;
+        }
+        if( $entity instanceof EntityInterface ) {
+            return $this->utils->entityToArray( $entity );
+        }
+        throw new \RuntimeException( 'entity not instance of EntityInterface nor an array. ' );
+    }
+
+    /**
+     * @param array|EntityInterface   $entity
      * @param null    $extra
      */
-    public function update( $data, $extra=null )
+    public function update( $entity, $extra=null )
     {
         if( $extra ) {
-            $id   = $data;
-            $data = $extra;
+            $id   = $entity;
+            $entity = $extra;
         } else {
-            $id = $data[ $this->id_name ];
+            $id = $entity[ $this->id_name ];
         }
+        $data = $this->convert( $entity );
         $data = $this->filter->event( 'update', $data );
         $data = $this->filter->event( 'save',   $data );
         $this->persistence->update( $id, $data );
     }
 
     /**
-     * @param array $data
+     * @param array|EntityInterface $entity
      * @return string
      */
-    public function insert( $data ) 
+    public function insert( $entity )
     {
+        $data = $this->convert( $entity );
         $data = $this->filter->event( 'insert', $data );
         $data = $this->filter->event( 'save',   $data );
-        return $this->persistence->insertId( $data );
+        $method = $this->insertMethod;
+        return $this->persistence->$method( $data );
     }
 
     /**

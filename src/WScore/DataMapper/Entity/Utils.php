@@ -18,15 +18,12 @@ class Utils
             // ignore if it is not permanent data; do not have to save. 
         }
         elseif( !$entity->isIdPermanent() ) { // i.e. entity is new. insert this.
-            $data = $this->entityToArray( $entity );
-            $id   = $model->insert( $data );
+            $id   = $model->insert( $entity );
             $entity->setSystemId( $id );
             $this->preserveOriginalValue( $entity, $model );
         }
         else {
-            $id   = $entity->getId();
-            $data = $this->entityToArray( $entity );
-            $model->update( $id, $data );
+            $model->update( $entity );
         }
     }
 
