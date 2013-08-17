@@ -9,6 +9,8 @@ class Groups extends Model
 
     protected $id_name = 'group_code';
 
+    protected $insertMethod = 'insertValue';
+
     public function __construct()
     {
         parent::__construct();
@@ -54,14 +56,5 @@ class Groups extends Model
             $values[ 'name' ]       .= '#'.$idx;
         }
         return $values;
-    }
-
-    /**
-     * @param array $data
-     * @return string
-     */
-    public function insert( $data )
-    {
-        return $this->persistence->insertValue( $data );
     }
 }
