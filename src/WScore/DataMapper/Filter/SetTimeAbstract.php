@@ -22,7 +22,7 @@ abstract class SetTimeAbstract extends FilterAbstract
     /**
      * @var string
      */
-    public $column_name;
+    public $column_type;
     
     /**
      * @param $data
@@ -30,7 +30,7 @@ abstract class SetTimeAbstract extends FilterAbstract
      */
     public function setTime( &$data ) 
     {
-        $columns = $this->model->property->getByType( $this->column_name );
+        $columns = $this->model->property->getByType( $this->column_type );
         if( !$columns ) return $data;
         $now = $this->getNow();
         foreach( $columns as $col ) {

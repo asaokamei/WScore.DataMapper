@@ -15,7 +15,7 @@ class SetUpdateTime extends SetTimeAbstract
     /**
      * @var string
      */
-    public $column_name = 'updated_at';
+    public $column_type = 'updated_at';
 
     /**
      * @param array $data

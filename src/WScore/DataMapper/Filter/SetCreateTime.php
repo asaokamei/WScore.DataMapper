@@ -15,7 +15,7 @@ class SetCreateTime extends SetTimeAbstract
     /**
      * @var string
      */
-    public $column_name = 'created_at';
+    public $column_type = 'created_at';
 
     /**
      * @param array $data
