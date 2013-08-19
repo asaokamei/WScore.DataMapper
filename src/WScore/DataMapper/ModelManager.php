@@ -68,7 +68,7 @@ class ModelManager
     private function getModelName( $entity )
     {
         if( is_string( $entity ) ) {
-            if( $this->entityNamespace && strpos( $entity, '\\' ) === false ) {
+            if( $this->entityNamespace && substr( $entity, 0, 1 ) !== '\\' ) {
                 $entity = $this->entityNamespace . $entity;
             }
             /** @var $entity EntityAbstract  */

@@ -116,7 +116,7 @@ class EntityManager
     private function getClass( $entity )
     {
         if( is_string( $entity ) ) {
-            if( $this->entityNamespace && strpos( $entity, '\\' ) === false ) {
+            if( $this->entityNamespace && substr( $entity, 0, 1 ) !== '\\' ) {
                 $entity = $this->entityNamespace . $entity;
             }
             return $entity;
