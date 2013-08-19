@@ -44,10 +44,17 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     public function add( $entity )
     {
         if( !$this->exists( $entity ) ) {
-            $this->entities[] = $entity;
-            end( $this->entities );
-            $this->cenaIds[ $entity->getCenaId() ] = key( $this->entities );
+            $this->_add( $entity );
         }
+    }
+
+    /**
+     * @param \WScore\DataMapper\Entity\EntityInterface $entity
+     */
+    protected function _add( $entity ) {
+        $this->entities[] = $entity;
+        end( $this->entities );
+        $this->cenaIds[ $entity->getCenaId() ] = key( $this->entities );
     }
 
     /**
@@ -108,21 +115,15 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
         foreach( $this->entities as $entity )
         {
             if( $model && $model !== $entity->getModelName() ) continue;
-            if( is_null( $values ) ) {
-                $result[] = $entity;
-                continue;
+            if( is_null( $values ) || empty( $values ) ) {
+                $result->_add( $entity );
             }
-            if( empty( $values ) ) {
-                $result[] = $entity;
-                continue;
+            elseif( !$column && in_array( $entity->getId(), $values ) ) {
+                $result->_add( $entity );
             }
-            if( !$column ) {
-                $prop = $entity->getId();
+            elseif( in_array( $entity[ $column ], $values ) ) {
+                $result->_add( $entity );
             }
-            else {
-                $prop = $entity[ $column ];
-            }
-            if( in_array( $prop, $values ) ) $result[] = $entity;
         }
         return $result;
     }
