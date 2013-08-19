@@ -43,6 +43,14 @@ class RoleManager
     }
 
     /**
+     * @param $roleName
+     * @return RoleInterface
+     */
+    public function getRole( $roleName ) {
+        return $this->forgeRole( $roleName );
+    }
+
+    /**
      * @param string $roleName
      * @return RoleInterface
      */
