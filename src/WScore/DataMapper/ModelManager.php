@@ -42,6 +42,7 @@ class ModelManager
 
     /**
      * @param Entity\EntityInterface|string $entity
+     * @throws \RuntimeException
      * @return \WScore\DataMapper\Model\Model
      */
     public function getModel( $entity )
@@ -52,6 +53,9 @@ class ModelManager
         $modelKey = str_replace( '\\', '-', $modelKey );
         if( !array_key_exists( $modelKey, $this->models ) ) {
             $this->models[ $modelKey ] = $this->container->get( $modelName );
+        }
+        if( !$this->models[ $modelKey ] ) {
+            throw new \RuntimeException( 'model not found: '.$modelName );
         }
         return $this->models[ $modelKey ];
     }
