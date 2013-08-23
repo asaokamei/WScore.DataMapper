@@ -90,9 +90,12 @@ class Model
      */
     public function query( $resetQuery=true ) {
         if( $resetQuery ) {
-            return $this->persistence->query();
+            $query = $this->persistence->query();
+            $this->filter->event( 'query', $query );
+        } else {
+            $query = $this->persistence->query;
         }
-        return $this->persistence->query;
+        return $query;
     }
 
     /**
@@ -121,7 +124,6 @@ class Model
     public function fetch( $value, $column=null, $packed=false )
     {
         $this->persistence->query();
-        $this->filter->event( 'query', $this->persistence->query );
         $stmt  = $this->persistence->fetch( $value, $column, $packed );
         $stmt  = $this->filter->event( 'read', $stmt );
         return $stmt;
