@@ -33,16 +33,19 @@ abstract class RuleAbstract extends FilterAbstract
         $this->operator = $operator;
     }
 
-    public function assignData( $data )
+    public function onFetch( $data )
     {
         if( $this->operator === 'eq' ) {
             $data[ $this->property ] = $this->value;
         }
     }
 
-    public function assignQuery()
+    /**
+     * @param $query \WScore\DbAccess\Query
+     */
+    public function onQuery( $query )
     {
         $op = $this->operator;
-        $this->model->query( false )->$op( $this->property, $this->value );
+        $query->col( $this->property )->$op( $this->value );
     }
 }
