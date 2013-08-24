@@ -52,7 +52,7 @@ class ModelManager
         if( substr( $modelKey, 0, 1 ) == '\\' ) $modelKey = substr( $modelKey, 1 );
         $modelKey = str_replace( '\\', '-', $modelKey );
         if( !array_key_exists( $modelKey, $this->models ) ) {
-            $this->models[ $modelKey ] = $this->container->get( $modelName );
+            $this->models[ $modelKey ] = $this->container->load( $modelName );
         }
         if( !$this->models[ $modelKey ] ) {
             throw new \RuntimeException( 'model not found: '.$modelName );
