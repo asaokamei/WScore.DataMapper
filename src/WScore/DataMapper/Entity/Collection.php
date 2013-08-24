@@ -46,6 +46,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function add( $entity )
     {
+        if( !$entity ) return;
         if( !$this->exists( $entity ) ) {
             $this->_add( $entity );
         }
@@ -55,7 +56,6 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param \WScore\DataMapper\Entity\EntityInterface $entity
      */
     protected function _add( $entity ) {
-        if( !$entity ) return;
         $this->entities[] = $entity;
         end( $this->entities );
         $this->cenaIds[ $entity->getCenaId() ] = key( $this->entities );
@@ -63,9 +63,46 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
         $model = $entity->getModelName();
         $idName = $entity->getIdName();
         $idVal  = $entity->getId();
-        $this->idxId[ $model ][$idName ][ $idVal ] = $entity;
+        $this->_idx( $model, $idName, $idVal, $entity );
     }
 
+    /**
+     * @param $model
+     * @param $idName
+     * @param $idVal
+     * @param $entity
+     */
+    protected function _idx( $model, $idName, $idVal, $entity=null ) 
+    {
+        if( !isset( $this->idxId[ $model ] ) ) {
+            $this->idxId[ $model ] = array();
+        }
+        if( !isset( $this->idxId[ $model ][ $idName ] ) ) {
+            $this->idxId[ $model ][ $idName ] = array();
+        }
+        if( !isset( $this->idxId[ $model ][ $idName ][ $idVal ] ) ) {
+            $this->idxId[ $model ][ $idName ][ $idVal ] = array();
+        }
+        if( $entity ) {
+            $this->idxId[ $model ][ $idName ][ $idVal ][] = $entity;
+        }
+    }
+
+    /**
+     * @param string $model
+     * @param string $column
+     */
+    public function makeIndexOn( $model, $column )
+    {
+        if( substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
+        $this->_idx( $model, $column, null );
+        foreach( $this->entities as $entity )
+        {
+            if( $model != $entity->getModelName() ) continue;
+            $this->_idx( $model, $column, $entity->$column, $entity );
+        }
+    }
+    
     /**
      * @param string $model
      * @param string $column
@@ -82,7 +119,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
      * @param string $model
      * @param string $column
      * @param string $value
-     * @return bool|EntityInterface
+     * @return bool|EntityInterface[]
      */
     protected function getIndexed( $model, $column, $value ) {
         return isset( $this->idxId[ $model ][ $column ][ $value ] ) ? 
@@ -176,7 +213,11 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
             $values = array( $values );
         }
         foreach( $values as $val ) {
-            $result->add( $this->getIndexed( $model, $column, $val ) );
+            if( $list = $this->getIndexed( $model, $column, $val ) ) {
+                foreach( $list as $entity ) {
+                    $result->add( $entity );
+                }
+            }
         }
         return $result;
     }
