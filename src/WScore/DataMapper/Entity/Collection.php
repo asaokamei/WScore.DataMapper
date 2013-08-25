@@ -58,8 +58,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     protected function _add( $entity )
     {
         $this->entities[] = $entity;
-        end( $this->entities );
-        $this->cenaIds[ $entity->getCenaId() ] = key( $this->entities );
+        $this->cenaIds[ $entity->getCenaId() ] = $entity;
         // create index on id. 
         $model = $entity->getModelName();
         $idName = $entity->getIdName();
@@ -134,9 +133,12 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $cenaId = $entity->getCenaId();
         if( !isset( $this->cenaIds[ $cenaId ] ) ) return;
-        $offset = $this->cenaIds[ $cenaId ];
-        unset( $this->entities[ $offset ] );
-        unset( $this->cenaIds[ $cenaId ] );
+        foreach( $this->entities as $key => $maybe ) {
+            if( $cenaId == $maybe->getCenaId() ) {
+                unset( $this->entities[ $key ] );
+                unset( $this->cenaIds[ $cenaId ] );
+            }
+        }
     }
 
     /**
@@ -166,7 +168,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     public function getByCenaId( $cenaId )
     {
         if( array_key_exists( $cenaId, $this->cenaIds ) ) {
-            return $this->entities[ $this->cenaIds[ $cenaId ] ];
+            return $this->cenaIds[ $cenaId ];
         }
         return false;
     }
