@@ -53,23 +53,45 @@ class ModelManager
     public function getModel( $entity )
     {
         $modelName = $this->getModelName( $entity );
-        $modelKey  = $modelName;
-        $modelKey = str_replace( '\\', '-', $modelKey );
-        if( !array_key_exists( $modelKey, $this->models ) ) {
-            $this->models[ $modelKey ] = $this->container->load( $modelName );
+        if( !array_key_exists( $modelName, $this->models ) ) {
+            $this->models[ $modelName ] = $this->container->load( $modelName );
         }
-        if( !$this->models[ $modelKey ] ) {
+        if( !$this->models[ $modelName ] ) {
             throw new \RuntimeException( 'model not found: '.$modelName );
         }
-        return $this->models[ $modelKey ];
+        return $this->models[ $modelName ];
     }
 
     /**
-     * @param Entity\EntityInterface $entity
+     * @param Entity\EntityInterface|string $entity
+     * @return string
+     */
+    public function getModelName( $entity )
+    {
+        if( is_string( $entity ) ) {
+            if( array_key_exists( $entity, $this->modelNames ) ) {
+                return $this->modelNames[ $entity ];
+            }
+            $modelName = $this->extractModelName( $entity );
+            $this->modelNames[ $entity ] = $modelName;
+        }
+        else {
+            $class = get_class( $entity );
+            if( array_key_exists( $class, $this->modelNames ) ) {
+                return $this->modelNames[ $class ];
+            }
+            $modelName = $this->extractModelName( $entity );
+            $this->modelNames[ $class ] = $modelName;
+        }
+        return $modelName;
+    }
+
+    /**
+     * @param Entity\EntityInterface|string $entity
      * @throws \RuntimeException
      * @return string
      */
-    private function getModelName( $entity )
+    private function extractModelName( $entity )
     {
         if( is_string( $entity ) ) {
             if( $this->entityNamespace && substr( $entity, 0, 1 ) !== '\\' ) {
@@ -81,9 +103,6 @@ class ModelManager
             }
             $modelName = $entity::getStaticModelName();
         } else {
-            if( !$entity instanceof EntityAbstract ) {
-                throw new \RuntimeException( 'entity object is not an EntityAbstract' );
-            }
             $modelName = $entity->getModelName();
         }
         if( !$modelName ) {
