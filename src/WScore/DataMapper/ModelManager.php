@@ -32,6 +32,11 @@ class ModelManager
     public $container;
 
     /**
+     * @var array
+     */
+    protected $modelNames = array();
+
+    /**
      * @param string $namespace
      */
     public function setNamespace( $namespace )
@@ -49,7 +54,6 @@ class ModelManager
     {
         $modelName = $this->getModelName( $entity );
         $modelKey  = $modelName;
-        if( substr( $modelKey, 0, 1 ) == '\\' ) $modelKey = substr( $modelKey, 1 );
         $modelKey = str_replace( '\\', '-', $modelKey );
         if( !array_key_exists( $modelKey, $this->models ) ) {
             $this->models[ $modelKey ] = $this->container->load( $modelName );
@@ -85,6 +89,7 @@ class ModelManager
         if( !$modelName ) {
             throw new \RuntimeException( 'cannot find model name for an entity' );
         }
+        if( substr( $modelName, 0, 1 ) == '\\' ) $modelName = substr( $modelName, 1 );
         return $modelName;
     }
 

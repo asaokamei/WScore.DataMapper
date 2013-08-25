@@ -55,7 +55,8 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @param \WScore\DataMapper\Entity\EntityInterface $entity
      */
-    protected function _add( $entity ) {
+    protected function _add( $entity )
+    {
         $this->entities[] = $entity;
         end( $this->entities );
         $this->cenaIds[ $entity->getCenaId() ] = key( $this->entities );
