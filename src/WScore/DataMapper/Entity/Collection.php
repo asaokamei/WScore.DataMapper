@@ -60,10 +60,10 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
         $this->entities[] = $entity;
         $this->cenaIds[ $entity->getCenaId() ] = $entity;
         // create index on id. 
-        $model = $entity->getModelName();
+        $entityName = $entity->getEntityName();
         $idName = $entity->getIdName();
         $idVal  = $entity->getId();
-        $this->_idx( $model, $idName, $idVal, $entity );
+        $this->_idx( $entityName, $idName, $idVal, $entity );
     }
 
     /**
@@ -89,17 +89,17 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
     /**
-     * @param string $model
+     * @param string $entityName
      * @param string $column
      */
-    public function makeIndexOn( $model, $column )
+    public function makeIndexOn( $entityName, $column )
     {
-        if( substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
-        $this->_idx( $model, $column, null );
+        if( substr( $entityName, 0, 1 ) === '\\' ) $entityName = substr( $entityName, 1 );
+        $this->_idx( $entityName, $column, null );
         foreach( $this->entities as $entity )
         {
-            if( $model != $entity->getModelName() ) continue;
-            $this->_idx( $model, $column, $entity->$column, $entity );
+            if( $entityName != $entity->getEntityName() ) continue;
+            $this->_idx( $entityName, $column, $entity->$column, $entity );
         }
     }
     
