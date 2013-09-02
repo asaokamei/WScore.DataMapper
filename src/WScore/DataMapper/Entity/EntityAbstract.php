@@ -6,6 +6,9 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     /** @var string */
     public static $_modelName;
     
+    /** @var  string */
+    public static $_cenaName;
+    
     /** @var string */
     private $_model;
     
@@ -41,6 +44,9 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     public function __construct( $model, $id_type=null, $identifier=null )
     {
         $this->_model   = $model->getModelName();
+        if( !static::$_cenaName ) {
+            static::$_cenaName = self::getMainClassName( get_called_class() );
+        }
         if( isset( $id_type ) ) {
             $this->_id_type = $id_type;
         } else {
@@ -66,10 +72,21 @@ abstract class EntityAbstract implements EntityInterface, \ArrayAccess
     public static final function getStaticModelName( $short=false ) {
         $model = static::$_modelName;
         if( substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
-        if( $short && strpos( $model, '\\' ) !== false ) {
-            $model = substr( $model, strrpos( $model, '\\' )+1 );
+        if( $short ) {
+            $model = self::getMainClassName( $model );
         }
         return $model;
+    }
+
+    /**
+     * @param $name
+     * @return string
+     */
+    private static function getMainClassName( $name ) {
+        if( strpos( $name, '\\' ) !== false ) {
+            $name = substr( $name, strrpos( $name, '\\' )+1 );
+        }
+        return $name;
     }
     
     /**
