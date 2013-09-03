@@ -176,20 +176,22 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @param array|string $values
      * @param string|null  $column
-     * @param string|null  $model
+     * @param string|null  $entityName
      * @return Collection
      */
-    public function get( $values, $column=null, $model=null )
+    public function get( $values, $column=null, $entityName=null )
     {
         if( !is_null( $values ) && !is_array( $values ) ) $values = array( $values );
-        if( isset( $model ) && substr( $model, 0, 1 ) === '\\' ) $model = substr( $model, 1 );
-        if( $this->isIndexed( $model, $column ) ) {
-            return $this->getByIndex( $model, $column, $values );
+        if( strpos( $entityName, '\\' ) !== false ) {
+            $entityName = substr( $entityName, strrpos( $entityName, '\\' ) + 1 );
+        }
+        if( $this->isIndexed( $entityName, $column ) ) {
+            return $this->getByIndex( $entityName, $column, $values );
         }
         $result = $this->collection();
         foreach( $this->entities as $entity )
         {
-            if( $model && $model !== $entity->getModelName() ) continue;
+            if( $entityName && $entityName !== $entity->getEntityName() ) continue;
             if( is_null( $values ) || empty( $values ) ) {
                 $result->_add( $entity );
             }
@@ -226,14 +228,14 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate
     }
     
     /**
-     * @param string     $model
+     * @param string     $entityName
      * @param array|string $values
      * @param string|null $column
      * @return Collection
      */
-    public function fetch( $model, $values=null, $column=null )
+    public function fetch( $entityName, $values=null, $column=null )
     {
-        return $this->get( $values, $column, $model );
+        return $this->get( $values, $column, $entityName );
     }
 
     /**

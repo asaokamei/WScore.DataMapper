@@ -206,8 +206,7 @@ class Collection_BasicTest extends \PHPUnit_Framework_TestCase
         $col = $this->c->collection( $set );
         $this->assertEquals( 4, $col->count() );
 
-        $model = $this->em->getModel( $this->friendEntity );
-        $female = $col->fetch( $model->getModelName(), 'F', 'gender' );
+        $female = $col->fetch( $this->friendEntity, 'F', 'gender' );
         $this->assertEquals( 'WScore\DataMapper\Entity\Collection', get_class( $female ) );
         $this->assertEquals( 2, count( $female ) );
         foreach( $female as $entity ) {

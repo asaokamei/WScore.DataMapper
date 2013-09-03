@@ -175,14 +175,24 @@ class EntityManager
      */
     public function get( $entity, $value, $column=null, $packed=false )
     {
-        $model     = $this->getModel( $entity );
-        $modelName = $model->getModelName();
-        $found = $this->collection->fetch( $modelName, $value, $column );
+        $entityName = $this->getEntityName( $entity );
+        $found = $this->collection->fetch( $entityName, $value, $column );
         if( $packed ) {
             $found = $this->newCollection( $found );
             $found = $found->pack( $packed );
         }
         return $found;
+    }
+
+    public function getEntityName( $entity )
+    {
+        if( is_object( $entity ) && $entity instanceof EntityInterface ) {
+            return $entity->getEntityName();
+        }
+        if( is_string( $entity ) ) {
+            return strpos( $entity, '\\' ) === false ? $entity : substr( $entity, strrpos( $entity, '\\' ) + 1 );
+        }
+        throw new \RuntimeException( 'entity is not EntityInterface object nor string' );
     }
 
     /**

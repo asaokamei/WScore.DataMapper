@@ -186,10 +186,8 @@ class JoinBy extends RelationAbstract
     public function getJoin( $target )
     {
         if( !isset( $this->joiner ) ) return null;
-        $joinModel     = $this->em->getModel( $this->info[ 'by' ] );
-        $joinModelName = $joinModel->getModelName();
         $value = $target[ $this->info[ 'target' ] ];
-        $join = $this->joiner->fetch( $joinModelName, $value, $this->info[ 'byTarget' ] );
+        $join = $this->joiner->fetch( $this->info[ 'by' ], $value, $this->info[ 'byTarget' ] );
         if( $join ) return $join[0];
         return null;
     }
