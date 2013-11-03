@@ -9,10 +9,10 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "wscore/dicontainer": "dev-master",
-        "wscore/html": "dev-master",
-        "wscore/dbaccess": "dev-master",
-        "wscore/validation": "dev-master"
+        "wscore/dicontainer": "0.1",
+        "wscore/html": "0.1",
+        "wscore/dbaccess": "0.1",
+        "wscore/validation": "0.1"
     },
     "autoload": {
         "psr-0": {
